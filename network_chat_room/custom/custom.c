@@ -10,7 +10,7 @@
  *      INCLUDES
  *********************/
 #include <stdio.h>
-#include "lvgl.h"
+#include "lvgl/lvgl.h"
 #include "custom.h"
 
 /*********************
@@ -35,6 +35,15 @@
 
 void custom_init(lv_ui *ui)
 {
+    custom_events_init(&guider_ui);
     /* Add your codes here */
+    printf("hello world\r\n");
+    connect_network();
+    printf("socketfd0:%d\r\n",socketfd);
+    pthread_t connectid;
+    printf("4\r\n");
+    pthread_create(&connectid,NULL,net_talkroom_run,NULL);
+
+    // pthread_join(connectid,NULL);
 }
 

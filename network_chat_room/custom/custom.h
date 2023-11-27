@@ -10,15 +10,12 @@
 
 #ifndef __CUSTOM_H_
 #define __CUSTOM_H_
-#ifdef __cplusplus
-extern "C" {
-#endif
 
+#include "common.h"
 #include "gui_guider.h"
+#include "net_talkromm.h"
+#include "custom_event.h"
 
 void custom_init(lv_ui *ui);
 
-#ifdef __cplusplus
-}
-#endif
 #endif /* EVENT_CB_H_ */
