@@ -19,9 +19,9 @@ void ui_init_style(lv_style_t * style)
 
 void init_scr_del_flag(lv_ui *ui)
 {
-	ui->screen_main_del = true;
 	ui->screen_input_del = true;
 	ui->screen_create_del = true;
+	ui->screen_main_del = true;
 }
 
 void setup_ui(lv_ui *ui)

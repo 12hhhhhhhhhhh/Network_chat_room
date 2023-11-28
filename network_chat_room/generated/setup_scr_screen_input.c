@@ -172,7 +172,7 @@ void setup_scr_screen_input(lv_ui *ui){
 	lv_obj_set_pos(ui->screen_input_label_3, 230, 180);
 	lv_obj_set_size(ui->screen_input_label_3, 80, 36);
 	lv_obj_set_scrollbar_mode(ui->screen_input_label_3, LV_SCROLLBAR_MODE_OFF);
-	lv_label_set_text(ui->screen_input_label_3, "账号：");
+	lv_label_set_text(ui->screen_input_label_3, "ID:");
 	lv_label_set_long_mode(ui->screen_input_label_3, LV_LABEL_LONG_WRAP);
 
 	//Set style for screen_input_label_3. Part: LV_PART_MAIN, State: LV_STATE_DEFAULT
@@ -189,7 +189,7 @@ void setup_scr_screen_input(lv_ui *ui){
 	lv_obj_set_style_shadow_ofs_y(ui->screen_input_label_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(ui->screen_input_label_3, lv_color_make(0x3c, 0x3c, 0x3c), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_font(ui->screen_input_label_3, &lv_font_montserratMedium_24, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_letter_space(ui->screen_input_label_3, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_letter_space(ui->screen_input_label_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_line_space(ui->screen_input_label_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_align(ui->screen_input_label_3, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_pad_left(ui->screen_input_label_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -260,10 +260,10 @@ void setup_scr_screen_input(lv_ui *ui){
 
 	//Write codes screen_input_label_4
 	ui->screen_input_label_4 = lv_label_create(ui->screen_input_cont_4);
-	lv_obj_set_pos(ui->screen_input_label_4, 230, 230);
-	lv_obj_set_size(ui->screen_input_label_4, 80, 36);
+	lv_obj_set_pos(ui->screen_input_label_4, 190, 230);
+	lv_obj_set_size(ui->screen_input_label_4, 120, 36);
 	lv_obj_set_scrollbar_mode(ui->screen_input_label_4, LV_SCROLLBAR_MODE_OFF);
-	lv_label_set_text(ui->screen_input_label_4, "密码：");
+	lv_label_set_text(ui->screen_input_label_4, "Passwd:");
 	lv_label_set_long_mode(ui->screen_input_label_4, LV_LABEL_LONG_WRAP);
 
 	//Set style for screen_input_label_4. Part: LV_PART_MAIN, State: LV_STATE_DEFAULT
@@ -280,7 +280,7 @@ void setup_scr_screen_input(lv_ui *ui){
 	lv_obj_set_style_shadow_ofs_y(ui->screen_input_label_4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(ui->screen_input_label_4, lv_color_make(0x3c, 0x3c, 0x3c), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_font(ui->screen_input_label_4, &lv_font_montserratMedium_24, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_letter_space(ui->screen_input_label_4, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_letter_space(ui->screen_input_label_4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_line_space(ui->screen_input_label_4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_align(ui->screen_input_label_4, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_pad_left(ui->screen_input_label_4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -378,7 +378,7 @@ void setup_scr_screen_input(lv_ui *ui){
 	lv_obj_set_pos(ui->screen_input_label_5, 305, 375);
 	lv_obj_set_size(ui->screen_input_label_5, 60, 20);
 	lv_obj_set_scrollbar_mode(ui->screen_input_label_5, LV_SCROLLBAR_MODE_OFF);
-	lv_label_set_text(ui->screen_input_label_5, "登陆");
+	lv_label_set_text(ui->screen_input_label_5, "Input");
 	lv_label_set_long_mode(ui->screen_input_label_5, LV_LABEL_LONG_WRAP);
 
 	//Set style for screen_input_label_5. Part: LV_PART_MAIN, State: LV_STATE_DEFAULT
@@ -405,10 +405,10 @@ void setup_scr_screen_input(lv_ui *ui){
 
 	//Write codes screen_input_label_6
 	ui->screen_input_label_6 = lv_label_create(ui->screen_input_cont_4);
-	lv_obj_set_pos(ui->screen_input_label_6, 455, 375);
-	lv_obj_set_size(ui->screen_input_label_6, 60, 20);
+	lv_obj_set_pos(ui->screen_input_label_6, 445, 375);
+	lv_obj_set_size(ui->screen_input_label_6, 80, 20);
 	lv_obj_set_scrollbar_mode(ui->screen_input_label_6, LV_SCROLLBAR_MODE_OFF);
-	lv_label_set_text(ui->screen_input_label_6, "注册");
+	lv_label_set_text(ui->screen_input_label_6, "Create");
 	lv_label_set_long_mode(ui->screen_input_label_6, LV_LABEL_LONG_WRAP);
 
 	//Set style for screen_input_label_6. Part: LV_PART_MAIN, State: LV_STATE_DEFAULT
@@ -462,7 +462,4 @@ void setup_scr_screen_input(lv_ui *ui){
 	lv_obj_set_style_pad_left(ui->screen_input_datetext_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_pad_right(ui->screen_input_datetext_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_pad_top(ui->screen_input_datetext_1, 7, LV_PART_MAIN|LV_STATE_DEFAULT);
-
-	//Init events for screen
-	events_init_screen_input(ui);
 }

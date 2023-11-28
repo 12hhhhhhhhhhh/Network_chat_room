@@ -35,6 +35,11 @@
 
 void custom_init(lv_ui *ui)
 {
+    setup_scr_screen_input(ui);
+    setup_scr_screen_create(ui);
+    setup_scr_screen_main(ui);
+    lv_scr_load(guider_ui.screen_input);
+    
     custom_events_init(&guider_ui);
     /* Add your codes here */
     printf("hello world\r\n");

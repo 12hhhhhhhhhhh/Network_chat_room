@@ -65,9 +65,9 @@ int main(int argc, char ** argv)
     hal_init();
 
     /*Create a GUI-Guider app */
-	setup_ui(&guider_ui);
     events_init(&guider_ui);
     custom_init(&guider_ui);
+    // setup_ui(&guider_ui);
 
     while(1) {
         /* Periodically call the lv_task handler.

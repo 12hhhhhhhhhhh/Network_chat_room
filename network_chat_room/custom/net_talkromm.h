@@ -23,7 +23,7 @@ typedef struct{
     char passwd[32];//密码
 }client_data;
 
-extern int flag;
+extern volatile int flag;
 extern client_data client_info;
 extern client_data recv_from_server;
 extern volatile int socketfd;

@@ -3,7 +3,7 @@
 #define IP "192.168.10.12"
 #define PORT 12356
 
-int flag = 0;
+volatile int flag = 0;
 client_data client_info = {0};
 client_data recv_from_server = {0};
 volatile int socketfd = 0;
@@ -43,10 +43,11 @@ void *net_talkroom_run(void *arg)
     int ret = 0;
     while(1)
     {
-        if(flag == 1)
-        {
-            
-
-        }
+        // usleep(100000);
+        // if(flag == 1)
+        // {
+        //     lv_scr_load(guider_ui.screen_input);
+        //     flag = 0;
+        // }
     }
 }
