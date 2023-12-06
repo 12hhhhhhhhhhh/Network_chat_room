@@ -5,6 +5,7 @@
 
 extern MYSQL *mysqlfd;
 
+
 int database_init(void);
 int database_user_info_add(client_data *data);
 int database_find_user_info_by_id(char *id);

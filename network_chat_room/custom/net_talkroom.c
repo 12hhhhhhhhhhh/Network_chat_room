@@ -3,21 +3,22 @@
 #define IP "192.168.10.12"
 #define PORT 12356
 
-volatile int flag = 0;
 client_data client_info = {0};
 client_data recv_from_server = {0};
-volatile int socketfd = 0;
+volatile int socketfd = 0;          //发送指令的套接字
+volatile int recv_socketfd = 0;     //接收消息的套接字
+
 
 /*
     功能：创建套接字文件，连接服务器
     参数：无
     返回值：-1失败，0成功
 */
-int connect_network(void)
+int connect_network(volatile int *fd)
 {
     int ret = 0;
     //创建通信套接字
-    socketfd = socket(AF_INET,SOCK_STREAM,0);
+    *fd = socket(AF_INET,SOCK_STREAM,0);
     if(socketfd < 0)
     {
         printf("socket error");
@@ -38,16 +39,32 @@ int connect_network(void)
     return 0;
 }
 
-void *net_talkroom_run(void *arg)
+/*
+    专门用于接收消息的线程
+*/
+void *net_talkroom_recv(void *arg)
 {
     int ret = 0;
+    MESSAGE recvdata = {0};
     while(1)
     {
-        // usleep(100000);
-        // if(flag == 1)
-        // {
-        //     lv_scr_load(guider_ui.screen_input);
-        //     flag = 0;
-        // }
+        ret = packet_read(recv_socketfd, &recvdata, sizeof(MESSAGE));
+        if(ret != 0){
+            continue;
+        }
+        if(recvdata.head.num == SERVICE_SEND_FRIEND_INFO){
+            FRIEND_INFO *frined_info = (FRIEND_INFO *)recvdata.data;
+            add_friend_info_node(frined_info);
+        }
     }
 }
+
+/*
+    登陆成功后进行消息、好友、群聊等的初始化
+*/
+void all_init(void){
+    friend_list_init();
+}
+
+
+

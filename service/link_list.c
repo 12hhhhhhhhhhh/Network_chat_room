@@ -56,6 +56,7 @@ int link_list_add(client_data *buf)
     memset(newnode,0,sizeof(CLINODE));
     newnode->data.num = buf->num;
     newnode->data.fd = buf->fd;
+    newnode->data.recv_fd = buf->recv_fd;
     strcpy(newnode->data.id,buf->id);
     strcpy(newnode->data.name,buf->name);
     strcpy(newnode->data.passwd,buf->passwd);
@@ -65,6 +66,7 @@ int link_list_add(client_data *buf)
         temnode = temnode->next;
     }
     temnode ->next = newnode;
+    iuput_count++;
     return 0;
 }
 
@@ -94,5 +96,6 @@ int link_list_del_by_fd(int fd)
     temnode->next = newnode->next;
     free(newnode);
     newnode = NULL;
+    iuput_count--;
     return 0;
 }

@@ -1,7 +1,7 @@
 #include "database.h"
 
 MYSQL *mysqlfd;//数据库的句柄
-int all_user_num = 0;
+
 /*
     功能：初始化数据库
     参数：无
@@ -26,14 +26,34 @@ int database_init(void)
 */
 int database_user_info_add(client_data *data)
 {
+    static int all_user_num = 0;
     all_user_num++;
-    char buf[256] = {0};
+    char buf[1024] = {0};
     // 将创建的信息加入user_infor表格中
     memset(buf, 0, 256);
     sprintf(buf,"insert into user_info values('%d','%s','%s','%s')",all_user_num,data->name, data->id, data->passwd);
     int a = mysql_real_query(mysqlfd, buf, strlen(buf));
-    if (a != 0)
-    {
+    if (a != 0){
+        return -1;
+    }
+    //创建该用户的好友数据表格
+    sprintf(buf, "create table %s_friend(id char(32),name char(32),remark char(32),news1 char(255),\
+    news2 char(255),news3 char(255),news4 char(255),news5 char(255),news6 char(255),news7 char(255),news8 char(255),\
+    news9 char(255),news10 char(255),news11 char(255),news12 char(255),news13 char(255),news14 char(255),news15 char(255),\
+    news16 char(255),news17 char(255),news18 char(255),news19 char(255),news20 char(255),news21 char(255),news22 char(255),\
+    news23 char(255),news24 char(255),news25 char(255))", data->id);
+    a = mysql_real_query(mysqlfd, buf, strlen(buf));
+    if (a != 0){
+        return -1;
+    }
+    //创建该用户的群聊数据表格
+    sprintf(buf, "create table %s_group(id char(32),name char(32),remark char(32),news1 char(255),\
+    news2 char(255),news3 char(255),news4 char(255),news5 char(255),news6 char(255),news7 char(255),news8 char(255),\
+    news9 char(255),news10 char(255),news11 char(255),news12 char(255),news13 char(255),news14 char(255),news15 char(255),\
+    news16 char(255),news17 char(255),news18 char(255),news19 char(255),news20 char(255),news21 char(255),news22 char(255),\
+    news23 char(255),news24 char(255),news25 char(255))", data->id);
+    a = mysql_real_query(mysqlfd, buf, strlen(buf));
+    if (a != 0){
         return -1;
     }
     return 0;

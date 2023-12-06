@@ -13,6 +13,9 @@
 /*账户登陆失败,未知原因*/
 #define ACCOUNT_INPUT_FAIL_UNKNOW 13
 
+/*发送好友信息*/
+#define SERVICE_SEND_FRIEND_INFO 110
+
 
 /*注册账户*/
 #define CREATE_ACCOUNT 20
@@ -25,5 +28,13 @@
 
 /*账户创建失败*/
 #define ACCOUNT_CREAT_FAIL 23
+
+typedef struct{
+    char name[32];      //昵称
+    char id[32];        //账号
+    char remark[32];    //备注
+    char flag[255];     //个性签名
+    char news[25][255]; //消息
+}FRIEND_INFO;
 
 #endif

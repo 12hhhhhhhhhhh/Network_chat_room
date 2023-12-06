@@ -15,6 +15,8 @@
 #include "gui_guider.h"
 #include "net_talkromm.h"
 #include "custom_event.h"
+#include "function.h"
+#include "link_list.h"
 
 void custom_init(lv_ui *ui);
 

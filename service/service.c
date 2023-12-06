@@ -7,6 +7,7 @@ int epollfd = 0;//监测集合的句柄
 struct epoll_event epoll_info = {0};//监测的事件
 CLINODE *client_headnode = NULL;//头节点
 int client_count = 0;//在线客户端的数量
+int iuput_count = 0;//登陆的客户端的数量
 
 /*
     函数：创建TCP通信的服务器端

@@ -13,13 +13,15 @@
 #include "netinet/ip.h"
 #include "sys/epoll.h"
 #include "mysql/mysql.h"
+#include "pthread.h"
 
 //客户端的信息
 typedef struct{
-    int num;
-    int fd;//套接字
-    char id[32];//账号
-    char name[32];//昵称
+    int num;        //序号
+    int fd;         //套接字
+    int recv_fd;    //接收消息的套接字
+    char id[32];    //账号
+    char name[32];  //昵称
     char passwd[32];//密码
 }client_data;
 
@@ -28,15 +30,18 @@ typedef struct node{
     struct node *next;
 }CLINODE;
 
+
 extern int socketfd;
 extern int epollfd;
 struct epoll_event epoll_info;
 extern CLINODE *client_headnode;
 extern int client_count;
+extern int iuput_count;
 
 #include "common.h"
 #include "cliconect.h"
 #include "link_list.h"
 #include "database.h"
+#include "function.h"
 
 #endif

@@ -12,40 +12,6 @@ void events_init(lv_ui *ui)
 {
 }
 
-static void screen_main_imgbtn_1_event_handler(lv_event_t *e)
-{
-	lv_event_code_t code = lv_event_get_code(e);
-	switch (code)
-	{
-	case LV_EVENT_CLICKED:
-	{
-		lv_obj_set_pos(guider_ui.screen_main_message_cont_4, 0, 50);
-		lv_obj_clear_flag(guider_ui.screen_main_message_cont_4, LV_OBJ_FLAG_HIDDEN);
-		lv_obj_add_flag(guider_ui.screen_main_friend_cont_2, LV_OBJ_FLAG_HIDDEN);
-	}
-		break;
-	default:
-		break;
-	}
-}
-
-static void screen_main_imgbtn_2_event_handler(lv_event_t *e)
-{
-	lv_event_code_t code = lv_event_get_code(e);
-	switch (code)
-	{
-	case LV_EVENT_CLICKED:
-	{
-		lv_obj_set_pos(guider_ui.screen_main_friend_cont_2, 0, 50);
-		lv_obj_clear_flag(guider_ui.screen_main_friend_cont_2, LV_OBJ_FLAG_HIDDEN);
-		lv_obj_add_flag(guider_ui.screen_main_message_cont_4, LV_OBJ_FLAG_HIDDEN);
-	}
-		break;
-	default:
-		break;
-	}
-}
-
 static void screen_main_imgbtn_manage_31_event_handler(lv_event_t *e)
 {
 	lv_event_code_t code = lv_event_get_code(e);
@@ -194,8 +160,6 @@ static void screen_main_btn_6_event_handler(lv_event_t *e)
 
 void events_init_screen_main(lv_ui *ui)
 {
-	lv_obj_add_event_cb(ui->screen_main_imgbtn_1, screen_main_imgbtn_1_event_handler, LV_EVENT_ALL, ui);
-	lv_obj_add_event_cb(ui->screen_main_imgbtn_2, screen_main_imgbtn_2_event_handler, LV_EVENT_ALL, ui);
 	lv_obj_add_event_cb(ui->screen_main_imgbtn_manage_31, screen_main_imgbtn_manage_31_event_handler, LV_EVENT_ALL, ui);
 	lv_obj_add_event_cb(ui->screen_main_imgbtn_friend_2, screen_main_imgbtn_friend_2_event_handler, LV_EVENT_ALL, ui);
 	lv_obj_add_event_cb(ui->screen_main_imgbtn_group_12, screen_main_imgbtn_group_12_event_handler, LV_EVENT_ALL, ui);
