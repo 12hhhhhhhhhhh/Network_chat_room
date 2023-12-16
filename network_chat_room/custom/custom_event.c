@@ -40,6 +40,8 @@ static void screen_input_imgbtn_6_event_handler(lv_event_t *e)
         if(input_date.num == ACCOUNT_INPUT_SUCCESS){
             printf("input success!\r\n");
             lv_scr_load(guider_ui.screen_main);
+            //初始化消息页面
+            message_page_config();
             lv_event_send(guider_ui.screen_main_imgbtn_1, LV_EVENT_CLICKED, NULL);
         }
         else if(input_date.num == ACCOUNT_INPUT_FAIL){

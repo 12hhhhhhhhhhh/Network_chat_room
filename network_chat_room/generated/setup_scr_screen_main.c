@@ -418,26 +418,26 @@ void setup_scr_screen_main(lv_ui *ui){
 	lv_obj_set_style_bg_opa(ui->screen_main_friend_list_1, 255, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
 
 	//Set style state: LV_STATE_DEFAULT for style_screen_main_friend_list_1_extra_btns_main_default
-	static lv_style_t style_screen_main_friend_list_1_extra_btns_main_default;
-	ui_init_style(&style_screen_main_friend_list_1_extra_btns_main_default);
-	lv_style_set_radius(&style_screen_main_friend_list_1_extra_btns_main_default, 3);
-	lv_style_set_bg_color(&style_screen_main_friend_list_1_extra_btns_main_default, lv_color_make(0xd7, 0x11, 0x11));
-	lv_style_set_bg_grad_color(&style_screen_main_friend_list_1_extra_btns_main_default, lv_color_make(0xff, 0xff, 0xff));
-	lv_style_set_bg_grad_dir(&style_screen_main_friend_list_1_extra_btns_main_default, LV_GRAD_DIR_NONE);
-	lv_style_set_bg_opa(&style_screen_main_friend_list_1_extra_btns_main_default, 0);
-	lv_style_set_text_color(&style_screen_main_friend_list_1_extra_btns_main_default, lv_color_make(0x3c, 0x3c, 0x3c));
-	lv_style_set_text_font(&style_screen_main_friend_list_1_extra_btns_main_default, &lv_font_arial_24);
+	// static lv_style_t style_screen_main_friend_list_1_extra_btns_main_default;
+	ui_init_style(&(ui->style_screen_main_friend_list_1_extra_btns_main_default));
+	lv_style_set_radius(&(ui->style_screen_main_friend_list_1_extra_btns_main_default), 3);
+	lv_style_set_bg_color(&(ui->style_screen_main_friend_list_1_extra_btns_main_default), lv_color_make(0xd7, 0x11, 0x11));
+	lv_style_set_bg_grad_color(&(ui->style_screen_main_friend_list_1_extra_btns_main_default), lv_color_make(0xff, 0xff, 0xff));
+	lv_style_set_bg_grad_dir(&(ui->style_screen_main_friend_list_1_extra_btns_main_default), LV_GRAD_DIR_NONE);
+	lv_style_set_bg_opa(&(ui->style_screen_main_friend_list_1_extra_btns_main_default), 0);
+	lv_style_set_text_color(&(ui->style_screen_main_friend_list_1_extra_btns_main_default), lv_color_make(0x3c, 0x3c, 0x3c));
+	lv_style_set_text_font(&(ui->style_screen_main_friend_list_1_extra_btns_main_default), &lv_font_arial_24);
 
 	//Set style state: LV_STATE_FOCUSED for style_screen_main_friend_list_1_extra_btns_main_focused
-	static lv_style_t style_screen_main_friend_list_1_extra_btns_main_focused;
-	ui_init_style(&style_screen_main_friend_list_1_extra_btns_main_focused);
-	lv_style_set_radius(&style_screen_main_friend_list_1_extra_btns_main_focused, 3);
-	lv_style_set_bg_color(&style_screen_main_friend_list_1_extra_btns_main_focused, lv_color_make(0x64, 0x64, 0x64));
-	lv_style_set_bg_grad_color(&style_screen_main_friend_list_1_extra_btns_main_focused, lv_color_make(0xff, 0xff, 0xff));
-	lv_style_set_bg_grad_dir(&style_screen_main_friend_list_1_extra_btns_main_focused, LV_GRAD_DIR_NONE);
-	lv_style_set_bg_opa(&style_screen_main_friend_list_1_extra_btns_main_focused, 255);
-	lv_style_set_text_color(&style_screen_main_friend_list_1_extra_btns_main_focused, lv_color_make(0x3c, 0x3c, 0x3c));
-	lv_style_set_text_font(&style_screen_main_friend_list_1_extra_btns_main_focused, &lv_font_arial_24);
+	// static lv_style_t style_screen_main_friend_list_1_extra_btns_main_focused;
+	ui_init_style(&(ui->style_screen_main_friend_list_1_extra_btns_main_focused));
+	lv_style_set_radius(&(ui->style_screen_main_friend_list_1_extra_btns_main_focused), 3);
+	lv_style_set_bg_color(&(ui->style_screen_main_friend_list_1_extra_btns_main_focused), lv_color_make(0x64, 0x64, 0x64));
+	lv_style_set_bg_grad_color(&(ui->style_screen_main_friend_list_1_extra_btns_main_focused), lv_color_make(0xff, 0xff, 0xff));
+	lv_style_set_bg_grad_dir(&(ui->style_screen_main_friend_list_1_extra_btns_main_focused), LV_GRAD_DIR_NONE);
+	lv_style_set_bg_opa(&(ui->style_screen_main_friend_list_1_extra_btns_main_focused), 255);
+	lv_style_set_text_color(&(ui->style_screen_main_friend_list_1_extra_btns_main_focused), lv_color_make(0x3c, 0x3c, 0x3c));
+	lv_style_set_text_font(&(ui->style_screen_main_friend_list_1_extra_btns_main_focused), &lv_font_arial_24);
 
 	//Set style state: LV_STATE_DEFAULT for style_screen_main_friend_list_1_extra_texts_main_default
 	static lv_style_t style_screen_main_friend_list_1_extra_texts_main_default;
@@ -453,15 +453,15 @@ void setup_scr_screen_main(lv_ui *ui){
 	lv_obj_t *screen_main_friend_list_1_item;
 	screen_main_friend_list_1_item = lv_list_add_btn(ui->screen_main_friend_list_1, &_4_alpha_20x20, "save");
 	ui->screen_main_friend_list_1_item0 = screen_main_friend_list_1_item;
-	lv_obj_add_style(screen_main_friend_list_1_item, &style_screen_main_friend_list_1_extra_btns_main_default, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_add_style(screen_main_friend_list_1_item, &(ui->style_screen_main_friend_list_1_extra_btns_main_default), LV_PART_MAIN|LV_STATE_DEFAULT);
 
-	lv_obj_add_style(screen_main_friend_list_1_item, &style_screen_main_friend_list_1_extra_btns_main_focused, LV_PART_MAIN|LV_STATE_FOCUSED);
+	lv_obj_add_style(screen_main_friend_list_1_item, &(ui->style_screen_main_friend_list_1_extra_btns_main_focused), LV_PART_MAIN|LV_STATE_FOCUSED);
 
 	screen_main_friend_list_1_item = lv_list_add_btn(ui->screen_main_friend_list_1, &_4_alpha_20x20, "save_1");
 	ui->screen_main_friend_list_1_item1 = screen_main_friend_list_1_item;
-	lv_obj_add_style(screen_main_friend_list_1_item, &style_screen_main_friend_list_1_extra_btns_main_default, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_add_style(screen_main_friend_list_1_item, &(ui->style_screen_main_friend_list_1_extra_btns_main_default), LV_PART_MAIN|LV_STATE_DEFAULT);
 
-	lv_obj_add_style(screen_main_friend_list_1_item, &style_screen_main_friend_list_1_extra_btns_main_focused, LV_PART_MAIN|LV_STATE_FOCUSED);
+	lv_obj_add_style(screen_main_friend_list_1_item, &(ui->style_screen_main_friend_list_1_extra_btns_main_focused), LV_PART_MAIN|LV_STATE_FOCUSED);
 
 
 	//Write codes screen_main_show_message_cont_2

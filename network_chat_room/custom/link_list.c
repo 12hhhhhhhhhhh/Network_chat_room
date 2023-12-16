@@ -37,3 +37,53 @@ int add_friend_info_node(FRIEND_INFO *info){
     temnode = NULL;
     return 0;
 }
+
+/*
+    删除好友信息节点
+*/
+int del_friend_info_node(char *id) {
+    FRIEND_NODE *temnode = NULL;
+    temnode = head_friend_node;
+    while(temnode->next){
+        temnode = temnode->next;
+        if(strcmp(info->id, temnode->info.id) == 0) {
+            break;
+        }
+    }
+    temnode->front->next = temnode->next;
+    temnode->next->front = temnode->front;
+    free(temnode);
+    temnode = NULL;
+    return 0;
+}
+
+/*
+    通过昵称或备注在好友链表中查找好友信息
+*/
+FRIEND_INFO * find_friend_info_by_name(char *name) {
+    FRIEND_NODE *temnode = NULL;
+    temnode = head_friend_node;
+    while(temnode->next){
+        temnode = temnode->next;
+        if((strcmp(temnode->info.name, name) == 0) || (strcmp(temnode->info.remark, name) == 0)){
+            return temnode->info;
+        }
+    }
+    return NULL;
+}
+
+/*
+    通过id修改好友的备注信息
+*/
+int modify_remark_by_id(char *id, char *remark) {
+    FRIEND_NODE *temnode = NULL;
+    temnode = head_friend_node;
+    while(temnode->next){
+        temnode = temnode->next;
+        if((strcmp(temnode->info.id, id) == 0)){
+            strcpy(temnode->info.remark, remark);
+            break;
+        }
+    }
+    return 0;
+}

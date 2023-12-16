@@ -30,6 +30,8 @@ typedef struct
 	lv_obj_t *screen_main_imgbtn_4_label;
 	lv_obj_t *screen_main_message_cont_4;
 	lv_obj_t *screen_main_friend_list_1;
+	lv_style_t style_screen_main_friend_list_1_extra_btns_main_default;
+	lv_style_t style_screen_main_friend_list_1_extra_btns_main_focused;
 	lv_obj_t *screen_main_friend_list_1_item0;
 	lv_obj_t *screen_main_friend_list_1_item1;
 	lv_obj_t *screen_main_show_message_cont_2;

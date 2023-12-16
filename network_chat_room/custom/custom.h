@@ -17,6 +17,8 @@
 #include "custom_event.h"
 #include "function.h"
 #include "link_list.h"
+#include "contacts_page.h"
+#include "message_page.h"
 
 void custom_init(lv_ui *ui);
 

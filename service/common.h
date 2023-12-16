@@ -7,14 +7,17 @@
 /*账户登陆成功*/
 #define ACCOUNT_INPUT_SUCCESS 11
 
+/*发送好友信息*/
+#define SERVICE_SEND_FRIEND_INFO 110
+
+/*删除好友*/
+#define DELETE_FRIEND 111
+
 /*账户登陆失败,账号或密码错误*/
 #define ACCOUNT_INPUT_FAIL 12
 
 /*账户登陆失败,未知原因*/
 #define ACCOUNT_INPUT_FAIL_UNKNOW 13
-
-/*发送好友信息*/
-#define SERVICE_SEND_FRIEND_INFO 110
 
 /*注册账户*/
 #define CREATE_ACCOUNT 20

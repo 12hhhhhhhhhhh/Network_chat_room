@@ -38,7 +38,7 @@ int receive_from_client(int fd)
     int ret = 0;
     client_data recv_data = {0};
     client_data send_data = {0};
-    ret = read(fd,&recv_data,sizeof(recv_data));
+    ret = read(fd, &recv_data, sizeof(recv_data));
     perror("read");
     if(ret == 0)//客户端下线
     {
@@ -85,6 +85,10 @@ int receive_from_client(int fd)
         }
         ret = write(fd,&send_data,sizeof(send_data));
         perror("write");
+    }
+    else if(recv_data.num == DELETE_FRIEND)//删除好友
+    {
+        //删除数据库好友的相关信息
     }
     return 0;
 }

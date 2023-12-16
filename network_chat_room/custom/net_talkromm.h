@@ -24,6 +24,7 @@ typedef struct{
     char passwd[32];//密码
 }client_data;
 
+//存储好友信息的链表
 typedef struct friend_node{
     FRIEND_INFO info;
     struct friend_node *front;

@@ -42,6 +42,7 @@ void custom_init(lv_ui *ui)
     
     custom_events_init(&guider_ui);
     /* Add your codes here */
+    message_page_init();
     printf("hello world\r\n");
     connect_network(&socketfd);
     printf("socketfd0:%d\r\n",socketfd);
