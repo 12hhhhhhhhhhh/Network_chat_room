@@ -1,5 +1,5 @@
 #include "service.h"
-#define SERVICE_IP "192.168.10.13"
+#define SERVICE_IP "192.168.1.71"
 #define SERVICE_PORT 12356
 
 int socketfd = 0;//连接套接字

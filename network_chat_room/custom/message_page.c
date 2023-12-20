@@ -1,5 +1,7 @@
 #include "message_page.h"
 
+MESSAGE_PAGE message_page_object;  //表示消息页面相关的信息
+
 static void screen_main_send_message_event_handler(lv_event_t *e);
 
 /*
@@ -48,13 +50,9 @@ static void screen_main_message_item_event_handler(lv_event_t *e)
 		lv_obj_clean(message_page_object.message_cont);
 		lv_textarea_set_text(message_page_object.send_message_ta, "");
         //获取被选中按钮的相关信息
-        if(message_page_object.now_select_item->messagetype == FRIEND_MESSAGE){
-			printf("1\r\n");
-            message_cont_fill_friend(buf1);
-        }
-        else if(message_page_object.now_select_item->messagetype == GROUP_MESSAGE){
-
-        }
+		printf("1\r\n");
+        message_cont_fill_friend(buf1);
+        
 	}
 		break;
 	default:
@@ -165,8 +163,8 @@ void message_page_config(void){
             (message_page_object.list_item)[message_page_object.cell_count].item = lv_list_add_btn(guider_ui.screen_main_friend_list_1, &_4_alpha_20x20, buf);
             (message_page_object.list_item)[message_page_object.cell_count].messagetype = FRIEND_MESSAGE;
 			(message_page_object.list_item)[message_page_object.cell_count].info = (void *)(&(temnode->info));
-			lv_obj_add_style((message_page_object.list_item)[message_page_object.cell_count].item, &(guider_ui.style_screen_main_friend_list_1_extra_btns_main_default), LV_PART_MAIN|LV_STATE_DEFAULT);
-	    	lv_obj_add_style((message_page_object.list_item)[message_page_object.cell_count].item, &(guider_ui.style_screen_main_friend_list_1_extra_btns_main_focused), LV_PART_MAIN|LV_STATE_FOCUSED);
+			// lv_obj_add_style((message_page_object.list_item)[message_page_object.cell_count].item, &(guider_ui.style_screen_main_friend_list_1_extra_btns_main_default), LV_PART_MAIN|LV_STATE_DEFAULT);
+	    	// lv_obj_add_style((message_page_object.list_item)[message_page_object.cell_count].item, &(guider_ui.style_screen_main_friend_list_1_extra_btns_main_focused), LV_PART_MAIN|LV_STATE_FOCUSED);
             //绑定对应的点击事件
             lv_obj_add_event_cb((message_page_object.list_item)[message_page_object.cell_count].item, screen_main_message_item_event_handler, LV_EVENT_CLICKED, &guider_ui);
             message_page_object.cell_count++;
@@ -182,7 +180,7 @@ int add_friend_message_into_cont(char *news, MESSAGE_CONT_CELL *obj, MESSAGE_TYP
     int cont_x, cont_y, label_x, label_y, time_x, time_y, image_x, image_y;
     cont_x = 5;
     cont_y = 5 + message_page_object.message_count*35;
-    if((type == FRIEND_MESSAGE) || (type == GROUP_MESSAGE)){
+    if(type == FRIEND_MESSAGE){
         label_x = 40;
         label_y = 0;
 

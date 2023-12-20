@@ -53,6 +53,6 @@ typedef struct {
     FRIEND_CONT friend_info;
 }CONTACTS_PAGE;
 
-CONTACTS_PAGE contacts_page;
+extern CONTACTS_PAGE contacts_page;
 
 #endif

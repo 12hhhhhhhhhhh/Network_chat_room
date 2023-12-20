@@ -1,6 +1,6 @@
 #include "net_talkromm.h"
 
-#define IP "192.168.10.13"
+#define IP "192.168.1.71"
 #define PORT 12356
 
 client_data client_info = {0};

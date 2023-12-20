@@ -5,7 +5,6 @@
 
 //表示消息的类别（群聊消息、好友消息）
 typedef enum{
-    GROUP_MESSAGE,
     FRIEND_MESSAGE,
     MYSELF_MESSAGE
 }MESSAGE_TYPE;
@@ -53,7 +52,7 @@ typedef struct message_page{
     MESSAGE_LIST_ITEM * now_select_item;         //表示当前选中的item
 }MESSAGE_PAGE;
 
-MESSAGE_PAGE message_page_object;  //表示消息页面相关的信息
+extern MESSAGE_PAGE message_page_object;  //表示消息页面相关的信息
 
 void    message_page_init(void);
 int     message_cont_fill_friend(char *name);

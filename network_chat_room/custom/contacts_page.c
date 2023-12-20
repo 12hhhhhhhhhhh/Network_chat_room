@@ -8,16 +8,13 @@ static void screen_main_contacts_friend_delete_friend_event_handler(lv_event_t *
 static void screen_main_contacts_friend_delete_friend_no_event_handler(lv_event_t *e);
 static void screen_main_contacts_friend_delete_friend_yes_event_handler(lv_event_t *e);
 
+CONTACTS_PAGE contacts_page;
+
 /*
-    初始化联系人(好友、群聊)页面的相关信息
+    初始化联系人(好友)页面的相关信息
 */
 void contacts_page_init(void){
-    contacts_page.manage_btn = guider_ui.screen_main_imgbtn_manage_31;
-    contacts_page.friend_btn = guider_ui.screen_main_imgbtn_friend_2;
-    contacts_page.group_btn = guider_ui.screen_main_imgbtn_group_12;
-    contacts_page.manage_cont = guider_ui.screen_main_group_infor_cont_1;
     contacts_page.friend_cont = guider_ui.screen_main_friend_infor_cont_1;
-    contacts_page.manage_cont = guider_ui.screen_main_manage_fri_group_cont_1;
     //初始化好友页面
     contacts_page.friend_info.delete_btn = guider_ui.screen_main_imgbtn_11;
     contacts_page.friend_info.flag_spangroup = guider_ui.screen_main_spangroup_2;
@@ -67,8 +64,8 @@ void contacts_page_config(void){
         //在列表中创建相应的item并绑定对应的样式和事件
         contacts_page.friend_info.friend_item[i].item = lv_list_add_btn(guider_ui.screen_main_friend_list_1, &_4_alpha_20x20, temnode->info.name);
 
-        lv_obj_add_style(contacts_page.friend_info.friend_item[i].item, &(guider_ui.style_screen_main_friend_list_1_extra_btns_main_default), LV_PART_MAIN|LV_STATE_DEFAULT);
-	    lv_obj_add_style(contacts_page.friend_info.friend_item[i].item, &(guider_ui.style_screen_main_friend_list_1_extra_btns_main_focused), LV_PART_MAIN|LV_STATE_FOCUSED);
+        // lv_obj_add_style(contacts_page.friend_info.friend_item[i].item, &(guider_ui.style_screen_main_friend_list_1_extra_btns_main_default), LV_PART_MAIN|LV_STATE_DEFAULT);
+	    // lv_obj_add_style(contacts_page.friend_info.friend_item[i].item, &(guider_ui.style_screen_main_friend_list_1_extra_btns_main_focused), LV_PART_MAIN|LV_STATE_FOCUSED);
 
         lv_obj_add_event_cb(contacts_page.friend_info.friend_item[i].item, screen_main_contacts_friend_item_event_handler, LV_EVENT_CLICKED, &guider_ui);
         contacts_page.friend_info.friend_count++;

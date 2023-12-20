@@ -22,6 +22,7 @@ void init_scr_del_flag(lv_ui *ui)
 	ui->screen_main_del = true;
 	ui->screen_input_del = true;
 	ui->screen_create_del = true;
+	ui->screen_owner_del = true;
 }
 
 void setup_ui(lv_ui *ui)
