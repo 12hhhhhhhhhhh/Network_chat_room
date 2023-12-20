@@ -1,18 +1,8 @@
-#ifndef NET_TALKROOM_H
-#define NET_TALKROOM_H
+#ifndef _NET_TALKROOM_H
+#define _NET_TALKROOM_H
 
-#include "stdio.h"
-#include "string.h"
-#include "stdlib.h"
-#include "unistd.h"
-#include "pthread.h"
-#include "sys/socket.h"
-#include "sys/types.h"
-#include "arpa/inet.h"
-#include "netinet/in.h"
-
-#include "common.h"
-#include "gui_guider.h"
+// #include "common.h"
+// #include "gui_guider.h"
 #include "custom.h"
 //客户端的信息
 typedef struct{
@@ -24,13 +14,6 @@ typedef struct{
     char passwd[32];//密码
 }client_data;
 
-//存储好友信息的链表
-typedef struct friend_node{
-    FRIEND_INFO info;
-    struct friend_node *front;
-    struct friend_node *next;
-}FRIEND_NODE;
-
 extern volatile int flag;
 extern client_data client_info;
 extern client_data recv_from_server;
@@ -39,6 +22,7 @@ extern volatile int recv_socketfd;
 
 int connect_network(volatile int *fd);
 void *net_talkroom_recv(void *arg);
+void all_init(void);
 
 
 #endif

@@ -41,7 +41,7 @@ int packet_write(int fd,int num, void *buf, int len){
     message->head.num = num;
     message->head.len = len;
     message->head.flag = 0;
-    message->data = buf;
+    // message->data = buf;
     int ret = 0;
     ret = write(fd, &message, sizeof(MESSAGE));
     if(ret < 0){

@@ -11,6 +11,16 @@
 #ifndef __CUSTOM_H_
 #define __CUSTOM_H_
 
+#include "stdio.h"
+#include "string.h"
+#include "stdlib.h"
+#include "unistd.h"
+#include "pthread.h"
+#include "sys/socket.h"
+#include "sys/types.h"
+#include "arpa/inet.h"
+#include "netinet/in.h"
+
 #include "common.h"
 #include "gui_guider.h"
 #include "net_talkromm.h"

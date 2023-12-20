@@ -7,8 +7,11 @@ FRIEND_NODE *head_friend_node;      //好友信息链表的头节点
 */
 int friend_list_init(void){
     head_friend_node = NULL;
-    head_friend_node = malloc(sizeof(FRIEND_NODE));
+    head_friend_node = (FRIEND_NODE *)malloc(sizeof(FRIEND_NODE));
+    perror("malloc");
+    printf("malloc1\r\n");
     if(head_friend_node == NULL){
+        printf("malloc2\r\n");
         perror("malloc");
         return -1;
     }
@@ -22,7 +25,7 @@ int friend_list_init(void){
 int add_friend_info_node(FRIEND_INFO *info){
     FRIEND_NODE *temnode = NULL;
     temnode = head_friend_node;
-    FRIEND_NODE *newnode = malloc(sizeof(FRIEND_NODE));
+    FRIEND_NODE *newnode = (FRIEND_NODE *)malloc(sizeof(FRIEND_NODE));
     if(newnode == NULL){
         perror("malloc");
         return -1;
@@ -31,6 +34,7 @@ int add_friend_info_node(FRIEND_INFO *info){
     while(temnode->next){
         temnode = temnode->next;
     }
+    printf("newnode:%s\r\n", newnode->info.news[0]);
     newnode->front = temnode;
     newnode->next = NULL;
     temnode->next = newnode;
@@ -46,7 +50,7 @@ int del_friend_info_node(char *id) {
     temnode = head_friend_node;
     while(temnode->next){
         temnode = temnode->next;
-        if(strcmp(info->id, temnode->info.id) == 0) {
+        if(strcmp(id, temnode->info.id) == 0) {
             break;
         }
     }
@@ -66,7 +70,7 @@ FRIEND_INFO * find_friend_info_by_name(char *name) {
     while(temnode->next){
         temnode = temnode->next;
         if((strcmp(temnode->info.name, name) == 0) || (strcmp(temnode->info.remark, name) == 0)){
-            return temnode->info;
+            return &(temnode->info);
         }
     }
     return NULL;

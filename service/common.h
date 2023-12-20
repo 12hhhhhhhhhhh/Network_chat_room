@@ -1,35 +1,62 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
-/*登陆账户*/
+/*登陆账户：客户端->服务器*/
 #define INPUT_ACCOUNT 10
 
-/*账户登陆成功*/
-#define ACCOUNT_INPUT_SUCCESS 11
+/*账户登陆成功：服务器->客户端*/
+#define ACCOUNT_INPUT_SUCCESS 100
 
-/*发送好友信息*/
-#define SERVICE_SEND_FRIEND_INFO 110
+/*账户登陆失败,账号或密码错误：服务器->客户端*/
+#define ACCOUNT_INPUT_FAIL 101
 
-/*删除好友*/
-#define DELETE_FRIEND 111
+/*账户登陆失败,未知原因：服务器->客户端*/
+#define ACCOUNT_INPUT_FAIL_UNKNOW 102
 
-/*账户登陆失败,账号或密码错误*/
-#define ACCOUNT_INPUT_FAIL 12
+/*客户端发送接收套接字：客户端->服务器*/
+#define CLIENT_RECVFD 103
 
-/*账户登陆失败,未知原因*/
-#define ACCOUNT_INPUT_FAIL_UNKNOW 13
+/*发送好友的相关信息：服务器->客户端*/
+#define SERVICE_SEND_FRIEND_INFO 11
 
-/*注册账户*/
+/*删除好友：客户端->服务器*/
+#define DELETE_FRIEND 12
+
+/*删除好友成功：服务器->客户端*/
+#define DELETE_FRIEND_SUCCESS 120
+
+/*删除好友失败：服务器->客户端*/
+#define DELETE_FRIEND_FAIL 121
+
+/*注册账户：客户端->服务器*/
 #define CREATE_ACCOUNT 20
 
-/*ID存在*/
-#define ID_EXIST 21
+/*ID存在：服务器->客户端*/
+#define ID_EXIST 200
 
-/*账户创建成功*/
-#define ACCOUNT_CREAT_SUCCESS 22
+/*账户创建成功：服务器->客户端*/
+#define ACCOUNT_CREAT_SUCCESS 201
 
-/*账户创建失败*/
-#define ACCOUNT_CREAT_FAIL 23
+/*账户创建失败：服务器->客户端*/
+#define ACCOUNT_CREAT_FAIL 202
+
+/*发送消息：客户端->服务器*/
+#define MESSAGE_CLI_TO_SER 30
+
+/*发送消息成功：服务器->客户端*/
+#define MESSAGE_CLI_TO_SER_SUCC 300
+
+/*发送消息失败：服务器->客户端*/
+#define MESSAGE_CLI_TO_SER_FAIL 301
+
+/*发送消息：服务器->客户端*/
+#define MESSAGE_SER_TO_CLI 31
+
+/*发送消息成功：客户端->服务器*/
+#define MESSAGE_SER_TO_CLI_SUCC 310
+
+/*发送消息失败：客户端->服务器*/
+#define MESSAGE_SER_TO_CLI_FAIL 311
 
 typedef struct{
     char name[32];      //昵称

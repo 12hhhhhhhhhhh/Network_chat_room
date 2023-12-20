@@ -3,6 +3,13 @@
 
 #include "custom.h"
 
+//存储好友信息的链表
+typedef struct friend_node{
+    FRIEND_INFO info;
+    struct friend_node *front;
+    struct friend_node *next;
+}FRIEND_NODE;
+
 extern FRIEND_NODE *head_friend_node;      //好友信息链表的头节点
 
 int friend_list_init(void);

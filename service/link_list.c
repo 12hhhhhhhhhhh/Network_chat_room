@@ -71,6 +71,24 @@ int link_list_add(client_data *buf)
 }
 
 /*
+    向链表中指定的节点添加接收信息的套接字
+*/
+int link_list_add_recvfd(char *id,int recv_fd) {
+    CLINODE *temnode = client_headnode;
+    while(temnode->next)
+    {
+        temnode = temnode->next;
+        if(!strcmp(temnode->data.id, id))
+        {
+            temnode->data.recv_fd = recv_fd;
+            break;
+        }
+    }
+    temnode = NULL;
+    return 0;
+}
+
+/*
     功能：链表删除
     参数：fd，要删除节点的fd
     返回值：-1查无此人，0删除成功

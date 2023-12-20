@@ -13,6 +13,8 @@
 /*账户登陆失败,未知原因：服务器->客户端*/
 #define ACCOUNT_INPUT_FAIL_UNKNOW 102
 
+/*客户端发送接收套接字：客户端->服务器*/
+#define CLIENT_RECVFD 103
 
 /*发送好友的相关信息：服务器->客户端*/
 #define SERVICE_SEND_FRIEND_INFO 11

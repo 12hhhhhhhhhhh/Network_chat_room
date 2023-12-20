@@ -1,6 +1,6 @@
 #include "net_talkromm.h"
 
-#define IP "192.168.10.12"
+#define IP "192.168.10.13"
 #define PORT 12356
 
 client_data client_info = {0};
@@ -19,7 +19,7 @@ int connect_network(volatile int *fd)
     int ret = 0;
     //创建通信套接字
     *fd = socket(AF_INET,SOCK_STREAM,0);
-    if(socketfd < 0)
+    if(*fd < 0)
     {
         printf("socket error");
         return -1;
@@ -29,7 +29,7 @@ int connect_network(volatile int *fd)
     service_info.sin_family = AF_INET;
     service_info.sin_addr.s_addr = inet_addr(IP);
     service_info.sin_port = htons(PORT);
-    ret = connect(socketfd,(const struct sockaddr*)&service_info,sizeof(service_info));
+    ret = connect(*fd,(const struct sockaddr*)&service_info,sizeof(service_info));
     if(ret < 0)
     {
         printf("connect_network:connect error!\r\n");
@@ -48,13 +48,21 @@ void *net_talkroom_recv(void *arg)
     MESSAGE recvdata = {0};
     while(1)
     {
+        printf("packet_read\r\n");
         ret = packet_read(recv_socketfd, &recvdata, sizeof(MESSAGE));
         if(ret != 0){
             continue;
         }
         if(recvdata.head.num == SERVICE_SEND_FRIEND_INFO){
-            FRIEND_INFO *frined_info = (FRIEND_INFO *)recvdata.data;
-            add_friend_info_node(frined_info);
+            //接收好友相关的信息
+            FRIEND_INFO frined_info;
+            ret = read(recv_socketfd, &frined_info, sizeof(FRIEND_INFO));
+            if(ret < 0){
+                perror("read");
+                continue;
+            }
+            printf("recv:name-%s\r\n", frined_info.news[0]);
+            add_friend_info_node(&frined_info);
         }
     }
 }
@@ -64,6 +72,8 @@ void *net_talkroom_recv(void *arg)
 */
 void all_init(void){
     friend_list_init();
+    sleep(1);
+    message_page_config();
 }
 
 

@@ -4,6 +4,9 @@ static void screen_main_contacts_friend_item_event_handler(lv_event_t *e);
 static void screen_main_contacts_friend_modify_remark_event_handler(lv_event_t *e);
 static void screen_main_contacts_friend_modify_remark_yes_event_handler(lv_event_t *e);
 static void screen_main_contacts_friend_modify_remark_no_event_handler(lv_event_t *e);
+static void screen_main_contacts_friend_delete_friend_event_handler(lv_event_t *e);
+static void screen_main_contacts_friend_delete_friend_no_event_handler(lv_event_t *e);
+static void screen_main_contacts_friend_delete_friend_yes_event_handler(lv_event_t *e);
 
 /*
     初始化联系人(好友、群聊)页面的相关信息
@@ -17,7 +20,6 @@ void contacts_page_init(void){
     contacts_page.manage_cont = guider_ui.screen_main_manage_fri_group_cont_1;
     //初始化好友页面
     contacts_page.friend_info.delete_btn = guider_ui.screen_main_imgbtn_11;
-    contacts_page.friend_info.delete_cont = guider_ui.screen_main_delete_friend_cont_5;
     contacts_page.friend_info.flag_spangroup = guider_ui.screen_main_spangroup_2;
     contacts_page.friend_info.head_image = guider_ui.screen_main_img_6;
     contacts_page.friend_info.id_label = guider_ui.screen_main_label_20;
@@ -36,6 +38,19 @@ void contacts_page_init(void){
     contacts_page.friend_info.modify_cont.remark_textarea = guider_ui.screen_main_ta_8;
     contacts_page.friend_info.modify_cont.yes_btn = guider_ui.screen_main_btn_7;
     contacts_page.friend_info.modify_cont.no_btn = guider_ui.screen_main_btn_6;
+
+    lv_obj_add_event_cb(contacts_page.friend_info.modify_btn, screen_main_contacts_friend_modify_remark_event_handler\
+	, LV_EVENT_ALL, &guider_ui);
+    lv_obj_add_event_cb(contacts_page.friend_info.modify_cont.yes_btn, screen_main_contacts_friend_modify_remark_yes_event_handler\
+	, LV_EVENT_ALL, &guider_ui);
+    lv_obj_add_event_cb(contacts_page.friend_info.modify_cont.no_btn, screen_main_contacts_friend_modify_remark_no_event_handler\
+	, LV_EVENT_ALL, &guider_ui);
+    lv_obj_add_event_cb(contacts_page.friend_info.delete_btn, screen_main_contacts_friend_delete_friend_event_handler\
+	, LV_EVENT_ALL, &guider_ui);
+    lv_obj_add_event_cb(contacts_page.friend_info.delete_cont.yes_btn, screen_main_contacts_friend_delete_friend_yes_event_handler\
+	, LV_EVENT_ALL, &guider_ui);
+    lv_obj_add_event_cb(contacts_page.friend_info.delete_cont.no_btn, screen_main_contacts_friend_delete_friend_no_event_handler\
+	, LV_EVENT_ALL, &guider_ui);
 }
 
 /*
@@ -52,8 +67,8 @@ void contacts_page_config(void){
         //在列表中创建相应的item并绑定对应的样式和事件
         contacts_page.friend_info.friend_item[i].item = lv_list_add_btn(guider_ui.screen_main_friend_list_1, &_4_alpha_20x20, temnode->info.name);
 
-        lv_obj_add_style(contacts_page.friend_info.friend_item[i].item, &(guider.style_screen_main_friend_list_1_extra_btns_main_default), LV_PART_MAIN|LV_STATE_DEFAULT);
-	    lv_obj_add_style(contacts_page.friend_info.friend_item[i].item, &(guider.style_screen_main_friend_list_1_extra_btns_main_focused), LV_PART_MAIN|LV_STATE_FOCUSED);
+        lv_obj_add_style(contacts_page.friend_info.friend_item[i].item, &(guider_ui.style_screen_main_friend_list_1_extra_btns_main_default), LV_PART_MAIN|LV_STATE_DEFAULT);
+	    lv_obj_add_style(contacts_page.friend_info.friend_item[i].item, &(guider_ui.style_screen_main_friend_list_1_extra_btns_main_focused), LV_PART_MAIN|LV_STATE_FOCUSED);
 
         lv_obj_add_event_cb(contacts_page.friend_info.friend_item[i].item, screen_main_contacts_friend_item_event_handler, LV_EVENT_CLICKED, &guider_ui);
         contacts_page.friend_info.friend_count++;
@@ -142,15 +157,15 @@ static void screen_main_contacts_friend_modify_remark_event_handler(lv_event_t *
 */
 static void screen_main_contacts_friend_modify_remark_yes_event_handler(lv_event_t *e)
 {
-    char * buf;
+    char buf[256] = {0};
     lv_event_code_t code = lv_event_get_code(e);
 	switch (code)
 	{
 	case LV_EVENT_CLICKED:
 	{
-        buf = lv_textarea_get_text(contacts_page.friend_info.modify_cont.remark_textarea);
+        strcmp(buf, lv_textarea_get_text(contacts_page.friend_info.modify_cont.remark_textarea));
         lv_label_set_text(contacts_page.friend_info.remark_label, buf);
-        modify_remark_by_id(lv_label_get_text(contacts_page.friend_info.id_label, buf));
+        modify_remark_by_id(lv_label_get_text(contacts_page.friend_info.id_label), buf);
         //隐藏弹窗
 		lv_obj_add_flag(guider_ui.screen_main_edit_remark_cont_5, LV_OBJ_FLAG_HIDDEN);
 	}
@@ -237,7 +252,11 @@ static void screen_main_contacts_friend_delete_friend_yes_event_handler(lv_event
             perror("write");
             break;
         }
-        read(socketfd, &data, sizeof(data));
+        ret = read(socketfd, &data, sizeof(data));
+        if(ret < 0) {
+            perror("read");
+            break;
+        }
         if(data.num == DELETE_FRIEND_SUCCESS){
             //删除链表中对应的节点
             del_friend_info_node(lv_label_get_text(contacts_page.friend_info.id_label));

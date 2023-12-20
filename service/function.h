@@ -17,10 +17,9 @@ typedef struct{
 
 typedef struct{
     MESSAGEHEAD head;   //消息头
-    void *data;         //消息体
+    // void *data;         //消息体
 }MESSAGE;
 
-int packet_write(int fd,int num, void *buf, int len);
-int packet_read(int fd, MESSAGE *message, int len);
+int packet_write(int fd,int num);
 
 #endif

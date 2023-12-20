@@ -24,7 +24,7 @@ static void screen_input_imgbtn_6_event_handler(lv_event_t *e)
         strcpy(input_date.passwd, lv_textarea_get_text(guider_ui.screen_input_ta_3));
         input_date.num = INPUT_ACCOUNT;
         input_date.fd = socketfd;
-        input_date.recv_fd = connect_network(&recv_socketfd);
+        input_date.recv_fd = recv_socketfd;
         ret = write(socketfd, &input_date, sizeof(client_data));
         if(ret < 0){
             perror("write");
@@ -39,9 +39,18 @@ static void screen_input_imgbtn_6_event_handler(lv_event_t *e)
         }
         if(input_date.num == ACCOUNT_INPUT_SUCCESS){
             printf("input success!\r\n");
+            memset(&input_date, 0, sizeof(input_date));
+            input_date.num = CLIENT_RECVFD;
+            strcpy(input_date.id, lv_textarea_get_text(guider_ui.screen_input_ta_2));
+            ret = write(recv_socketfd, &input_date, sizeof(client_data));
+            if(ret < 0){
+                perror("write");
+                break;
+            }
+            all_init();
+            sleep(5);
             lv_scr_load(guider_ui.screen_main);
             //初始化消息页面
-            message_page_config();
             lv_event_send(guider_ui.screen_main_imgbtn_1, LV_EVENT_CLICKED, NULL);
         }
         else if(input_date.num == ACCOUNT_INPUT_FAIL){
