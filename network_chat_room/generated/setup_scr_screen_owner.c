@@ -194,8 +194,6 @@ void setup_scr_screen_owner(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_owner_imgbtn_1, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_owner_imgbtn_1, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_owner_imgbtn_1, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-	lv_imgbtn_set_src(ui->screen_owner_imgbtn_1, LV_IMGBTN_STATE_PRESSED, NULL, &_1_1_alpha_50x50, NULL);
-	lv_imgbtn_set_src(ui->screen_owner_imgbtn_1, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_1_1_alpha_50x50, NULL);
 
 	//Write codes screen_owner_imgbtn_2
 	ui->screen_owner_imgbtn_2 = lv_imgbtn_create(ui->screen_owner_option_cont_3);
@@ -239,8 +237,6 @@ void setup_scr_screen_owner(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_owner_imgbtn_2, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_owner_imgbtn_2, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_owner_imgbtn_2, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-	lv_imgbtn_set_src(ui->screen_owner_imgbtn_2, LV_IMGBTN_STATE_PRESSED, NULL, &_2_1_alpha_50x50, NULL);
-	lv_imgbtn_set_src(ui->screen_owner_imgbtn_2, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_2_1_alpha_50x50, NULL);
 
 	//Write codes screen_owner_imgbtn_3
 	ui->screen_owner_imgbtn_3 = lv_imgbtn_create(ui->screen_owner_option_cont_3);
@@ -284,10 +280,6 @@ void setup_scr_screen_owner(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_owner_imgbtn_3, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_owner_imgbtn_3, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_owner_imgbtn_3, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-	lv_imgbtn_set_src(ui->screen_owner_imgbtn_3, LV_IMGBTN_STATE_RELEASED, NULL, &_3_alpha_50x50, NULL);
-	lv_imgbtn_set_src(ui->screen_owner_imgbtn_3, LV_IMGBTN_STATE_PRESSED, NULL, &_3_1_alpha_50x50, NULL);
-	lv_imgbtn_set_src(ui->screen_owner_imgbtn_3, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_3_alpha_50x50, NULL);
-	lv_imgbtn_set_src(ui->screen_owner_imgbtn_3, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_3_1_alpha_50x50, NULL);
 
 	//Write codes screen_owner_imgbtn_4
 	ui->screen_owner_imgbtn_4 = lv_imgbtn_create(ui->screen_owner_option_cont_3);
@@ -331,39 +323,35 @@ void setup_scr_screen_owner(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_owner_imgbtn_4, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_owner_imgbtn_4, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_owner_imgbtn_4, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-	lv_imgbtn_set_src(ui->screen_owner_imgbtn_4, LV_IMGBTN_STATE_RELEASED, NULL, &_4_alpha_50x50, NULL);
-	lv_imgbtn_set_src(ui->screen_owner_imgbtn_4, LV_IMGBTN_STATE_PRESSED, NULL, &_4_1_alpha_50x50, NULL);
-	lv_imgbtn_set_src(ui->screen_owner_imgbtn_4, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_4_alpha_50x50, NULL);
-	lv_imgbtn_set_src(ui->screen_owner_imgbtn_4, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_4_1_alpha_50x50, NULL);
 
-	//Write codes screen_owner_cont_8
-	ui->screen_owner_cont_8 = lv_obj_create(ui->screen_owner);
-	lv_obj_set_pos(ui->screen_owner_cont_8, 0, 50);
-	lv_obj_set_size(ui->screen_owner_cont_8, 800, 380);
-	lv_obj_set_scrollbar_mode(ui->screen_owner_cont_8, LV_SCROLLBAR_MODE_OFF);
+	//Write codes screen_owner_cont_owner
+	ui->screen_owner_cont_owner = lv_obj_create(ui->screen_owner);
+	lv_obj_set_pos(ui->screen_owner_cont_owner, 0, 50);
+	lv_obj_set_size(ui->screen_owner_cont_owner, 800, 380);
+	lv_obj_set_scrollbar_mode(ui->screen_owner_cont_owner, LV_SCROLLBAR_MODE_OFF);
 
-	//Set style for screen_owner_cont_8. Part: LV_PART_MAIN, State: LV_STATE_DEFAULT
-	lv_obj_set_style_radius(ui->screen_owner_cont_8, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_color(ui->screen_owner_cont_8, lv_color_make(0xff, 0xff, 0xff), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_grad_color(ui->screen_owner_cont_8, lv_color_make(0xff, 0xff, 0xff), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_grad_dir(ui->screen_owner_cont_8, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_opa(ui->screen_owner_cont_8, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_shadow_width(ui->screen_owner_cont_8, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_shadow_color(ui->screen_owner_cont_8, lv_color_make(0x21, 0x95, 0xf6), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_shadow_opa(ui->screen_owner_cont_8, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_shadow_spread(ui->screen_owner_cont_8, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_shadow_ofs_x(ui->screen_owner_cont_8, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_shadow_ofs_y(ui->screen_owner_cont_8, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_border_color(ui->screen_owner_cont_8, lv_color_make(0xe6, 0xe6, 0xe6), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_border_width(ui->screen_owner_cont_8, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_border_opa(ui->screen_owner_cont_8, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_pad_left(ui->screen_owner_cont_8, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_pad_right(ui->screen_owner_cont_8, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_pad_top(ui->screen_owner_cont_8, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_pad_bottom(ui->screen_owner_cont_8, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	//Set style for screen_owner_cont_owner. Part: LV_PART_MAIN, State: LV_STATE_DEFAULT
+	lv_obj_set_style_radius(ui->screen_owner_cont_owner, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_color(ui->screen_owner_cont_owner, lv_color_make(0xff, 0xff, 0xff), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_grad_color(ui->screen_owner_cont_owner, lv_color_make(0xff, 0xff, 0xff), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_grad_dir(ui->screen_owner_cont_owner, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_opa(ui->screen_owner_cont_owner, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_width(ui->screen_owner_cont_owner, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_color(ui->screen_owner_cont_owner, lv_color_make(0x21, 0x95, 0xf6), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_opa(ui->screen_owner_cont_owner, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_spread(ui->screen_owner_cont_owner, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_ofs_x(ui->screen_owner_cont_owner, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_ofs_y(ui->screen_owner_cont_owner, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_border_color(ui->screen_owner_cont_owner, lv_color_make(0xe6, 0xe6, 0xe6), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_border_width(ui->screen_owner_cont_owner, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_border_opa(ui->screen_owner_cont_owner, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_pad_left(ui->screen_owner_cont_owner, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_pad_right(ui->screen_owner_cont_owner, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_pad_top(ui->screen_owner_cont_owner, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_pad_bottom(ui->screen_owner_cont_owner, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
 	//Write codes screen_owner_img_9
-	ui->screen_owner_img_9 = lv_img_create(ui->screen_owner_cont_8);
+	ui->screen_owner_img_9 = lv_img_create(ui->screen_owner_cont_owner);
 	lv_obj_set_pos(ui->screen_owner_img_9, 360, 50);
 	lv_obj_set_size(ui->screen_owner_img_9, 80, 80);
 	lv_obj_set_scrollbar_mode(ui->screen_owner_img_9, LV_SCROLLBAR_MODE_OFF);
@@ -372,13 +360,9 @@ void setup_scr_screen_owner(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_owner_img_9, lv_color_make(0xff, 0xff, 0xff), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_img_recolor_opa(ui->screen_owner_img_9, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_img_opa(ui->screen_owner_img_9, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_add_flag(ui->screen_owner_img_9, LV_OBJ_FLAG_CLICKABLE);
-	lv_img_set_src(ui->screen_owner_img_9,&_4_alpha_80x80);
-	lv_img_set_pivot(ui->screen_owner_img_9, 50,50);
-	lv_img_set_angle(ui->screen_owner_img_9, 0);
 
 	//Write codes screen_owner_label_30
-	ui->screen_owner_label_30 = lv_label_create(ui->screen_owner_cont_8);
+	ui->screen_owner_label_30 = lv_label_create(ui->screen_owner_cont_owner);
 	lv_obj_set_pos(ui->screen_owner_label_30, 300, 135);
 	lv_obj_set_size(ui->screen_owner_label_30, 200, 24);
 	lv_obj_set_scrollbar_mode(ui->screen_owner_label_30, LV_SCROLLBAR_MODE_OFF);
@@ -408,7 +392,7 @@ void setup_scr_screen_owner(lv_ui *ui){
 	lv_obj_set_style_pad_bottom(ui->screen_owner_label_30, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
 	//Write codes screen_owner_label_29
-	ui->screen_owner_label_29 = lv_label_create(ui->screen_owner_cont_8);
+	ui->screen_owner_label_29 = lv_label_create(ui->screen_owner_cont_owner);
 	lv_obj_set_pos(ui->screen_owner_label_29, 300, 175);
 	lv_obj_set_size(ui->screen_owner_label_29, 200, 24);
 	lv_obj_set_scrollbar_mode(ui->screen_owner_label_29, LV_SCROLLBAR_MODE_OFF);
@@ -438,7 +422,7 @@ void setup_scr_screen_owner(lv_ui *ui){
 	lv_obj_set_style_pad_bottom(ui->screen_owner_label_29, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
 	//Write codes screen_owner_label_28
-	ui->screen_owner_label_28 = lv_label_create(ui->screen_owner_cont_8);
+	ui->screen_owner_label_28 = lv_label_create(ui->screen_owner_cont_owner);
 	lv_obj_set_pos(ui->screen_owner_label_28, 250, 215);
 	lv_obj_set_size(ui->screen_owner_label_28, 300, 24);
 	lv_obj_set_scrollbar_mode(ui->screen_owner_label_28, LV_SCROLLBAR_MODE_OFF);
@@ -468,9 +452,9 @@ void setup_scr_screen_owner(lv_ui *ui){
 	lv_obj_set_style_pad_bottom(ui->screen_owner_label_28, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
 	//Write codes screen_owner_imgbtn_15
-	ui->screen_owner_imgbtn_15 = lv_imgbtn_create(ui->screen_owner_cont_8);
-	lv_obj_set_pos(ui->screen_owner_imgbtn_15, 660, 10);
-	lv_obj_set_size(ui->screen_owner_imgbtn_15, 40, 30);
+	ui->screen_owner_imgbtn_15 = lv_imgbtn_create(ui->screen_owner_cont_owner);
+	lv_obj_set_pos(ui->screen_owner_imgbtn_15, 690, 10);
+	lv_obj_set_size(ui->screen_owner_imgbtn_15, 30, 30);
 	lv_obj_set_scrollbar_mode(ui->screen_owner_imgbtn_15, LV_SCROLLBAR_MODE_OFF);
 
 	//Set style for screen_owner_imgbtn_15. Part: LV_PART_MAIN, State: LV_STATE_DEFAULT
@@ -509,12 +493,10 @@ void setup_scr_screen_owner(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_owner_imgbtn_15, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_owner_imgbtn_15, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_owner_imgbtn_15, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-	lv_imgbtn_set_src(ui->screen_owner_imgbtn_15, LV_IMGBTN_STATE_RELEASED, NULL, &_17_alpha_40x30, NULL);
-	lv_imgbtn_set_src(ui->screen_owner_imgbtn_15, LV_IMGBTN_STATE_PRESSED, NULL, &_17_1_alpha_40x30, NULL);
 	lv_obj_add_flag(ui->screen_owner_imgbtn_15, LV_OBJ_FLAG_CHECKABLE);
 
 	//Write codes screen_owner_cont_7
-	ui->screen_owner_cont_7 = lv_obj_create(ui->screen_owner_cont_8);
+	ui->screen_owner_cont_7 = lv_obj_create(ui->screen_owner_cont_owner);
 	lv_obj_set_pos(ui->screen_owner_cont_7, 300, 132);
 	lv_obj_set_size(ui->screen_owner_cont_7, 300, 150);
 	lv_obj_set_scrollbar_mode(ui->screen_owner_cont_7, LV_SCROLLBAR_MODE_OFF);
@@ -681,9 +663,9 @@ void setup_scr_screen_owner(lv_ui *ui){
 	lv_spangroup_refr_mode(ui->screen_owner_spangroup_4);
 
 	//Write codes screen_owner_imgbtn_16
-	ui->screen_owner_imgbtn_16 = lv_imgbtn_create(ui->screen_owner_cont_8);
-	lv_obj_set_pos(ui->screen_owner_imgbtn_16, 720, 10);
-	lv_obj_set_size(ui->screen_owner_imgbtn_16, 40, 30);
+	ui->screen_owner_imgbtn_16 = lv_imgbtn_create(ui->screen_owner_cont_owner);
+	lv_obj_set_pos(ui->screen_owner_imgbtn_16, 740, 10);
+	lv_obj_set_size(ui->screen_owner_imgbtn_16, 30, 30);
 	lv_obj_set_scrollbar_mode(ui->screen_owner_imgbtn_16, LV_SCROLLBAR_MODE_OFF);
 
 	//Set style for screen_owner_imgbtn_16. Part: LV_PART_MAIN, State: LV_STATE_DEFAULT
@@ -722,10 +704,6 @@ void setup_scr_screen_owner(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_owner_imgbtn_16, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_owner_imgbtn_16, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_owner_imgbtn_16, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-	lv_imgbtn_set_src(ui->screen_owner_imgbtn_16, LV_IMGBTN_STATE_RELEASED, NULL, &_3_alpha_40x30, NULL);
-	lv_imgbtn_set_src(ui->screen_owner_imgbtn_16, LV_IMGBTN_STATE_PRESSED, NULL, &_4_alpha_40x30, NULL);
-	lv_imgbtn_set_src(ui->screen_owner_imgbtn_16, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_3_alpha_40x30, NULL);
-	lv_imgbtn_set_src(ui->screen_owner_imgbtn_16, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_4_alpha_40x30, NULL);
 	lv_obj_add_flag(ui->screen_owner_imgbtn_16, LV_OBJ_FLAG_CHECKABLE);
 
 	//Init events for screen

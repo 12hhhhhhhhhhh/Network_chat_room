@@ -14,8 +14,8 @@ extern "C" {
 #include "gui_guider.h"
 
 void events_init(lv_ui *ui);
-void events_init_screen_main(lv_ui *ui);
 void events_init_screen_owner(lv_ui *ui);
+void events_init_screen_friend(lv_ui *ui);
 
 #ifdef __cplusplus
 }

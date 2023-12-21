@@ -207,10 +207,6 @@ void setup_scr_screen_input(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_input_img_3, lv_color_make(0xff, 0xff, 0xff), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_img_recolor_opa(ui->screen_input_img_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_img_opa(ui->screen_input_img_3, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_add_flag(ui->screen_input_img_3, LV_OBJ_FLAG_CLICKABLE);
-	lv_img_set_src(ui->screen_input_img_3,&_4_alpha_80x80);
-	lv_img_set_pivot(ui->screen_input_img_3, 50,50);
-	lv_img_set_angle(ui->screen_input_img_3, 0);
 
 	//Write codes screen_input_imgbtn_6
 	ui->screen_input_imgbtn_6 = lv_imgbtn_create(ui->screen_input_cont_4);
@@ -254,8 +250,6 @@ void setup_scr_screen_input(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_input_imgbtn_6, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_input_imgbtn_6, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_input_imgbtn_6, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-	lv_imgbtn_set_src(ui->screen_input_imgbtn_6, LV_IMGBTN_STATE_RELEASED, NULL, &_8_alpha_50x40, NULL);
-	lv_imgbtn_set_src(ui->screen_input_imgbtn_6, LV_IMGBTN_STATE_PRESSED, NULL, &_6_1_alpha_50x40, NULL);
 	lv_obj_add_flag(ui->screen_input_imgbtn_6, LV_OBJ_FLAG_CHECKABLE);
 
 	//Write codes screen_input_label_4
@@ -369,8 +363,6 @@ void setup_scr_screen_input(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_input_imgbtn_7, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_input_imgbtn_7, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_input_imgbtn_7, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-	lv_imgbtn_set_src(ui->screen_input_imgbtn_7, LV_IMGBTN_STATE_RELEASED, NULL, &_9_alpha_50x40, NULL);
-	lv_imgbtn_set_src(ui->screen_input_imgbtn_7, LV_IMGBTN_STATE_PRESSED, NULL, &_9_1_alpha_50x40, NULL);
 	lv_obj_add_flag(ui->screen_input_imgbtn_7, LV_OBJ_FLAG_CHECKABLE);
 
 	//Write codes screen_input_label_5

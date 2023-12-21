@@ -19,15 +19,17 @@ void ui_init_style(lv_style_t * style)
 
 void init_scr_del_flag(lv_ui *ui)
 {
-	ui->screen_main_del = true;
+	ui->screen_message_del = true;
 	ui->screen_input_del = true;
 	ui->screen_create_del = true;
 	ui->screen_owner_del = true;
+	ui->screen_friend_del = true;
+	ui->screen_circle_del = true;
 }
 
 void setup_ui(lv_ui *ui)
 {
 	init_scr_del_flag(ui);
-	setup_scr_screen_main(ui);
-	lv_scr_load(ui->screen_main);
+	setup_scr_screen_message(ui);
+	lv_scr_load(ui->screen_message);
 }
