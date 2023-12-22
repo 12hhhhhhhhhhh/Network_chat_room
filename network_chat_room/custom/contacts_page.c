@@ -14,27 +14,33 @@ CONTACTS_PAGE contacts_page;
     初始化联系人(好友)页面的相关信息
 */
 void contacts_page_init(void){
-    contacts_page.friend_cont = guider_ui.screen_main_friend_infor_cont_1;
+    contacts_page.friend_cont      = guider_ui.screen_friend_friend_infor_cont_1;
+    contacts_page.search_ta        = guider_ui.screen_friend_ta_9;
+    contacts_page.search_imagebtn  = guider_ui.screen_friend_imgbtn_14;
+    contacts_page.message_imagebtn = guider_ui.screen_friend_imgbtn_1;
+    contacts_page.friend_imagebtn  = guider_ui.screen_friend_imgbtn_2;
+    contacts_page.circle_imagebtn  = guider_ui.screen_friend_imgbtn_3;
+    contacts_page.owner_imagebtn   = guider_ui.screen_friend_imgbtn_4;
     //初始化好友页面
-    contacts_page.friend_info.delete_btn = guider_ui.screen_main_imgbtn_11;
-    contacts_page.friend_info.flag_spangroup = guider_ui.screen_main_spangroup_2;
-    contacts_page.friend_info.head_image = guider_ui.screen_main_img_6;
-    contacts_page.friend_info.id_label = guider_ui.screen_main_label_20;
-    contacts_page.friend_info.list = guider_ui.screen_main_friend_list_1;
-    contacts_page.friend_info.message_btn = guider_ui.screen_main_imgbtn_2;
-    contacts_page.friend_info.modify_btn = guider_ui.screen_main_imgbtn_12;
-    contacts_page.friend_info.name_label = guider_ui.screen_main_label_18;
-    contacts_page.friend_info.remark_label = guider_ui.screen_main_label_21;
-    contacts_page.friend_info.telphone_btn = guider_ui.screen_main_imgbtn_3;
+    contacts_page.friend_info.delete_btn = guider_ui.screen_friend_imgbtn_12;
+    contacts_page.friend_info.flag_spangroup = guider_ui.screen_friend_spangroup_2;
+    contacts_page.friend_info.head_image = guider_ui.screen_friend_img_6;
+    contacts_page.friend_info.id_label = guider_ui.screen_friend_label_20;
+    contacts_page.friend_info.list = guider_ui.screen_friend_friend_list;
+    contacts_page.friend_info.message_btn = guider_ui.screen_friend_imgbtn_2;
+    contacts_page.friend_info.modify_btn = guider_ui.screen_friend_imgbtn_12;
+    contacts_page.friend_info.name_label = guider_ui.screen_friend_label_18;
+    contacts_page.friend_info.remark_label = guider_ui.screen_friend_label_21;
+    contacts_page.friend_info.telphone_btn = guider_ui.screen_friend_imgbtn_3;
     //删除好友弹窗
-    contacts_page.friend_info.delete_cont.cont = guider_ui.screen_main_delete_friend_cont_5;
-    contacts_page.friend_info.delete_cont.yes_btn = guider_ui.screen_main_imgbtn_4;
-    contacts_page.friend_info.delete_cont.no_btn = guider_ui.screen_main_imgbtn_5;
+    contacts_page.friend_info.delete_cont.cont = guider_ui.screen_friend_delete_friend_cont_5;
+    contacts_page.friend_info.delete_cont.yes_btn = guider_ui.screen_friend_btn_4;
+    contacts_page.friend_info.delete_cont.no_btn = guider_ui.screen_friend_btn_5;
     //修改好友备注弹窗
-    contacts_page.friend_info.modify_cont.cont = guider_ui.screen_main_edit_remark_cont_5;
-    contacts_page.friend_info.modify_cont.remark_textarea = guider_ui.screen_main_ta_8;
-    contacts_page.friend_info.modify_cont.yes_btn = guider_ui.screen_main_btn_7;
-    contacts_page.friend_info.modify_cont.no_btn = guider_ui.screen_main_btn_6;
+    contacts_page.friend_info.modify_cont.cont = guider_ui.screen_friend_edit_remark_cont_5;
+    contacts_page.friend_info.modify_cont.remark_textarea = guider_ui.screen_friend_ta_8;
+    contacts_page.friend_info.modify_cont.yes_btn = guider_ui.screen_friend_btn_7;
+    contacts_page.friend_info.modify_cont.no_btn = guider_ui.screen_friend_btn_6;
 
     lv_obj_add_event_cb(contacts_page.friend_info.modify_btn, screen_main_contacts_friend_modify_remark_event_handler\
 	, LV_EVENT_ALL, &guider_ui);
@@ -62,7 +68,7 @@ void contacts_page_config(void){
         temnode = temnode->next;
         strcpy(contacts_page.friend_info.friend_item[i].name, temnode->info.name);
         //在列表中创建相应的item并绑定对应的样式和事件
-        contacts_page.friend_info.friend_item[i].item = lv_list_add_btn(guider_ui.screen_main_friend_list_1, &_4_alpha_20x20, temnode->info.name);
+        contacts_page.friend_info.friend_item[i].item = lv_list_add_btn(contacts_page.friend_info.list, &_4_2_alpha_20x20, temnode->info.name);
 
         // lv_obj_add_style(contacts_page.friend_info.friend_item[i].item, &(guider_ui.style_screen_main_friend_list_1_extra_btns_main_default), LV_PART_MAIN|LV_STATE_DEFAULT);
 	    // lv_obj_add_style(contacts_page.friend_info.friend_item[i].item, &(guider_ui.style_screen_main_friend_list_1_extra_btns_main_focused), LV_PART_MAIN|LV_STATE_FOCUSED);
@@ -114,7 +120,7 @@ static void screen_main_contacts_friend_item_event_handler(lv_event_t *e)
         lv_obj_clear_flag(contacts_page.friend_info.telphone_btn, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(contacts_page.friend_info.message_btn, LV_OBJ_FLAG_HIDDEN);
         //显示对应得到信息
-        lv_img_set_src(contacts_page.friend_info.head_image, &_4_alpha_80x80);              //头像
+        lv_img_set_src(contacts_page.friend_info.head_image, &_4_2_alpha_80x80);              //头像
         lv_label_set_text(contacts_page.friend_info.name_label, tem_friend_info->name);     //昵称
         lv_label_set_text(contacts_page.friend_info.remark_label, tem_friend_info->remark); //备注
         lv_label_set_text(contacts_page.friend_info.id_label, tem_friend_info->id);         //账号
@@ -140,8 +146,8 @@ static void screen_main_contacts_friend_modify_remark_event_handler(lv_event_t *
         //获取备注并写在修改备注的输入框中
         lv_textarea_set_text(contacts_page.friend_info.modify_cont.remark_textarea, lv_label_get_text(contacts_page.friend_info.remark_label));
         //显示修改备注的弹窗
-        lv_obj_set_pos(guider_ui.screen_main_edit_remark_cont_5, 230, 100);
-		lv_obj_clear_flag(guider_ui.screen_main_edit_remark_cont_5, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_set_pos(contacts_page.friend_info.modify_cont.cont, 230, 100);
+		lv_obj_clear_flag(contacts_page.friend_info.modify_cont.cont, LV_OBJ_FLAG_HIDDEN);
 	}
 		break;
 	default:
@@ -164,7 +170,7 @@ static void screen_main_contacts_friend_modify_remark_yes_event_handler(lv_event
         lv_label_set_text(contacts_page.friend_info.remark_label, buf);
         modify_remark_by_id(lv_label_get_text(contacts_page.friend_info.id_label), buf);
         //隐藏弹窗
-		lv_obj_add_flag(guider_ui.screen_main_edit_remark_cont_5, LV_OBJ_FLAG_HIDDEN);
+		lv_obj_add_flag(contacts_page.friend_info.modify_cont.cont, LV_OBJ_FLAG_HIDDEN);
 	}
 		break;
 	default:
@@ -183,7 +189,7 @@ static void screen_main_contacts_friend_modify_remark_no_event_handler(lv_event_
 	case LV_EVENT_CLICKED:
 	{
         //隐藏弹窗
-		lv_obj_add_flag(guider_ui.screen_main_edit_remark_cont_5, LV_OBJ_FLAG_HIDDEN);
+		lv_obj_add_flag(contacts_page.friend_info.modify_cont.cont, LV_OBJ_FLAG_HIDDEN);
 	}
 		break;
 	default:
@@ -201,8 +207,8 @@ static void screen_main_contacts_friend_delete_friend_event_handler(lv_event_t *
 	{
 	case LV_EVENT_CLICKED:
 	{
-        lv_obj_set_pos(guider_ui.screen_main_delete_friend_cont_5, 230, 100);
-		lv_obj_clear_flag(guider_ui.screen_main_delete_friend_cont_5, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_set_pos(contacts_page.friend_info.delete_cont.cont, 230, 100);
+		lv_obj_clear_flag(contacts_page.friend_info.delete_cont.cont, LV_OBJ_FLAG_HIDDEN);
 	}
 		break;
 	default:
@@ -220,7 +226,7 @@ static void screen_main_contacts_friend_delete_friend_no_event_handler(lv_event_
 	{
 	case LV_EVENT_CLICKED:
 	{
-		lv_obj_add_flag(guider_ui.screen_main_delete_friend_cont_5, LV_OBJ_FLAG_HIDDEN);
+		lv_obj_add_flag(contacts_page.friend_info.delete_cont.cont, LV_OBJ_FLAG_HIDDEN);
 	}
 		break;
 	default:
@@ -283,7 +289,7 @@ static void screen_main_contacts_friend_delete_friend_yes_event_handler(lv_event
             printf("删除好友失败!\r\n");
         }
         //隐藏弹窗
-		lv_obj_add_flag(guider_ui.screen_main_delete_friend_cont_5, LV_OBJ_FLAG_HIDDEN);
+		lv_obj_add_flag(contacts_page.friend_info.delete_cont.cont, LV_OBJ_FLAG_HIDDEN);
 	}
 		break;
 	default:

@@ -676,5 +676,9 @@ void setup_scr_screen_create(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_create_imgbtn_13, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_create_imgbtn_13, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_create_imgbtn_13, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_imgbtn_set_src(ui->screen_create_imgbtn_13, LV_IMGBTN_STATE_RELEASED, NULL, &_11_1_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_create_imgbtn_13, LV_IMGBTN_STATE_PRESSED, NULL, &_11_2_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_create_imgbtn_13, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_11_1_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_create_imgbtn_13, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_11_2_alpha_50x50, NULL);
 	lv_obj_add_flag(ui->screen_create_imgbtn_13, LV_OBJ_FLAG_CHECKABLE);
 }

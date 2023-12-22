@@ -194,7 +194,9 @@ void setup_scr_screen_circle(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_circle_imgbtn_1, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_circle_imgbtn_1, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_circle_imgbtn_1, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_imgbtn_set_src(ui->screen_circle_imgbtn_1, LV_IMGBTN_STATE_RELEASED, NULL, &_1_2_alpha_50x50, NULL);
 	lv_imgbtn_set_src(ui->screen_circle_imgbtn_1, LV_IMGBTN_STATE_PRESSED, NULL, &_1_1_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_circle_imgbtn_1, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_1_2_alpha_50x50, NULL);
 	lv_imgbtn_set_src(ui->screen_circle_imgbtn_1, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_1_1_alpha_50x50, NULL);
 
 	//Write codes screen_circle_imgbtn_2
@@ -239,7 +241,9 @@ void setup_scr_screen_circle(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_circle_imgbtn_2, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_circle_imgbtn_2, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_circle_imgbtn_2, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_imgbtn_set_src(ui->screen_circle_imgbtn_2, LV_IMGBTN_STATE_RELEASED, NULL, &_2_2_alpha_50x50, NULL);
 	lv_imgbtn_set_src(ui->screen_circle_imgbtn_2, LV_IMGBTN_STATE_PRESSED, NULL, &_2_1_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_circle_imgbtn_2, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_2_2_alpha_50x50, NULL);
 	lv_imgbtn_set_src(ui->screen_circle_imgbtn_2, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_2_1_alpha_50x50, NULL);
 
 	//Write codes screen_circle_imgbtn_3
@@ -284,6 +288,10 @@ void setup_scr_screen_circle(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_circle_imgbtn_3, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_circle_imgbtn_3, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_circle_imgbtn_3, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_imgbtn_set_src(ui->screen_circle_imgbtn_3, LV_IMGBTN_STATE_RELEASED, NULL, &_3_2_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_circle_imgbtn_3, LV_IMGBTN_STATE_PRESSED, NULL, &_3_1_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_circle_imgbtn_3, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_3_2_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_circle_imgbtn_3, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_3_1_alpha_50x50, NULL);
 
 	//Write codes screen_circle_imgbtn_4
 	ui->screen_circle_imgbtn_4 = lv_imgbtn_create(ui->screen_circle_option_cont_3);
@@ -327,6 +335,10 @@ void setup_scr_screen_circle(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_circle_imgbtn_4, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_circle_imgbtn_4, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_circle_imgbtn_4, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_imgbtn_set_src(ui->screen_circle_imgbtn_4, LV_IMGBTN_STATE_RELEASED, NULL, &_23_1_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_circle_imgbtn_4, LV_IMGBTN_STATE_PRESSED, NULL, &_24_2_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_circle_imgbtn_4, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_23_1_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_circle_imgbtn_4, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_24_2_alpha_50x50, NULL);
 
 	//Write codes screen_circle_circle_cont_2
 	ui->screen_circle_circle_cont_2 = lv_obj_create(ui->screen_circle);
@@ -420,6 +432,10 @@ void setup_scr_screen_circle(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_circle_img_10, lv_color_make(0xff, 0xff, 0xff), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_img_recolor_opa(ui->screen_circle_img_10, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_img_opa(ui->screen_circle_img_10, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_add_flag(ui->screen_circle_img_10, LV_OBJ_FLAG_CLICKABLE);
+	lv_img_set_src(ui->screen_circle_img_10,&_4_2_alpha_35x35);
+	lv_img_set_pivot(ui->screen_circle_img_10, 50,50);
+	lv_img_set_angle(ui->screen_circle_img_10, 0);
 
 	//Write codes screen_circle_spangroup_7
 	ui->screen_circle_spangroup_7 = lv_spangroup_create(ui->screen_circle_circle_infor_cont_1);
@@ -471,6 +487,10 @@ void setup_scr_screen_circle(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_circle_img_11, lv_color_make(0xff, 0xff, 0xff), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_img_recolor_opa(ui->screen_circle_img_11, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_img_opa(ui->screen_circle_img_11, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_add_flag(ui->screen_circle_img_11, LV_OBJ_FLAG_CLICKABLE);
+	lv_img_set_src(ui->screen_circle_img_11,&_4_2_alpha_120x120);
+	lv_img_set_pivot(ui->screen_circle_img_11, 50,50);
+	lv_img_set_angle(ui->screen_circle_img_11, 0);
 
 	//Write codes screen_circle_imgbtn_17
 	ui->screen_circle_imgbtn_17 = lv_imgbtn_create(ui->screen_circle_circle_infor_cont_1);
@@ -514,6 +534,10 @@ void setup_scr_screen_circle(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_circle_imgbtn_17, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_circle_imgbtn_17, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_circle_imgbtn_17, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_imgbtn_set_src(ui->screen_circle_imgbtn_17, LV_IMGBTN_STATE_RELEASED, NULL, &_16_alpha_20x20, NULL);
+	lv_imgbtn_set_src(ui->screen_circle_imgbtn_17, LV_IMGBTN_STATE_PRESSED, NULL, &_16_1_alpha_20x20, NULL);
+	lv_imgbtn_set_src(ui->screen_circle_imgbtn_17, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_16_alpha_20x20, NULL);
+	lv_imgbtn_set_src(ui->screen_circle_imgbtn_17, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_16_1_alpha_20x20, NULL);
 	lv_obj_add_flag(ui->screen_circle_imgbtn_17, LV_OBJ_FLAG_CHECKABLE);
 
 	//Write codes screen_circle_imgbtn_18
@@ -558,6 +582,10 @@ void setup_scr_screen_circle(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_circle_imgbtn_18, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_circle_imgbtn_18, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_circle_imgbtn_18, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_imgbtn_set_src(ui->screen_circle_imgbtn_18, LV_IMGBTN_STATE_RELEASED, NULL, &_18_alpha_20x20, NULL);
+	lv_imgbtn_set_src(ui->screen_circle_imgbtn_18, LV_IMGBTN_STATE_PRESSED, NULL, &_18_1_alpha_20x20, NULL);
+	lv_imgbtn_set_src(ui->screen_circle_imgbtn_18, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_18_alpha_20x20, NULL);
+	lv_imgbtn_set_src(ui->screen_circle_imgbtn_18, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_18_1_alpha_20x20, NULL);
 	lv_obj_add_flag(ui->screen_circle_imgbtn_18, LV_OBJ_FLAG_CHECKABLE);
 
 	//Write codes screen_circle_cont_8

@@ -11,10 +11,15 @@ void message_page_init(void)
 {
     message_page_object.cell_count = 0;
     message_page_object.message_count = 0;
-    message_page_object.sender_list = guider_ui.screen_main_friend_list_1;
-    message_page_object.message_cont = guider_ui.screen_main_show_message_cont_2;
-    message_page_object.send_message_ta = guider_ui.screen_main_ta_1;
-    message_page_object.send_message_btn = guider_ui.screen_main_imgbtn_5;
+    message_page_object.sender_list      = guider_ui.screen_message_friend_list_1;
+    message_page_object.message_cont     = guider_ui.screen_message_show_message_cont_2;
+    message_page_object.send_message_ta  = guider_ui.screen_message_ta_1;
+    message_page_object.send_message_btn = guider_ui.screen_message_imgbtn_5;
+
+	message_page_object.message_imagebtn = guider_ui.screen_message_imgbtn_1;
+	message_page_object.friend_imagebtn  = guider_ui.screen_message_imgbtn_2;
+	message_page_object.circle_imagebtn  = guider_ui.screen_message_imgbtn_3;
+	message_page_object.owner_imagebtn   = guider_ui.screen_message_imgbtn_4;
 
 	lv_obj_add_event_cb(message_page_object.send_message_btn, screen_main_send_message_event_handler\
 	, LV_EVENT_ALL, &guider_ui);
@@ -160,7 +165,7 @@ void message_page_config(void){
             else{
                 sprintf(buf, "%s", temnode->info.name);
             }
-            (message_page_object.list_item)[message_page_object.cell_count].item = lv_list_add_btn(guider_ui.screen_main_friend_list_1, &_4_alpha_20x20, buf);
+            (message_page_object.list_item)[message_page_object.cell_count].item = lv_list_add_btn(message_page_object.sender_list, &_4_2_alpha_20x20, buf);
             (message_page_object.list_item)[message_page_object.cell_count].messagetype = FRIEND_MESSAGE;
 			(message_page_object.list_item)[message_page_object.cell_count].info = (void *)(&(temnode->info));
 			// lv_obj_add_style((message_page_object.list_item)[message_page_object.cell_count].item, &(guider_ui.style_screen_main_friend_list_1_extra_btns_main_default), LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -202,7 +207,7 @@ int add_friend_message_into_cont(char *news, MESSAGE_CONT_CELL *obj, MESSAGE_TYP
     }
 
     //消息容器
-	obj->cell_cont = lv_obj_create(guider_ui.screen_main_show_message_cont_2);
+	obj->cell_cont = lv_obj_create(message_page_object.message_cont);
 	lv_obj_set_pos(obj->cell_cont, cont_x, cont_y);
 	lv_obj_set_size(obj->cell_cont, 590, 30);
 	lv_obj_set_scrollbar_mode(obj->cell_cont, LV_SCROLLBAR_MODE_OFF);
@@ -265,7 +270,7 @@ int add_friend_message_into_cont(char *news, MESSAGE_CONT_CELL *obj, MESSAGE_TYP
 	lv_obj_set_style_img_recolor_opa(obj->cell_head_image, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_img_opa(obj->cell_head_image, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_add_flag(obj->cell_head_image, LV_OBJ_FLAG_CLICKABLE);
-	lv_img_set_src(obj->cell_head_image,&_4_alpha_25x25);
+	lv_img_set_src(obj->cell_head_image,&_4_2_alpha_25x25);
 	lv_img_set_pivot(obj->cell_head_image, 50,50);
 	lv_img_set_angle(obj->cell_head_image, 0);
 

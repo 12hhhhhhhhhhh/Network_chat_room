@@ -194,6 +194,10 @@ void setup_scr_screen_message(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_message_imgbtn_1, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_message_imgbtn_1, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_message_imgbtn_1, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_imgbtn_set_src(ui->screen_message_imgbtn_1, LV_IMGBTN_STATE_RELEASED, NULL, &_1_2_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_message_imgbtn_1, LV_IMGBTN_STATE_PRESSED, NULL, &_1_1_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_message_imgbtn_1, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_1_2_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_message_imgbtn_1, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_1_1_alpha_50x50, NULL);
 
 	//Write codes screen_message_imgbtn_2
 	ui->screen_message_imgbtn_2 = lv_imgbtn_create(ui->screen_message_option_cont_3);
@@ -237,6 +241,10 @@ void setup_scr_screen_message(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_message_imgbtn_2, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_message_imgbtn_2, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_message_imgbtn_2, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_imgbtn_set_src(ui->screen_message_imgbtn_2, LV_IMGBTN_STATE_RELEASED, NULL, &_2_2_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_message_imgbtn_2, LV_IMGBTN_STATE_PRESSED, NULL, &_2_1_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_message_imgbtn_2, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_2_2_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_message_imgbtn_2, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_2_1_alpha_50x50, NULL);
 
 	//Write codes screen_message_imgbtn_3
 	ui->screen_message_imgbtn_3 = lv_imgbtn_create(ui->screen_message_option_cont_3);
@@ -280,6 +288,10 @@ void setup_scr_screen_message(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_message_imgbtn_3, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_message_imgbtn_3, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_message_imgbtn_3, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_imgbtn_set_src(ui->screen_message_imgbtn_3, LV_IMGBTN_STATE_RELEASED, NULL, &_3_2_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_message_imgbtn_3, LV_IMGBTN_STATE_PRESSED, NULL, &_3_1_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_message_imgbtn_3, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_3_2_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_message_imgbtn_3, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_3_1_alpha_50x50, NULL);
 
 	//Write codes screen_message_imgbtn_4
 	ui->screen_message_imgbtn_4 = lv_imgbtn_create(ui->screen_message_option_cont_3);
@@ -323,8 +335,10 @@ void setup_scr_screen_message(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_message_imgbtn_4, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_message_imgbtn_4, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_message_imgbtn_4, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-	lv_imgbtn_set_src(ui->screen_message_imgbtn_4, LV_IMGBTN_STATE_PRESSED, NULL, &_4_1_alpha_50x50, NULL);
-	lv_imgbtn_set_src(ui->screen_message_imgbtn_4, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_4_1_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_message_imgbtn_4, LV_IMGBTN_STATE_RELEASED, NULL, &_23_1_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_message_imgbtn_4, LV_IMGBTN_STATE_PRESSED, NULL, &_24_2_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_message_imgbtn_4, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_23_1_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_message_imgbtn_4, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_24_2_alpha_50x50, NULL);
 
 	//Write codes screen_message_message_cont_4
 	ui->screen_message_message_cont_4 = lv_obj_create(ui->screen_message);
@@ -437,13 +451,13 @@ void setup_scr_screen_message(lv_ui *ui){
 	lv_style_set_text_font(&style_screen_message_friend_list_1_extra_texts_main_default, &lv_font_arial_24);
 
 	lv_obj_t *screen_message_friend_list_1_item;
-	screen_message_friend_list_1_item = lv_list_add_btn(ui->screen_message_friend_list_1, NULL, "save");
+	screen_message_friend_list_1_item = lv_list_add_btn(ui->screen_message_friend_list_1, &_4_2_alpha_20x20, "save");
 	ui->screen_message_friend_list_1_item0 = screen_message_friend_list_1_item;
 	lv_obj_add_style(screen_message_friend_list_1_item, &style_screen_message_friend_list_1_extra_btns_main_default, LV_PART_MAIN|LV_STATE_DEFAULT);
 
 	lv_obj_add_style(screen_message_friend_list_1_item, &style_screen_message_friend_list_1_extra_btns_main_focused, LV_PART_MAIN|LV_STATE_FOCUSED);
 
-	screen_message_friend_list_1_item = lv_list_add_btn(ui->screen_message_friend_list_1, NULL, "save_1");
+	screen_message_friend_list_1_item = lv_list_add_btn(ui->screen_message_friend_list_1, &_4_2_alpha_20x20, "save_1");
 	ui->screen_message_friend_list_1_item1 = screen_message_friend_list_1_item;
 	lv_obj_add_style(screen_message_friend_list_1_item, &style_screen_message_friend_list_1_extra_btns_main_default, LV_PART_MAIN|LV_STATE_DEFAULT);
 
@@ -542,6 +556,10 @@ void setup_scr_screen_message(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_message_img_7, lv_color_make(0xff, 0xff, 0xff), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_img_recolor_opa(ui->screen_message_img_7, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_img_opa(ui->screen_message_img_7, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_add_flag(ui->screen_message_img_7, LV_OBJ_FLAG_CLICKABLE);
+	lv_img_set_src(ui->screen_message_img_7,&_4_2_alpha_25x25);
+	lv_img_set_pivot(ui->screen_message_img_7, 50,50);
+	lv_img_set_angle(ui->screen_message_img_7, 0);
 
 	//Write codes screen_message_label_23
 	ui->screen_message_label_23 = lv_label_create(ui->screen_message_cont_5);
@@ -639,6 +657,10 @@ void setup_scr_screen_message(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_message_img_8, lv_color_make(0xff, 0xff, 0xff), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_img_recolor_opa(ui->screen_message_img_8, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_img_opa(ui->screen_message_img_8, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_add_flag(ui->screen_message_img_8, LV_OBJ_FLAG_CLICKABLE);
+	lv_img_set_src(ui->screen_message_img_8,&_4_2_alpha_25x25);
+	lv_img_set_pivot(ui->screen_message_img_8, 50,50);
+	lv_img_set_angle(ui->screen_message_img_8, 0);
 
 	//Write codes screen_message_label_24
 	ui->screen_message_label_24 = lv_label_create(ui->screen_message_cont_6);
@@ -777,5 +799,9 @@ void setup_scr_screen_message(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_message_imgbtn_5, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_message_imgbtn_5, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_message_imgbtn_5, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_imgbtn_set_src(ui->screen_message_imgbtn_5, LV_IMGBTN_STATE_RELEASED, NULL, &_5_alpha_40x40, NULL);
+	lv_imgbtn_set_src(ui->screen_message_imgbtn_5, LV_IMGBTN_STATE_PRESSED, NULL, &_5_1_alpha_40x40, NULL);
+	lv_imgbtn_set_src(ui->screen_message_imgbtn_5, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_5_alpha_40x40, NULL);
+	lv_imgbtn_set_src(ui->screen_message_imgbtn_5, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_5_1_alpha_40x40, NULL);
 	lv_obj_add_flag(ui->screen_message_imgbtn_5, LV_OBJ_FLAG_CHECKABLE);
 }

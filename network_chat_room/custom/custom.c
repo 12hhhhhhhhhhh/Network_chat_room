@@ -39,7 +39,10 @@ void custom_init(lv_ui *ui)
 {
     setup_scr_screen_input(ui);
     setup_scr_screen_create(ui);
-    setup_scr_screen_main(ui);
+    setup_scr_screen_message(ui);
+    setup_scr_screen_friend(ui);
+    setup_scr_screen_circle(ui);
+    setup_scr_screen_owner(ui);
     lv_scr_load(guider_ui.screen_input);
     
     custom_events_init(&guider_ui);

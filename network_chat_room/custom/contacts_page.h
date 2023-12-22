@@ -44,13 +44,14 @@ typedef struct {
 
 //表示联系人页面的元素
 typedef struct {
-    lv_obj_t * manage_btn;
-    lv_obj_t * friend_btn;
-    lv_obj_t * group_btn;
-    lv_obj_t * manage_cont;
-    lv_obj_t * friend_cont;
-    lv_obj_t * group_cont;
-    FRIEND_CONT friend_info;
+    lv_obj_t * friend_cont;             //好友信息框的容器
+    FRIEND_CONT friend_info;            //好友信息框
+    lv_obj_t *  search_ta;              //搜索输入框
+    lv_obj_t *  search_imagebtn;        //搜索按钮
+    lv_obj_t *  message_imagebtn;       //“消息”按钮
+    lv_obj_t *  friend_imagebtn;        //“朋友”按钮
+    lv_obj_t *  circle_imagebtn;        //“朋友圈”按钮
+    lv_obj_t *  owner_imagebtn;         //“我的”按钮
 }CONTACTS_PAGE;
 
 extern CONTACTS_PAGE contacts_page;

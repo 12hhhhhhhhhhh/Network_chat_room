@@ -49,7 +49,11 @@ typedef struct message_page{
     int cell_count;                     //表示消息页面发送者的数量
     MESSAGE_CONT_CELL message_cell[100];//表示消息对话框中的消息
     int message_count;                  //表示消息的数量
-    MESSAGE_LIST_ITEM * now_select_item;         //表示当前选中的item
+    MESSAGE_LIST_ITEM * now_select_item;//表示当前选中的item
+    lv_obj_t *  message_imagebtn;       //“消息”按钮
+    lv_obj_t *  friend_imagebtn;        //“朋友”按钮
+    lv_obj_t *  circle_imagebtn;        //“朋友圈”按钮
+    lv_obj_t *  owner_imagebtn;         //“我的”按钮
 }MESSAGE_PAGE;
 
 extern MESSAGE_PAGE message_page_object;  //表示消息页面相关的信息

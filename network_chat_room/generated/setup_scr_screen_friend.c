@@ -194,7 +194,9 @@ void setup_scr_screen_friend(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_friend_imgbtn_1, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_friend_imgbtn_1, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_friend_imgbtn_1, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_1, LV_IMGBTN_STATE_RELEASED, NULL, &_1_2_alpha_50x50, NULL);
 	lv_imgbtn_set_src(ui->screen_friend_imgbtn_1, LV_IMGBTN_STATE_PRESSED, NULL, &_1_1_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_1, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_1_2_alpha_50x50, NULL);
 	lv_imgbtn_set_src(ui->screen_friend_imgbtn_1, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_1_1_alpha_50x50, NULL);
 
 	//Write codes screen_friend_imgbtn_2
@@ -239,7 +241,9 @@ void setup_scr_screen_friend(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_friend_imgbtn_2, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_friend_imgbtn_2, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_friend_imgbtn_2, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_2, LV_IMGBTN_STATE_RELEASED, NULL, &_2_2_alpha_50x50, NULL);
 	lv_imgbtn_set_src(ui->screen_friend_imgbtn_2, LV_IMGBTN_STATE_PRESSED, NULL, &_2_1_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_2, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_2_2_alpha_50x50, NULL);
 	lv_imgbtn_set_src(ui->screen_friend_imgbtn_2, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_2_1_alpha_50x50, NULL);
 
 	//Write codes screen_friend_imgbtn_3
@@ -284,6 +288,10 @@ void setup_scr_screen_friend(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_friend_imgbtn_3, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_friend_imgbtn_3, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_friend_imgbtn_3, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_3, LV_IMGBTN_STATE_RELEASED, NULL, &_3_2_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_3, LV_IMGBTN_STATE_PRESSED, NULL, &_3_1_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_3, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_3_2_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_3, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_3_1_alpha_50x50, NULL);
 
 	//Write codes screen_friend_imgbtn_4
 	ui->screen_friend_imgbtn_4 = lv_imgbtn_create(ui->screen_friend_option_cont_3);
@@ -327,8 +335,10 @@ void setup_scr_screen_friend(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_friend_imgbtn_4, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_friend_imgbtn_4, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_friend_imgbtn_4, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-	lv_imgbtn_set_src(ui->screen_friend_imgbtn_4, LV_IMGBTN_STATE_PRESSED, NULL, &_4_1_alpha_50x50, NULL);
-	lv_imgbtn_set_src(ui->screen_friend_imgbtn_4, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_4_1_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_4, LV_IMGBTN_STATE_RELEASED, NULL, &_23_1_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_4, LV_IMGBTN_STATE_PRESSED, NULL, &_24_2_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_4, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_23_1_alpha_50x50, NULL);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_4, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_24_2_alpha_50x50, NULL);
 
 	//Write codes screen_friend_friend_cont_2
 	ui->screen_friend_friend_cont_2 = lv_obj_create(ui->screen_friend);
@@ -392,6 +402,10 @@ void setup_scr_screen_friend(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_friend_img_6, lv_color_make(0xff, 0xff, 0xff), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_img_recolor_opa(ui->screen_friend_img_6, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_img_opa(ui->screen_friend_img_6, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_add_flag(ui->screen_friend_img_6, LV_OBJ_FLAG_CLICKABLE);
+	lv_img_set_src(ui->screen_friend_img_6,&_4_2_alpha_80x80);
+	lv_img_set_pivot(ui->screen_friend_img_6, 50,50);
+	lv_img_set_angle(ui->screen_friend_img_6, 0);
 
 	//Write codes screen_friend_label_18
 	ui->screen_friend_label_18 = lv_label_create(ui->screen_friend_friend_infor_cont_1);
@@ -535,6 +549,10 @@ void setup_scr_screen_friend(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_friend_imgbtn_11, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_friend_imgbtn_11, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_friend_imgbtn_11, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_11, LV_IMGBTN_STATE_RELEASED, NULL, &_15_alpha_40x30, NULL);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_11, LV_IMGBTN_STATE_PRESSED, NULL, &_15_1_alpha_40x30, NULL);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_11, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_15_alpha_40x30, NULL);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_11, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_15_1_alpha_40x30, NULL);
 	lv_obj_add_flag(ui->screen_friend_imgbtn_11, LV_OBJ_FLAG_CHECKABLE);
 
 	//Write codes screen_friend_btn_2
@@ -667,6 +685,10 @@ void setup_scr_screen_friend(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_friend_imgbtn_12, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_friend_imgbtn_12, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_friend_imgbtn_12, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_12, LV_IMGBTN_STATE_RELEASED, NULL, &_17_alpha_40x30, NULL);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_12, LV_IMGBTN_STATE_PRESSED, NULL, &_17_1_alpha_40x30, NULL);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_12, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_17_alpha_40x30, NULL);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_12, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_17_1_alpha_40x30, NULL);
 	lv_obj_add_flag(ui->screen_friend_imgbtn_12, LV_OBJ_FLAG_CHECKABLE);
 
 	//Write codes screen_friend_delete_friend_cont_5
@@ -1008,7 +1030,7 @@ void setup_scr_screen_friend(lv_ui *ui){
 	lv_style_set_text_font(&style_screen_friend_friend_list_extra_texts_main_default, &lv_font_montserratMedium_24);
 
 	lv_obj_t *screen_friend_friend_list_item;
-	screen_friend_friend_list_item = lv_list_add_btn(ui->screen_friend_friend_list, NULL, "save");
+	screen_friend_friend_list_item = lv_list_add_btn(ui->screen_friend_friend_list, &_4_2_alpha_20x20, "save");
 	ui->screen_friend_friend_list_item0 = screen_friend_friend_list_item;
 	lv_obj_add_style(screen_friend_friend_list_item, &style_screen_friend_friend_list_extra_btns_main_default, LV_PART_MAIN|LV_STATE_DEFAULT);
 
@@ -1081,6 +1103,10 @@ void setup_scr_screen_friend(lv_ui *ui){
 	lv_obj_set_style_img_recolor(ui->screen_friend_imgbtn_14, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_recolor_opa(ui->screen_friend_imgbtn_14, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_img_opa(ui->screen_friend_imgbtn_14, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_14, LV_IMGBTN_STATE_RELEASED, NULL, &_22_2_alpha_30x30, NULL);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_14, LV_IMGBTN_STATE_PRESSED, NULL, &_22_1_alpha_30x30, NULL);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_14, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_22_2_alpha_30x30, NULL);
+	lv_imgbtn_set_src(ui->screen_friend_imgbtn_14, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_22_1_alpha_30x30, NULL);
 	lv_obj_add_flag(ui->screen_friend_imgbtn_14, LV_OBJ_FLAG_CHECKABLE);
 
 	//Write codes screen_friend_ta_9

@@ -49,9 +49,8 @@ static void screen_input_imgbtn_6_event_handler(lv_event_t *e)
             }
             all_init();
             sleep(5);
-            lv_scr_load(guider_ui.screen_main);
             //初始化消息页面
-            lv_event_send(guider_ui.screen_main_imgbtn_1, LV_EVENT_CLICKED, NULL);
+            lv_event_send(guider_ui.screen_message_imgbtn_1, LV_EVENT_CLICKED, NULL);
         }
         else if(input_date.num == ACCOUNT_INPUT_FAIL){
             printf("id or passwd error!\r\n");
@@ -221,16 +220,14 @@ static void screen_create_imgbtn_13_event_handler(lv_event_t *e)
 /*
     主页面：切换至消息页面的按钮事件
 */
-static void screen_main_imgbtn_1_event_handler(lv_event_t *e)
+static void screen_message_imgbtn_1_event_handler(lv_event_t *e)
 {
 	lv_event_code_t code = lv_event_get_code(e);
 	switch (code)
 	{
 	case LV_EVENT_CLICKED:
 	{
-		lv_obj_set_pos(guider_ui.screen_main_message_cont_4, 0, 50);
-		lv_obj_clear_flag(guider_ui.screen_main_message_cont_4, LV_OBJ_FLAG_HIDDEN);
-		lv_obj_add_flag(guider_ui.screen_main_friend_cont_2, LV_OBJ_FLAG_HIDDEN);
+        lv_scr_load(guider_ui.screen_message);
 	}
 		break;
 	default:
@@ -241,16 +238,44 @@ static void screen_main_imgbtn_1_event_handler(lv_event_t *e)
 /*
     主页面：切换至好友页面的按钮事件
 */
-static void screen_main_imgbtn_2_event_handler(lv_event_t *e)
+static void screen_friend_imgbtn_2_event_handler(lv_event_t *e)
 {
 	lv_event_code_t code = lv_event_get_code(e);
 	switch (code)
 	{
 	case LV_EVENT_CLICKED:
 	{
-		lv_obj_set_pos(guider_ui.screen_main_friend_cont_2, 0, 50);
-		lv_obj_clear_flag(guider_ui.screen_main_friend_cont_2, LV_OBJ_FLAG_HIDDEN);
-		lv_obj_add_flag(guider_ui.screen_main_message_cont_4, LV_OBJ_FLAG_HIDDEN);
+        lv_scr_load(guider_ui.screen_friend);
+	}
+		break;
+	default:
+		break;
+	}
+}
+
+static void screen_circle_imgbtn_3_event_handler(lv_event_t *e)
+{
+	lv_event_code_t code = lv_event_get_code(e);
+	switch (code)
+	{
+	case LV_EVENT_CLICKED:
+	{
+        lv_scr_load(guider_ui.screen_circle);
+	}
+		break;
+	default:
+		break;
+	}
+}
+
+static void screen_owner_imgbtn_4_event_handler(lv_event_t *e)
+{
+	lv_event_code_t code = lv_event_get_code(e);
+	switch (code)
+	{
+	case LV_EVENT_CLICKED:
+	{
+        lv_scr_load(guider_ui.screen_owner);
 	}
 		break;
 	default:
@@ -271,7 +296,25 @@ void custom_events_init(lv_ui *ui)
 	lv_obj_add_event_cb(ui->screen_create_imgbtn_8, screen_create_imgbtn_8_event_handler, LV_EVENT_ALL, ui);
 	lv_obj_add_event_cb(ui->screen_create_imgbtn_9, screen_create_imgbtn_9_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_create_imgbtn_13, screen_create_imgbtn_13_event_handler, LV_EVENT_ALL, ui);
-    //主页面事件
-    lv_obj_add_event_cb(ui->screen_main_imgbtn_1, screen_main_imgbtn_1_event_handler, LV_EVENT_ALL, ui);
-	lv_obj_add_event_cb(ui->screen_main_imgbtn_2, screen_main_imgbtn_2_event_handler, LV_EVENT_ALL, ui);
+    //主页面事件(进入消息页面的按钮事件)
+    lv_obj_add_event_cb(ui->screen_message_imgbtn_1, screen_message_imgbtn_1_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_friend_imgbtn_1,  screen_message_imgbtn_1_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_circle_imgbtn_1,  screen_message_imgbtn_1_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_owner_imgbtn_1,   screen_message_imgbtn_1_event_handler, LV_EVENT_ALL, ui);
+	//进入好友页面的按钮事件
+    lv_obj_add_event_cb(ui->screen_message_imgbtn_2, screen_friend_imgbtn_2_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_friend_imgbtn_2,  screen_friend_imgbtn_2_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_circle_imgbtn_2,  screen_friend_imgbtn_2_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_owner_imgbtn_2,   screen_friend_imgbtn_2_event_handler, LV_EVENT_ALL, ui);
+	//进入朋友圈页面的按钮事件
+    lv_obj_add_event_cb(ui->screen_message_imgbtn_3, screen_circle_imgbtn_3_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_friend_imgbtn_3,  screen_circle_imgbtn_3_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_circle_imgbtn_3,  screen_circle_imgbtn_3_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_owner_imgbtn_3,   screen_circle_imgbtn_3_event_handler, LV_EVENT_ALL, ui);
+	//进入“我的”页面的按钮事件
+    lv_obj_add_event_cb(ui->screen_message_imgbtn_4, screen_owner_imgbtn_4_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_friend_imgbtn_4,  screen_owner_imgbtn_4_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_circle_imgbtn_4,  screen_owner_imgbtn_4_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_owner_imgbtn_4,   screen_owner_imgbtn_4_event_handler, LV_EVENT_ALL, ui);
+	
 }
