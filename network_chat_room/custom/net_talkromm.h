@@ -12,6 +12,7 @@ typedef struct{
     char id[32];    //账号
     char name[32];  //昵称
     char passwd[32];//密码
+    char flag[128]; //个性签名
 }client_data;
 
 extern volatile int flag;

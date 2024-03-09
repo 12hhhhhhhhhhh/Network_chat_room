@@ -23,7 +23,16 @@ typedef struct{
     char id[32];    //账号
     char name[32];  //昵称
     char passwd[32];//密码
+    char flag[128]; //个性签名
 }client_data;
+
+
+typedef struct{
+    char name[32];      //昵称
+    char id[32];        //账号
+    char passwd[32];    //密码
+    char flag[255];     //个性签名
+}USER_INFO;
 
 typedef struct node{
     client_data data;
@@ -43,5 +52,6 @@ extern int iuput_count;
 #include "link_list.h"
 #include "database.h"
 #include "function.h"
+#include "friend_page.h"
 
 #endif

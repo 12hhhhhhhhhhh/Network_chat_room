@@ -7,6 +7,10 @@ static void screen_main_contacts_friend_modify_remark_no_event_handler(lv_event_
 static void screen_main_contacts_friend_delete_friend_event_handler(lv_event_t *e);
 static void screen_main_contacts_friend_delete_friend_no_event_handler(lv_event_t *e);
 static void screen_main_contacts_friend_delete_friend_yes_event_handler(lv_event_t *e);
+static void screen_main_contacts_search_imagebtn_event_handler(lv_event_t *e);
+static void screen_main_contacts_search_res_btn_event_handler(lv_event_t *e);
+static void screen_main_contacts_search_info_addbtn_event_handler(lv_event_t *e);
+static void screen_main_contacts_add_res_btn_event_handler(lv_event_t *e);
 
 CONTACTS_PAGE contacts_page;
 
@@ -41,6 +45,20 @@ void contacts_page_init(void){
     contacts_page.friend_info.modify_cont.remark_textarea = guider_ui.screen_friend_ta_8;
     contacts_page.friend_info.modify_cont.yes_btn = guider_ui.screen_friend_btn_7;
     contacts_page.friend_info.modify_cont.no_btn = guider_ui.screen_friend_btn_6;
+    //搜索信息框
+    contacts_page.search_cont = guider_ui.screen_friend_search_info_cont;
+    contacts_page.search_info.head_image = guider_ui.screen_friend_img_12;
+    contacts_page.search_info.name_label = guider_ui.screen_friend_label_35;
+    contacts_page.search_info.id_label = guider_ui.screen_friend_label_34;
+    contacts_page.search_info.flag_spangroup = guider_ui.screen_friend_spangroup_9;
+    contacts_page.search_info.add_btn = guider_ui.screen_friend_btn_12;
+    contacts_page.search_info.send_add_res.cont = guider_ui.screen_friend_cont_10;
+    contacts_page.search_info.send_add_res.label = guider_ui.screen_friend_label_37;
+    contacts_page.search_info.send_add_res.btn = guider_ui.screen_friend_btn_15;
+    //搜索结果弹窗
+    contacts_page.search_res_cont.cont = guider_ui.screen_friend_search_result_cont;
+    contacts_page.search_res_cont.label = guider_ui.screen_friend_label_36;
+    contacts_page.search_res_cont.btn = guider_ui.screen_friend_btn_14;
 
     lv_obj_add_event_cb(contacts_page.friend_info.modify_btn, screen_main_contacts_friend_modify_remark_event_handler\
 	, LV_EVENT_ALL, &guider_ui);
@@ -53,6 +71,14 @@ void contacts_page_init(void){
     lv_obj_add_event_cb(contacts_page.friend_info.delete_cont.yes_btn, screen_main_contacts_friend_delete_friend_yes_event_handler\
 	, LV_EVENT_ALL, &guider_ui);
     lv_obj_add_event_cb(contacts_page.friend_info.delete_cont.no_btn, screen_main_contacts_friend_delete_friend_no_event_handler\
+	, LV_EVENT_ALL, &guider_ui);
+    lv_obj_add_event_cb(contacts_page.search_imagebtn, screen_main_contacts_search_imagebtn_event_handler\
+	, LV_EVENT_ALL, &guider_ui);
+    lv_obj_add_event_cb(contacts_page.search_res_cont.btn, screen_main_contacts_search_res_btn_event_handler\
+	, LV_EVENT_ALL, &guider_ui);
+    lv_obj_add_event_cb(contacts_page.search_info.add_btn, screen_main_contacts_search_info_addbtn_event_handler\
+	, LV_EVENT_ALL, &guider_ui);
+    lv_obj_add_event_cb(contacts_page.search_info.send_add_res.btn, screen_main_contacts_add_res_btn_event_handler\
 	, LV_EVENT_ALL, &guider_ui);
 }
 
@@ -78,6 +104,148 @@ void contacts_page_config(void){
         i++;
     }
     temnode = NULL;
+}
+
+
+/*
+    联系人页面搜索信息框中的添加好友按钮事件
+*/
+static void screen_main_contacts_search_info_addbtn_event_handler(lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    client_data send_data = {0};
+    int ret = 0;
+	switch (code)
+	{
+        case LV_EVENT_CLICKED:
+        {
+            strcpy(send_data.id, lv_label_get_text(contacts_page.search_info.id_label));
+            strcpy(send_data.name, owner_info.id);    //暂时使用结构体中的name变量来存储申请者的ID
+            send_data.num = CONTACTS_SEARCH_ADD_FRIEND;
+            ret = write(socketfd, &send_data, sizeof(send_data));
+            if(ret < 0) {
+                printf("write:添加好友失败\r\n");
+                break;
+            }
+            ret = read(socketfd, &send_data, sizeof(send_data));
+            if(ret < 0) {
+                printf("read:添加好友失败\r\n");
+                break;
+            }
+            if(send_data.num == CONTACTS_SEARCH_ADD_FRIEND_SUCCESS) {
+                lv_label_set_text(contacts_page.search_info.send_add_res.label, "The friend request was successfully sent!");
+            }
+            else if(send_data.num == CONTACTS_SEARCH_ADD_FRIEND_FAIL){
+                lv_label_set_text(contacts_page.search_info.send_add_res.label, "Failed to send a friend request!");
+            }
+            else if(send_data.num == CONTACTS_SEARCH_ADD_FRIEND_ALREADY){
+                lv_label_set_text(contacts_page.search_info.send_add_res.label, "You've already sent the friend request!");
+            }
+            else if(send_data.num == CONTACTS_SEARCH_ADD_FRIEND_FULL){
+                lv_label_set_text(contacts_page.search_info.send_add_res.label, "The other friend has applied too much, please try again later!");
+            }
+            //显示发送好友申请结果的弹窗
+            lv_obj_set_pos(contacts_page.search_info.send_add_res.cont, 230, 100);
+            lv_obj_clear_flag(contacts_page.search_info.send_add_res.cont, LV_OBJ_FLAG_HIDDEN);
+        }
+            break;
+        default:
+            break;
+	}
+}
+
+/*
+    联系人页面好友申请结果弹窗中的确认按钮事件
+*/
+static void screen_main_contacts_add_res_btn_event_handler(lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+	switch (code)
+	{
+	case LV_EVENT_CLICKED:
+	{
+		lv_obj_add_flag(contacts_page.search_info.send_add_res.cont, LV_OBJ_FLAG_HIDDEN);
+	}
+		break;
+	default:
+		break;
+	}
+}
+
+/*
+    联系人页面搜索按钮事件
+*/
+static void screen_main_contacts_search_imagebtn_event_handler(lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    client_data send_data = {0};
+    char buf[64] = {0};
+    int ret = 0; 
+	switch (code)
+	{
+        case LV_EVENT_CLICKED:
+        {
+            //获取备注并写在修改备注的输入框中
+            strcpy(buf, lv_textarea_get_text(contacts_page.search_ta));
+            if((strlen(buf) != 6) || (judge_id_format(buf) < 0)) {
+                break;
+            }
+            send_data.num = CONTACTS_SEARCH_BY_ID;
+            strcpy(send_data.id, buf);
+            ret = write(socketfd, &send_data, sizeof(send_data));
+            if(ret < 0) {
+                printf("write:搜索好友失败\r\n");
+                break;
+            }
+            ret = read(socketfd, &send_data, sizeof(send_data));
+            if(ret < 0) {
+                printf("read:搜索好友失败\r\n");
+                break;
+            }
+
+            if (send_data.num == CONTACTS_SEARCH_SUCCESS) {
+                lv_label_set_text(contacts_page.search_info.name_label, send_data.name);
+                lv_label_set_text(contacts_page.search_info.id_label, send_data.id);
+                lv_span_t * span_obj = lv_spangroup_get_child(contacts_page.search_info.flag_spangroup, 0);
+                lv_span_set_text(span_obj, send_data.flag);//个性签名
+                //显示搜索信息页面
+                lv_obj_set_pos(contacts_page.search_cont, 205, 0);
+                lv_obj_clear_flag(contacts_page.search_cont, LV_OBJ_FLAG_HIDDEN);
+                break;
+            }
+            else if(send_data.num == CONTACTS_SEARCH_NO_FIND) {
+                lv_label_set_text(contacts_page.search_res_cont.label, "no find the contacts!");
+            }
+            else {
+                lv_label_set_text(contacts_page.search_res_cont.label, "fail:reason uknown!");
+            }
+            //显示搜索结果弹窗
+            lv_obj_set_pos(contacts_page.search_res_cont.cont, 320, 100);
+            lv_obj_clear_flag(contacts_page.search_res_cont.cont, LV_OBJ_FLAG_HIDDEN);
+            
+        }
+            break;
+        default:
+            break;
+	}
+}
+
+/*
+    联系人页面搜索弹窗确认按钮事件
+*/
+static void screen_main_contacts_search_res_btn_event_handler(lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+	switch (code)
+	{
+	case LV_EVENT_CLICKED:
+	{
+		lv_obj_add_flag(contacts_page.search_res_cont.cont, LV_OBJ_FLAG_HIDDEN);
+	}
+		break;
+	default:
+		break;
+	}
 }
 
 /*

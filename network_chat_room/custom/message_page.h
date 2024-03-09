@@ -17,7 +17,6 @@ typedef enum{
 
 //表示消息包
 typedef struct message_packet{
-    MESSAGE_TYPE type;      //表示消息的类型，好友消息、群聊消息等
     DATA_TYPE data_type;    //表示消息内容的类型：字符串、图片、文件等
     char id[32];            //表示接收者的id
     char message[256];      //表示消息的内容

@@ -8,5 +8,6 @@ int link_list_add(client_data *buf);
 int link_list_add_recvfd(char *id,int recv_fd);
 int link_list_find(int fd);
 int link_list_del_by_fd(int fd);
+CLINODE * link_list_find_node_by_id(char *id);
 
 #endif

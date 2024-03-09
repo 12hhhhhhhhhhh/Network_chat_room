@@ -39,6 +39,12 @@ static void screen_input_imgbtn_6_event_handler(lv_event_t *e)
         }
         if(input_date.num == ACCOUNT_INPUT_SUCCESS){
             printf("input success!\r\n");
+            //登陆成功后记录个人信息
+            strcpy(owner_info.id, input_date.id);
+            strcpy(owner_info.passwd, input_date.passwd);
+            strcpy(owner_info.name, input_date.name);
+            strcpy(owner_info.flag, input_date.flag);
+
             memset(&input_date, 0, sizeof(input_date));
             input_date.num = CLIENT_RECVFD;
             strcpy(input_date.id, lv_textarea_get_text(guider_ui.screen_input_ta_2));
@@ -49,6 +55,7 @@ static void screen_input_imgbtn_6_event_handler(lv_event_t *e)
             }
             all_init();
             sleep(5);
+            printf("sleep(5)\r\n");
             //初始化消息页面
             lv_event_send(guider_ui.screen_message_imgbtn_1, LV_EVENT_CLICKED, NULL);
         }

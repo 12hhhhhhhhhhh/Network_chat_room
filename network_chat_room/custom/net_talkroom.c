@@ -1,6 +1,6 @@
 #include "net_talkromm.h"
 
-#define IP "192.168.10.13"
+#define IP "192.168.10.16"
 #define PORT 12356
 
 client_data client_info = {0};
@@ -63,6 +63,10 @@ void *net_talkroom_recv(void *arg)
             }
             printf("recv:name-%s\r\n", frined_info.news[0]);
             add_friend_info_node(&frined_info);
+            printf("add_friend_info_node\r\n");
+        }
+        if(recvdata.head.num == 0){
+            
         }
     }
 }

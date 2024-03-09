@@ -55,7 +55,6 @@ static void screen_main_message_item_event_handler(lv_event_t *e)
 		lv_obj_clean(message_page_object.message_cont);
 		lv_textarea_set_text(message_page_object.send_message_ta, "");
         //获取被选中按钮的相关信息
-		printf("1\r\n");
         message_cont_fill_friend(buf1);
         
 	}
@@ -81,27 +80,24 @@ static void screen_main_send_message_event_handler(lv_event_t *e)
 		int ret = 0;
 		strcpy(buf1, lv_textarea_get_text(message_page_object.send_message_ta));
 		senddata.num = MESSAGE_CLI_TO_SER;
-		messagedata.type = (message_page_object.now_select_item)->messagetype;
 		messagedata.data_type = STRING_DATA;
 		strcpy(messagedata.message, buf1);
 		messagedata.datalen = strlen(buf1);
 
-		ret = write(socketfd, &senddata, sizeof(senddata));
+		// ret = write(socketfd, &senddata, sizeof(senddata));
+		// if(ret < 0){
+		// 	perror("write");
+		// 	printf("发送消息失败!\r\n");
+		// 	break;
+		// }
+
+		FRIEND_INFO *info = (FRIEND_INFO *)((message_page_object.now_select_item)->info);
+		strcpy(messagedata.id, info->id);
+		ret = write(socketfd, &messagedata, sizeof(MESSAGE_PACKET));
 		if(ret < 0){
 			perror("write");
 			printf("发送消息失败!\r\n");
 			break;
-		}
-
-		if(messagedata.type == FRIEND_MESSAGE){
-			FRIEND_INFO *info = (FRIEND_INFO *)((message_page_object.now_select_item)->info);
-			strcpy(messagedata.id, info->id);
-			ret = write(socketfd, &messagedata, sizeof(MESSAGE_PACKET));
-			if(ret < 0){
-				perror("write");
-				printf("发送消息失败!\r\n");
-				break;
-			}
 		}
 		//向对话框中添加自己发送的消息
 		add_friend_message_into_cont(buf1, &(message_page_object.message_cell[message_page_object.message_count]), MYSELF_MESSAGE);
@@ -127,22 +123,14 @@ int message_cont_fill_friend(char *name){
     }
 	if(temnode == NULL){
 		return -1;
-	}
-	printf("2\r\n");
-	printf("temnode:%s\r\n", temnode->info.news[0]);
+	};
 	//添加消息
 	int i = 0;
-	if(temnode->info.news[i] == NULL){
-		printf("1-0\r\n");
-	}
-	printf("3\r\n");
-	while(temnode->info.news[i] != NULL) {
-		printf("2-0\r\n");
+	while((temnode->info.news[i][0]) != '\0') {
 		printf("news:%s\r\n", temnode->info.news[i]);
 		add_friend_message_into_cont(temnode->info.news[i], &(message_page_object.message_cell[i]), FRIEND_MESSAGE);
 		i++;
 	}
-	printf("4\r\n");
 	temnode = NULL;
 	return 0;
 }
@@ -166,10 +154,7 @@ void message_page_config(void){
                 sprintf(buf, "%s", temnode->info.name);
             }
             (message_page_object.list_item)[message_page_object.cell_count].item = lv_list_add_btn(message_page_object.sender_list, &_4_2_alpha_20x20, buf);
-            (message_page_object.list_item)[message_page_object.cell_count].messagetype = FRIEND_MESSAGE;
 			(message_page_object.list_item)[message_page_object.cell_count].info = (void *)(&(temnode->info));
-			// lv_obj_add_style((message_page_object.list_item)[message_page_object.cell_count].item, &(guider_ui.style_screen_main_friend_list_1_extra_btns_main_default), LV_PART_MAIN|LV_STATE_DEFAULT);
-	    	// lv_obj_add_style((message_page_object.list_item)[message_page_object.cell_count].item, &(guider_ui.style_screen_main_friend_list_1_extra_btns_main_focused), LV_PART_MAIN|LV_STATE_FOCUSED);
             //绑定对应的点击事件
             lv_obj_add_event_cb((message_page_object.list_item)[message_page_object.cell_count].item, screen_main_message_item_event_handler, LV_EVENT_CLICKED, &guider_ui);
             message_page_object.cell_count++;

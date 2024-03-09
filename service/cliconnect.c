@@ -57,6 +57,17 @@ int receive_from_client(int fd)
             link_list_add(&recv_data);
             printf("input success!\r\n");
             send_data.num = ACCOUNT_INPUT_SUCCESS;
+            printf("recv_data.id:%s\r\n", recv_data.id);
+            USER_INFO teminfo = database_find_user_info_by_id(recv_data.id);
+            printf("database_find_user_info_by_id\r\n");
+            if(strcmp(teminfo.id, "NULL") != 0) {
+                printf("teminfo.id = NULL\r\n");
+                strcpy(send_data.id, teminfo.id);
+                strcpy(send_data.passwd, teminfo.passwd);
+                strcpy(send_data.name, teminfo.name);
+                strcpy(send_data.flag, teminfo.flag);
+            }
+
             write(fd,&send_data,sizeof(send_data));
             perror("write1");
         }
@@ -74,7 +85,7 @@ int receive_from_client(int fd)
     }
     else if(recv_data.num == CREATE_ACCOUNT)//客户端注册
     {
-        ret = database_find_user_info_by_id(recv_data.id);
+        ret = database_find_user_by_id(recv_data.id);
         if(ret == 1)
         {
             send_data.num = ID_EXIST;
@@ -93,9 +104,33 @@ int receive_from_client(int fd)
         ret = write(fd,&send_data,sizeof(send_data));
         perror("write");
     }
+    else if(recv_data.num == MESSAGE_CLI_TO_SER)
+    {
+        MESSAGE_PACKET messagePacket;
+        CLINODE *temnode = NULL;
+        ret = read(fd, &messagePacket, sizeof(MESSAGE_PACKET));
+        if(ret < 0) {
+            perror("read");
+        }
+        temnode = link_list_find_node_by_id(messagePacket.id);
+        if(temnode != NULL) {
+            ret = write(temnode->data.recv_fd, &send_data, sizeof(send_data));
+        }
+
+    }
     else if(recv_data.num == DELETE_FRIEND)//删除好友
     {
         //删除数据库好友的相关信息
+    }
+    else if(recv_data.num == CONTACTS_SEARCH_BY_ID)//通过ID查找好友
+    {
+        recv_data.fd = fd;
+        find_contacts_by_id(&recv_data);
+    }
+    else if(recv_data.num == CONTACTS_SEARCH_ADD_FRIEND)//发送好友申请
+    {
+        recv_data.fd = fd;
+        send_add_friend_apply(&recv_data);
     }
     return 0;
 }

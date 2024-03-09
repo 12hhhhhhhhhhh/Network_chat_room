@@ -58,6 +58,26 @@
 /*发送消息失败：客户端->服务器*/
 #define MESSAGE_SER_TO_CLI_FAIL 311
 
+/*根据ID搜索联系人*/
+#define CONTACTS_SEARCH_BY_ID 40
+/*搜索成功*/
+#define CONTACTS_SEARCH_SUCCESS 401
+/*搜索失败--查无此人*/
+#define CONTACTS_SEARCH_NO_FIND 402
+/*搜索失败--原因未知*/
+#define CONTACTS_SEARCH_UNKNOW 403
+
+/*发送好友申请*/
+#define CONTACTS_SEARCH_ADD_FRIEND 41
+/*发送好友申请成功*/
+#define CONTACTS_SEARCH_ADD_FRIEND_SUCCESS 411
+/*发送好友申请失败*/
+#define CONTACTS_SEARCH_ADD_FRIEND_FAIL 412
+/*已给对方发过好友申请*/
+#define CONTACTS_SEARCH_ADD_FRIEND_ALREADY 413
+/*对方好友申请过多*/
+#define CONTACTS_SEARCH_ADD_FRIEND_FULL 414
+
 typedef struct{
     char name[32];      //昵称
     char id[32];        //账号

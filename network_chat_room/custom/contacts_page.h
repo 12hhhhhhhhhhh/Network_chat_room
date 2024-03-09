@@ -42,12 +42,39 @@ typedef struct {
     CONFIRM_DELETE_CONT delete_cont;//表示是否确定删除好友的弹窗
 }FRIEND_CONT;
 
+//表示发送好友申请结果的弹窗
+typedef struct{
+    lv_obj_t * cont;    //表示弹窗容器
+    lv_obj_t * label;   //表示显示结果信息的标签
+    lv_obj_t * btn;     //表示确认结果的按钮
+}SEND_ADD_RES;
+
+//表示搜索到的信息页面
+typedef struct {
+    lv_obj_t * head_image;      //表示头像的图片
+    lv_obj_t * name_label;      //表示昵称的标签
+    lv_obj_t * id_label;        //表示ID的标签
+    lv_obj_t * flag_spangroup;  //表示个签的文本组
+    lv_obj_t * add_btn;         //表示添加好友的按钮
+    SEND_ADD_RES send_add_res;  
+}SEARCH_CONT;
+
+//表示搜索结果的弹窗
+typedef struct {
+    lv_obj_t * cont;        //表示搜索结果的弹窗容器
+    lv_obj_t * label;       //表示搜索的结果
+    lv_obj_t * btn;         //表示确认按钮
+}SEARCH_RES_CONT;
+
 //表示联系人页面的元素
 typedef struct {
-    lv_obj_t * friend_cont;             //好友信息框的容器
+    lv_obj_t *  friend_cont;            //好友信息框的容器
     FRIEND_CONT friend_info;            //好友信息框
+    lv_obj_t *  search_cont;            //好友信息框的容器
+    SEARCH_CONT search_info;            //搜索信息框
     lv_obj_t *  search_ta;              //搜索输入框
     lv_obj_t *  search_imagebtn;        //搜索按钮
+    SEARCH_RES_CONT search_res_cont;    //搜索结果弹窗
     lv_obj_t *  message_imagebtn;       //“消息”按钮
     lv_obj_t *  friend_imagebtn;        //“朋友”按钮
     lv_obj_t *  circle_imagebtn;        //“朋友圈”按钮
@@ -55,5 +82,7 @@ typedef struct {
 }CONTACTS_PAGE;
 
 extern CONTACTS_PAGE contacts_page;
+
+void contacts_page_init(void);
 
 #endif

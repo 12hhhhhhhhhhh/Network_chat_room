@@ -117,3 +117,25 @@ int link_list_del_by_fd(int fd)
     iuput_count--;
     return 0;
 }
+
+/*
+    功能：通过ID查找对应链表节点的信息
+    参数：id--要查询的id
+    返回值：查询到的节点信息
+*/
+CLINODE * link_list_find_node_by_id(char *id) 
+{
+    CLINODE *temnode = client_headnode;
+    CLINODE rebackNode = {0};
+    while (temnode->next)
+    {
+        if(strcmp(temnode->next->data.id, id) == 0)
+        {
+            memcpy(&rebackNode, temnode->next, sizeof(CLINODE));
+            temnode = NULL;
+            return &rebackNode;
+        }
+        temnode = temnode->next;
+    }
+    return NULL;
+}

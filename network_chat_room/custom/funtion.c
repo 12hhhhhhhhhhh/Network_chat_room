@@ -60,3 +60,18 @@ int packet_read(int fd, MESSAGE *message, int len){
     }
     return 0;
 }
+
+/*
+    判断指定字符串中是否含有除数字字符外的其他字符
+*/
+int judge_id_format(char *buf) {
+    for(int i = 0;i < strlen(buf);i++) {
+        if(buf[i] >= '0' && buf[i] <= '9') {
+            continue;
+        }
+        else {
+            return -1;
+        }
+    }
+    return 0;
+}

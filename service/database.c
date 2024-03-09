@@ -60,11 +60,11 @@ int database_user_info_add(client_data *data)
 }
 
 /*
-    功能：通过账号在数据库中寻找相应的用户信息
+    功能：通过ID判断该用户是否存在
     参数：id:要查找的账户id
     返回值：0查无此人，1查询成功
 */
-int database_find_user_info_by_id(char *id)
+int database_find_user_by_id(char *id)
 {
     char buf[300] = {0};
     // 确保每个人的ID各不相同
@@ -107,4 +107,103 @@ int database_check_user_info_by_id_passwd(char *id,char *passwd)
         }
     }
     return 0;
+}
+
+/*
+    功能：通过账号在数据库中寻找相应的用户信息
+    参数：id:要查找的账户id
+    返回值：查询到的用户信息
+*/
+USER_INFO database_find_user_info_by_id(char *id)
+{
+    USER_INFO user_info = {0};
+    char buf[300] = {0};
+    int flag = 0;
+    // 确保每个人的ID各不相同
+    strcpy(buf, "select * from user_info");
+    mysql_real_query(mysqlfd, buf, strlen(buf));
+    MYSQL_RES *res = mysql_store_result(mysqlfd);
+    char **ch;
+    while (ch = mysql_fetch_row(res))
+    {
+        if (strcmp(ch[2],id) == 0)
+        {
+            flag = 1;
+            strcpy(user_info.name, ch[1]);
+            strcpy(user_info.id, ch[2]);
+            strcpy(user_info.passwd, ch[3]);
+            if(ch[4] == NULL) {
+                strcpy(user_info.flag, "NULL");
+            }
+            else {
+                strcpy(user_info.flag, ch[4]);
+            }
+            printf("user_info.name:%s\r\n", user_info.name);
+            break;
+        }
+    }
+    printf("4\r\n");
+    if(flag == 0) {
+        strcpy(user_info.id, "NULL"); //表示没有查询到该人
+    }
+    return user_info;
+}
+
+/*
+    功能：向数据库中的friend_apply表格添加数据
+    参数：id1：申请人的ID，id2：被申请人的id
+    返回值：结果
+*/
+FRIEND_APPLY_RESULT database_add_friend_apply_info(char *id1, char *id2)
+{
+    char buf[300] = {0};
+    int ret = 0;
+    // 确保每个人的ID各不相同
+    printf("1\r\n");
+    sprintf(buf, "select * from friend_apply where id = %s",id2);
+    mysql_real_query(mysqlfd, buf, strlen(buf));
+    printf("2\r\n");
+    MYSQL_RES *res = mysql_store_result(mysqlfd);
+    int num = mysql_num_rows(res);
+    printf("3\r\n");
+    if(num == 0) {
+        printf("4\r\n");
+        memset(buf, 0, 300);
+        sprintf(buf, "insert into friend_apply(id,apply1) values(%s,%s)",id2,id1);
+        printf("5:%s\r\n", buf);
+        ret = mysql_real_query(mysqlfd, buf, strlen(buf));
+        if(ret < 0) {
+            goto error;
+        }
+        printf("6\r\n");
+    }
+    else {
+        printf("7\r\n");
+        char **ch;
+        int i = 0;
+        ch = mysql_fetch_row(res);
+        printf("7-1\r\n");
+        for(i = 0;i < 10;i++) {
+            if(strcmp(ch[i+1], id1) == 0) {
+                return APPLY_ALREADY;   //表示已经发送过好友申请
+            }
+            if(ch[i+1] == NULL) {
+                memset(buf, 0, 300);
+                sprintf(buf, "update friend_apply set apply%d=%s where id=%s", (i+1), id1, id2);
+                ret = mysql_real_query(mysqlfd, buf, strlen(buf));
+                if(ret < 0) {
+                    goto error;
+                }
+                break;  
+            }
+        }
+        if(i == 10) {
+            return APPLY_FULL;   //表示对方好友申请已满
+        }
+    }
+    printf("8\r\n");
+    return APPLY_SUCCESS;
+
+error:
+    return APPLY_FAIL;
 }

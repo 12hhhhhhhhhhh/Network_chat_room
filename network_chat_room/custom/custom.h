@@ -20,6 +20,7 @@
 #include "sys/types.h"
 #include "arpa/inet.h"
 #include "netinet/in.h"
+#include "sqlite3.h"
 
 #include "common.h"
 #include "gui_guider.h"
@@ -29,6 +30,8 @@
 #include "link_list.h"
 #include "contacts_page.h"
 #include "message_page.h"
+#include "owner_page.h"
+#include "database.h"
 
 void custom_init(lv_ui *ui);
 

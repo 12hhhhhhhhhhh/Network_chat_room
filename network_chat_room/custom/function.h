@@ -24,4 +24,6 @@ int packet_write(int fd,int num, void *buf, int len);
 int packet_read(int fd, MESSAGE *message, int len);
 int check_num_char(const char *buf, int len);
 
+int judge_id_format(char *buf);
+
 #endif

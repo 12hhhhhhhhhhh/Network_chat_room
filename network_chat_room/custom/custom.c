@@ -48,13 +48,14 @@ void custom_init(lv_ui *ui)
     custom_events_init(&guider_ui);
     /* Add your codes here */
     message_page_init();
+    contacts_page_init();
     printf("hello world\r\n");
     connect_network(&socketfd);
     printf("socketfd0:%d\r\n",socketfd);
     connect_network(&recv_socketfd);
     printf("socketfd1:%d\r\n",recv_socketfd);
     printf("4\r\n");
-
+    create_database("../custom/data/1.db");
     pthread_create(&connectid,NULL,net_talkroom_recv,NULL);
     pthread_detach(connectid);
     // pthread_join(connectid,NULL);
