@@ -21,6 +21,7 @@
 #include "arpa/inet.h"
 #include "netinet/in.h"
 #include "sqlite3.h"
+#include "sys/prctl.h"
 
 #include "common.h"
 #include "gui_guider.h"
@@ -32,6 +33,7 @@
 #include "message_page.h"
 #include "owner_page.h"
 #include "database.h"
+#include "print_ext.h"
 
 void custom_init(lv_ui *ui);
 

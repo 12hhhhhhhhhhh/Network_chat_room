@@ -77,11 +77,12 @@ int receive_from_client(int fd)
             write(fd,&send_data,sizeof(send_data));
         }
     }
-    else if(recv_data.num == CLIENT_RECVFD)//客户端发送接收套接字
+    else if(recv_data.num == CLIENT_RECVFD)//客户端发送接收套接字,并请求用户信息
     {
         link_list_add_recvfd(recv_data.id, fd);
         //发送客户端相关的如好友信息等信息
-        user_info_init(recv_data.id, fd);
+        recv_data.recv_fd = fd;
+        user_init(&recv_data);
     }
     else if(recv_data.num == CREATE_ACCOUNT)//客户端注册
     {
@@ -131,54 +132,6 @@ int receive_from_client(int fd)
     {
         recv_data.fd = fd;
         send_add_friend_apply(&recv_data);
-    }
-    return 0;
-}
-
-/*
-    当用户成功登陆后将用户的好友信息发送给用户
-*/
-int user_info_init(char *id, int fd){
-    char buf[256] = {0};
-    int i = 0;
-    //打开用户的好友信息表
-    sprintf(buf, "select * from %s_friend", id);
-    mysql_real_query(mysqlfd, buf, strlen(buf));
-    MYSQL_RES *res = mysql_store_result(mysqlfd);
-    char **ch = NULL;
-    if(res == NULL){
-        printf("1\r\n");
-    }
-    FRIEND_INFO tem_friend_info = {0};
-    while (ch = mysql_fetch_row(res)){
-        memset(&tem_friend_info, 0, sizeof(tem_friend_info));
-        strcpy(tem_friend_info.id, ch[0]); 
-        strcpy(tem_friend_info.name, ch[2]); 
-        strcpy(tem_friend_info.remark, ch[3]);
-        i = 0;
-        while((ch[4+i] != NULL) && (i < 25)){
-            strcpy(tem_friend_info.news[i], ch[4+i]);
-            i++;
-        }
-        //寻找好友的个签
-        strcpy(buf, "select * from user_info");
-        mysql_real_query(mysqlfd, buf, strlen(buf));
-        MYSQL_RES *res1 = mysql_store_result(mysqlfd);
-        while (ch = mysql_fetch_row(res1)){
-            if(strcmp(ch[2], tem_friend_info.id) == 0){
-                strcpy(tem_friend_info.flag, ch[4]);
-                break;
-            }
-        }
-        printf("recv_fd:%d\r\n", fd);
-        packet_write(fd, SERVICE_SEND_FRIEND_INFO);
-        printf("%s-%s-%s-%s\r\n", tem_friend_info.id, tem_friend_info.name, tem_friend_info.remark, tem_friend_info.flag);
-        printf("%s-%s\r\n", tem_friend_info.news[0], tem_friend_info.news[1]);
-        int ret = write(fd, &tem_friend_info, sizeof(FRIEND_INFO));
-        if(ret < 0){
-            perror("write");
-            return -1;
-        }
     }
     return 0;
 }

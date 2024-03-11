@@ -10,9 +10,7 @@ typedef enum{
 
 typedef struct{
     int num;    //消息类型
-    int fd;     //套接字
     int len;    //消息体的长度
-    WRITE_RESULT flag;   //是否发送成功的标志
 }MESSAGEHEAD;
 
 typedef struct{

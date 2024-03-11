@@ -45,28 +45,28 @@ int connect_network(volatile int *fd)
 void *net_talkroom_recv(void *arg)
 {
     int ret = 0;
-    MESSAGE recvdata = {0};
+    char recvdata[9600] = {0};
     while(1)
     {
         printf("packet_read\r\n");
-        ret = packet_read(recv_socketfd, &recvdata, sizeof(MESSAGE));
+        ret = read(recv_socketfd, &recvdata, sizeof(recvdata));
         if(ret != 0){
             continue;
         }
-        if(recvdata.head.num == SERVICE_SEND_FRIEND_INFO){
+        MESSAGEHEAD *head = (MESSAGEHEAD *)recvdata;
+        if(head->num == SERVICE_SEND_FRIEND_INFO){
             //接收好友相关的信息
-            FRIEND_INFO frined_info;
-            ret = read(recv_socketfd, &frined_info, sizeof(FRIEND_INFO));
-            if(ret < 0){
-                perror("read");
-                continue;
-            }
-            printf("recv:name-%s\r\n", frined_info.news[0]);
-            add_friend_info_node(&frined_info);
-            printf("add_friend_info_node\r\n");
+            FRIEND_INFO *frined_info =  FRIEND_INFO *(recvdata + sizeof(MESSAGEHEAD));
+            DEBUG("recv:name-%s\r\n", frined_info->news[0]);
+            add_friend_info_node(frined_info);
+            DEBUG("add_friend_info_node\r\n");
         }
-        if(recvdata.head.num == 0){
-            
+        if(head->num == SERVICE_SEND_FRIEND_APPLY){
+            for(int i = 0;i < 10;i++) {
+                if(friend_apply[i] == NULL) {
+                    strncpy(friend_apply[i], (recvdata + sizeof(MESSAGEHEAD)), head->len);
+                }
+            }
         }
     }
 }

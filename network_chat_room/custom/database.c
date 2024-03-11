@@ -71,7 +71,7 @@ int create_frimsg_table(const char * filename, const char * tablename)
 }
 
 /*
-    向好友消息表格中插入一条信息
+    向好友消息表格中添加一条信息
 */
 int insert_into_frimsg(const char *filename, const char *table, const char *name, const char *time)
 {

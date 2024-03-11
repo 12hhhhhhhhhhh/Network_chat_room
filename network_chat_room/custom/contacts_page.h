@@ -82,6 +82,7 @@ typedef struct {
 }CONTACTS_PAGE;
 
 extern CONTACTS_PAGE contacts_page;
+extern char [10][32] friend_apply;
 
 void contacts_page_init(void);
 

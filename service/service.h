@@ -48,10 +48,12 @@ extern int client_count;
 extern int iuput_count;
 
 #include "common.h"
+#include "print_ext.h"
 #include "cliconect.h"
 #include "link_list.h"
 #include "database.h"
 #include "function.h"
 #include "friend_page.h"
+#include "initialize.h"
 
 #endif
