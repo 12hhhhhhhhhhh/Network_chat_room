@@ -5,13 +5,7 @@
 
 extern MYSQL *mysqlfd;
 
-//表示好友申请的结果
-typedef enum{
-    APPLY_FAIL = -1,    //申请失败
-    APPLY_SUCCESS,      //申请成功
-    APPLY_ALREADY,      //已申请过
-    APPLY_FULL          //对方申请过多
-}FRIEND_APPLY_RESULT;
+
 
 int database_init(void);
 int database_find_user_by_id(char *id);

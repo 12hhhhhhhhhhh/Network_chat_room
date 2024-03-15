@@ -11,6 +11,10 @@ static void screen_main_contacts_search_imagebtn_event_handler(lv_event_t *e);
 static void screen_main_contacts_search_res_btn_event_handler(lv_event_t *e);
 static void screen_main_contacts_search_info_addbtn_event_handler(lv_event_t *e);
 static void screen_main_contacts_add_res_btn_event_handler(lv_event_t *e);
+static void screen_main_contacts_friend_look_apply_detail_info_handler(lv_event_t *e);
+static void screen_main_contacts_quit_apply_detail_info_event_handler(lv_event_t *e);
+static void screen_main_contacts_agree_apply_friend_event_handler(lv_event_t *e);
+static void screen_main_contacts_refuse_apply_friend_event_handler(lv_event_t *e);
 
 CONTACTS_PAGE contacts_page;
 
@@ -59,6 +63,17 @@ void contacts_page_init(void){
     contacts_page.search_res_cont.cont = guider_ui.screen_friend_search_result_cont;
     contacts_page.search_res_cont.label = guider_ui.screen_friend_label_36;
     contacts_page.search_res_cont.btn = guider_ui.screen_friend_btn_14;
+    //好友信息列表页面
+    contacts_page.friend_apply_cont.apply_num = 0;
+    contacts_page.friend_apply_cont.cont = guider_ui.screen_friend_friend_apply_cont;
+    contacts_page.friend_apply_cont.apply_infor.cont = guider_ui.screen_friend_applicant_info_cont;
+    contacts_page.friend_apply_cont.apply_infor.head_image = guider_ui.screen_friend_img_13;
+    contacts_page.friend_apply_cont.apply_infor.name_label = guider_ui.screen_friend_label_38;
+    contacts_page.friend_apply_cont.apply_infor.id_label = guider_ui.screen_friend_label_39;
+    contacts_page.friend_apply_cont.apply_infor.flag_label = guider_ui.screen_friend_label_40;
+    contacts_page.friend_apply_cont.apply_infor.agree_imagebtn = guider_ui.screen_friend_imgbtn_21;
+    contacts_page.friend_apply_cont.apply_infor.refuse_imagebtn = guider_ui.screen_friend_imgbtn_22;
+    contacts_page.friend_apply_cont.apply_infor.quit_imagebtn = guider_ui.screen_friend_imgbtn_23;
 
     lv_obj_add_event_cb(contacts_page.friend_info.modify_btn, screen_main_contacts_friend_modify_remark_event_handler\
 	, LV_EVENT_ALL, &guider_ui);
@@ -79,6 +94,8 @@ void contacts_page_init(void){
     lv_obj_add_event_cb(contacts_page.search_info.add_btn, screen_main_contacts_search_info_addbtn_event_handler\
 	, LV_EVENT_ALL, &guider_ui);
     lv_obj_add_event_cb(contacts_page.search_info.send_add_res.btn, screen_main_contacts_add_res_btn_event_handler\
+	, LV_EVENT_ALL, &guider_ui);
+    lv_obj_add_event_cb(contacts_page.friend_apply_cont.apply_infor.quit_imagebtn, screen_main_contacts_quit_apply_detail_info_event_handler\
 	, LV_EVENT_ALL, &guider_ui);
 }
 
@@ -463,4 +480,317 @@ static void screen_main_contacts_friend_delete_friend_yes_event_handler(lv_event
 	default:
 		break;
 	}
+}
+
+/*
+    联系人页面好友申请信息页面中查看详细申请信息的按钮事件
+*/
+static void screen_main_contacts_friend_look_apply_detail_info_handler(lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+	switch (code)
+	{
+        case LV_EVENT_CLICKED:
+        {
+            char buf[512] = {0};
+            char id[32] = {0};
+            strcpy(id, (char *)lv_event_get_user_data(e));
+            FRIEND_INFO *friend_info = find_friend_info_by_id(id);
+            if(friend_info == NULL) {
+                ERROR("find_friend_info_by_id");
+                break;
+            }
+            lv_label_set_text(contacts_page.friend_apply_cont.apply_infor.name_label, friend_info->name);
+            lv_label_set_text(contacts_page.friend_apply_cont.apply_infor.id_label, friend_info->id);
+            lv_label_set_text(contacts_page.friend_apply_cont.apply_infor.flag_label, friend_info->flag);
+
+            lv_obj_clear_flag(contacts_page.friend_apply_cont.apply_infor.cont, LV_OBJ_FLAG_HIDDEN);
+        }
+            break;
+        default:
+            break;
+	}
+}
+
+/*
+    联系人页面好友申请信息页面退出详细信息页面的按钮
+*/
+static void screen_main_contacts_quit_apply_detail_info_event_handler(lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+	switch (code)
+	{
+        case LV_EVENT_CLICKED:
+        {
+            lv_obj_add_flag(contacts_page.friend_apply_cont.apply_infor.cont, LV_OBJ_FLAG_HIDDEN);
+        }
+            break;
+        default:
+            break;
+	}
+}
+
+/*
+    联系人页面好友申请信息页面同意好友申请按钮
+*/
+static void screen_main_contacts_agree_apply_friend_event_handler(lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+	switch (code)
+	{
+        case LV_EVENT_CLICKED:
+        {
+            client_data data = {0};
+            data.num = CONTACTS_AGREE_FRIEND_APPLY;
+            strcpy(data.id, owner_info.id);
+            lv_obj_t * child_obj = lv_event_get_target(e);
+            lv_obj_t * parent_obj = lv_obj_get_parent(child_obj);
+            int i = 0;
+            while(contacts_page.friend_apply_cont.friend_apply[i].cont != NULL) {
+                if(contacts_page.friend_apply_cont.friend_apply[i].cont == parent_obj) {
+                    strcpy(data.name, contacts_page.friend_apply_cont.friend_apply[i].id);
+                    break;
+                }
+                i++;
+            }
+            if(i == contacts_page.friend_apply_cont.apply_num) {
+                if(parent_obj == contacts_page.friend_apply_cont.apply_infor.cont) {
+                    strcpy(data.name, lv_label_get_text(contacts_page.friend_apply_cont.apply_infor.id_label));
+                }
+            }
+            int ret = write(socketfd, &data, sizeof(client_data));
+            if(ret < 0) {
+                ERROR("write!\r\n");
+            }
+            lv_obj_add_flag(contacts_page.friend_apply_cont.apply_infor.cont, LV_OBJ_FLAG_HIDDEN);
+        }
+            break;
+        default:
+            break;
+	}
+}
+
+/*
+    联系人页面好友申请信息页面拒绝好友申请按钮
+*/
+static void screen_main_contacts_refuse_apply_friend_event_handler(lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+	switch (code)
+	{
+        case LV_EVENT_CLICKED:
+        {
+            client_data data = {0};
+            data.num = CONTACTS_REFUSE_FRIEND_APPLY;
+            strcpy(data.id, owner_info.id);
+            lv_obj_t * child_obj = lv_event_get_target(e);
+            lv_obj_t * parent_obj = lv_obj_get_parent(child_obj);
+            int i = 0;
+            while(contacts_page.friend_apply_cont.friend_apply[i].cont != NULL) {
+                if(contacts_page.friend_apply_cont.friend_apply[i].cont == parent_obj) {
+                    strcpy(data.name, contacts_page.friend_apply_cont.friend_apply[i].id);
+                    break;
+                }
+                i++;
+            }
+            if(i == contacts_page.friend_apply_cont.apply_num) {
+                if(parent_obj == contacts_page.friend_apply_cont.apply_infor.cont) {
+                    strcpy(data.name, lv_label_get_text(contacts_page.friend_apply_cont.apply_infor.id_label));
+                }
+            }
+            int ret = write(socketfd, &data, sizeof(client_data));
+            if(ret < 0) {
+                ERROR("write!\r\n");
+            }
+            lv_obj_add_flag(contacts_page.friend_apply_cont.apply_infor.cont, LV_OBJ_FLAG_HIDDEN);
+        }
+            break;
+        default:
+            break;
+	}
+}
+
+/*
+    向好友申请信息页面添加一条好友申请信息
+*/
+void add_one_to_list(ONE_FEREND_APPLY *apply, USER_INFO *data) 
+{
+    //计算该条信息应在的位置
+    int y = contacts_page.friend_apply_cont.apply_num *50+5;
+    char apply_buf[512] = {0};
+    sprintf(apply_buf, "%s(%s)apply!", data->name, data->id);
+    
+    //Write codes screen_friend_apply_list1
+	apply->cont = lv_obj_create(contacts_page.friend_apply_cont.cont);
+	lv_obj_set_pos(apply->cont, 0, y);
+	lv_obj_set_size(apply->cont, 590, 50);
+	lv_obj_set_scrollbar_mode(apply->cont, LV_SCROLLBAR_MODE_OFF);
+	//Set style for screen_friend_apply_list1. Part: LV_PART_MAIN, State: LV_STATE_DEFAULT
+	lv_obj_set_style_radius(apply->cont, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_color(apply->cont, lv_color_make(0xff, 0xff, 0xff), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_grad_color(apply->cont, lv_color_make(0xff, 0xff, 0xff), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_grad_dir(apply->cont, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_opa(apply->cont, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_width(apply->cont, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_color(apply->cont, lv_color_make(0x21, 0x95, 0xf6), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_opa(apply->cont, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_spread(apply->cont, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_ofs_x(apply->cont, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_ofs_y(apply->cont, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_border_color(apply->cont, lv_color_make(0x21, 0x95, 0xf6), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_border_width(apply->cont, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_border_opa(apply->cont, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_pad_left(apply->cont, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_pad_right(apply->cont, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_pad_top(apply->cont, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_pad_bottom(apply->cont, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+	//Write codes screen_friend_line_1
+	apply->top_line = lv_line_create(apply->cont);
+	lv_obj_set_pos(apply->top_line, 5, 1);
+	lv_obj_set_size(apply->top_line, 580, 10);
+	lv_obj_set_scrollbar_mode(apply->top_line, LV_SCROLLBAR_MODE_OFF);
+	//Set style for screen_friend_line_1. Part: LV_PART_MAIN, State: LV_STATE_DEFAULT
+	lv_obj_set_style_line_color(apply->top_line, lv_color_make(0x75, 0x75, 0x75), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_line_width(apply->top_line, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_line_rounded(apply->top_line, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+	static lv_point_t screen_friend_line_1[] ={{0, 0},{590, 0},};
+	lv_line_set_points(apply->top_line,screen_friend_line_1,2);
+
+	//Write codes screen_friend_line_2
+	apply->buttom_line = lv_line_create(apply->cont);
+	lv_obj_set_pos(apply->buttom_line, 5, 49);
+	lv_obj_set_size(apply->buttom_line, 580, 1);
+	lv_obj_set_scrollbar_mode(apply->buttom_line, LV_SCROLLBAR_MODE_OFF);
+	//Set style for screen_friend_line_2. Part: LV_PART_MAIN, State: LV_STATE_DEFAULT
+	lv_obj_set_style_line_color(apply->buttom_line, lv_color_make(0x75, 0x75, 0x75), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_line_width(apply->buttom_line, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_line_rounded(apply->buttom_line, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+	static lv_point_t screen_friend_line_2[] ={{0, 0},{590, 0},};
+	lv_line_set_points(apply->buttom_line,screen_friend_line_2,2);
+
+	//Write codes screen_friend_imgbtn_19
+	apply->agree_imagebtn = lv_imgbtn_create(apply->cont);
+	lv_obj_set_pos(apply->agree_imagebtn, 470, 10);
+	lv_obj_set_size(apply->agree_imagebtn, 30, 30);
+	lv_obj_set_scrollbar_mode(apply->agree_imagebtn, LV_SCROLLBAR_MODE_OFF);
+	//Set style for screen_friend_imgbtn_19. Part: LV_PART_MAIN, State: LV_STATE_DEFAULT
+	lv_obj_set_style_shadow_width(apply->agree_imagebtn, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_color(apply->agree_imagebtn, lv_color_make(0x75, 0x75, 0x75), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_opa(apply->agree_imagebtn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_spread(apply->agree_imagebtn, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_ofs_x(apply->agree_imagebtn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_ofs_y(apply->agree_imagebtn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(apply->agree_imagebtn, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_align(apply->agree_imagebtn, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_img_recolor(apply->agree_imagebtn, lv_color_make(0xff, 0xff, 0xff), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_img_recolor_opa(apply->agree_imagebtn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_img_opa(apply->agree_imagebtn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	//Set style for screen_friend_imgbtn_19. Part: LV_PART_MAIN, State: LV_STATE_PRESSED
+	lv_obj_set_style_shadow_width(apply->agree_imagebtn, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+	lv_obj_set_style_shadow_color(apply->agree_imagebtn, lv_color_make(0x21, 0x95, 0xf6), LV_PART_MAIN|LV_STATE_PRESSED);
+	lv_obj_set_style_shadow_opa(apply->agree_imagebtn, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+	lv_obj_set_style_shadow_spread(apply->agree_imagebtn, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+	lv_obj_set_style_shadow_ofs_x(apply->agree_imagebtn, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+	lv_obj_set_style_shadow_ofs_y(apply->agree_imagebtn, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+	lv_obj_set_style_text_color(apply->agree_imagebtn, lv_color_make(0xFF, 0x33, 0xFF), LV_PART_MAIN|LV_STATE_PRESSED);
+	lv_obj_set_style_img_recolor(apply->agree_imagebtn, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_PRESSED);
+	lv_obj_set_style_img_recolor_opa(apply->agree_imagebtn, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+	lv_obj_set_style_img_opa(apply->agree_imagebtn, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+	//Set style for screen_friend_imgbtn_19. Part: LV_PART_MAIN, State: LV_STATE_CHECKED
+	lv_obj_set_style_shadow_width(apply->agree_imagebtn, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_obj_set_style_shadow_color(apply->agree_imagebtn, lv_color_make(0x21, 0x95, 0xf6), LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_obj_set_style_shadow_opa(apply->agree_imagebtn, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_obj_set_style_shadow_spread(apply->agree_imagebtn, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_obj_set_style_shadow_ofs_x(apply->agree_imagebtn, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_obj_set_style_shadow_ofs_y(apply->agree_imagebtn, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_obj_set_style_text_color(apply->agree_imagebtn, lv_color_make(0xFF, 0x33, 0xFF), LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_obj_set_style_img_recolor(apply->agree_imagebtn, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_obj_set_style_img_recolor_opa(apply->agree_imagebtn, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_obj_set_style_img_opa(apply->agree_imagebtn, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_imgbtn_set_src(apply->agree_imagebtn, LV_IMGBTN_STATE_RELEASED, NULL, &_26_1_alpha_30x30, NULL);
+	lv_imgbtn_set_src(apply->agree_imagebtn, LV_IMGBTN_STATE_PRESSED, NULL, &_26_2_alpha_30x30, NULL);
+	lv_imgbtn_set_src(apply->agree_imagebtn, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_26_1_alpha_30x30, NULL);
+	lv_imgbtn_set_src(apply->agree_imagebtn, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_26_2_alpha_30x30, NULL);
+	lv_obj_add_flag(apply->agree_imagebtn, LV_OBJ_FLAG_CHECKABLE);
+
+	//Write codes screen_friend_btn_16
+	apply->btn = lv_btn_create(apply->cont);
+	lv_obj_set_pos(apply->btn, 1, 1);
+	lv_obj_set_size(apply->btn, 450, 45);
+	lv_obj_set_scrollbar_mode(apply->btn, LV_SCROLLBAR_MODE_OFF);
+	//Set style for screen_friend_btn_16. Part: LV_PART_MAIN, State: LV_STATE_DEFAULT
+	lv_obj_set_style_radius(apply->btn, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_color(apply->btn, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_grad_color(apply->btn, lv_color_make(0x21, 0x95, 0xf6), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_grad_dir(apply->btn, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_opa(apply->btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_width(apply->btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_color(apply->btn, lv_color_make(0x21, 0x95, 0xf6), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_opa(apply->btn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_spread(apply->btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_ofs_x(apply->btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_ofs_y(apply->btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_border_color(apply->btn, lv_color_make(0x21, 0x95, 0xf6), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_border_width(apply->btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_border_opa(apply->btn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(apply->btn, lv_color_make(0x1c, 0x19, 0x19), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_font(apply->btn, &lv_font_arial_19, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_align(apply->btn, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
+	apply->btn_label = lv_label_create(apply->btn);
+	lv_label_set_text(apply->btn_label, "    boy1(123456) apply!");
+	lv_obj_set_style_pad_all(apply->btn, 0, LV_STATE_DEFAULT);
+	lv_obj_align(apply->btn_label, LV_ALIGN_LEFT_MID, 0, 0);
+
+	//Write codes screen_friend_imgbtn_20
+	apply->refuse_imagebtn = lv_imgbtn_create(apply->cont);
+	lv_obj_set_pos(apply->refuse_imagebtn, 520, 10);
+	lv_obj_set_size(apply->refuse_imagebtn, 30, 30);
+	lv_obj_set_scrollbar_mode(apply->refuse_imagebtn, LV_SCROLLBAR_MODE_OFF);
+	//Set style for screen_friend_imgbtn_20. Part: LV_PART_MAIN, State: LV_STATE_DEFAULT
+	lv_obj_set_style_shadow_width(apply->refuse_imagebtn, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_color(apply->refuse_imagebtn, lv_color_make(0x75, 0x75, 0x75), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_opa(apply->refuse_imagebtn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_spread(apply->refuse_imagebtn, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_ofs_x(apply->refuse_imagebtn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_ofs_y(apply->refuse_imagebtn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(apply->refuse_imagebtn, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_align(apply->refuse_imagebtn, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_img_recolor(apply->refuse_imagebtn, lv_color_make(0xff, 0xff, 0xff), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_img_recolor_opa(apply->refuse_imagebtn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_img_opa(apply->refuse_imagebtn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	//Set style for screen_friend_imgbtn_20. Part: LV_PART_MAIN, State: LV_STATE_PRESSED
+	lv_obj_set_style_shadow_width(apply->refuse_imagebtn, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+	lv_obj_set_style_shadow_color(apply->refuse_imagebtn, lv_color_make(0x21, 0x95, 0xf6), LV_PART_MAIN|LV_STATE_PRESSED);
+	lv_obj_set_style_shadow_opa(apply->refuse_imagebtn, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+	lv_obj_set_style_shadow_spread(apply->refuse_imagebtn, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+	lv_obj_set_style_shadow_ofs_x(apply->refuse_imagebtn, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+	lv_obj_set_style_shadow_ofs_y(apply->refuse_imagebtn, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+	lv_obj_set_style_text_color(apply->refuse_imagebtn, lv_color_make(0xFF, 0x33, 0xFF), LV_PART_MAIN|LV_STATE_PRESSED);
+	lv_obj_set_style_img_recolor(apply->refuse_imagebtn, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_PRESSED);
+	lv_obj_set_style_img_recolor_opa(apply->refuse_imagebtn, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+	lv_obj_set_style_img_opa(apply->refuse_imagebtn, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+	//Set style for screen_friend_imgbtn_20. Part: LV_PART_MAIN, State: LV_STATE_CHECKED
+	lv_obj_set_style_shadow_width(apply->refuse_imagebtn, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_obj_set_style_shadow_color(apply->refuse_imagebtn, lv_color_make(0x21, 0x95, 0xf6), LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_obj_set_style_shadow_opa(apply->refuse_imagebtn, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_obj_set_style_shadow_spread(apply->refuse_imagebtn, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_obj_set_style_shadow_ofs_x(apply->refuse_imagebtn, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_obj_set_style_shadow_ofs_y(apply->refuse_imagebtn, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_obj_set_style_text_color(apply->refuse_imagebtn, lv_color_make(0xFF, 0x33, 0xFF), LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_obj_set_style_img_recolor(apply->refuse_imagebtn, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_obj_set_style_img_recolor_opa(apply->refuse_imagebtn, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_obj_set_style_img_opa(apply->refuse_imagebtn, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_imgbtn_set_src(apply->refuse_imagebtn, LV_IMGBTN_STATE_RELEASED, NULL, &_25_1_alpha_30x30, NULL);
+	lv_imgbtn_set_src(apply->refuse_imagebtn, LV_IMGBTN_STATE_PRESSED, NULL, &_25_2_alpha_30x30, NULL);
+	lv_imgbtn_set_src(apply->refuse_imagebtn, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_25_1_alpha_30x30, NULL);
+	lv_imgbtn_set_src(apply->refuse_imagebtn, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_25_2_alpha_30x30, NULL);
+	lv_obj_add_flag(apply->refuse_imagebtn, LV_OBJ_FLAG_CHECKABLE);
+
+    lv_obj_add_event_cb(apply->btn, screen_main_contacts_friend_look_apply_detail_info_handler, LV_EVENT_ALL, (void *)(apply->id));
+
+    contacts_page.friend_apply_cont.apply_num++;
+    strcpy(apply->id, data->id);
+
+    return;
 }

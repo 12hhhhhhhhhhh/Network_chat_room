@@ -14,6 +14,8 @@
 #include "sys/epoll.h"
 #include "mysql/mysql.h"
 #include "pthread.h"
+#include "sys/prctl.h"
+#include "time.h"
 
 //客户端的信息
 typedef struct{

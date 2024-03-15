@@ -16,6 +16,7 @@ int friend_list_init(void);
 int add_friend_info_node(FRIEND_INFO *info);
 int del_friend_info_node(char *id);
 FRIEND_INFO * find_friend_info_by_name(char *name);
+FRIEND_INFO * find_friend_info_by_id(char *id);
 int modify_remark_by_id(char *id, char *remark);
 
 #endif

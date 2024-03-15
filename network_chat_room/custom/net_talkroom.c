@@ -48,25 +48,27 @@ void *net_talkroom_recv(void *arg)
     char recvdata[9600] = {0};
     while(1)
     {
-        printf("packet_read\r\n");
+        DEBUG("packet_read\r\n");
         ret = read(recv_socketfd, &recvdata, sizeof(recvdata));
-        if(ret != 0){
+        if(ret < 0){
+            ERROR("packet_read\r\n");
             continue;
         }
         MESSAGEHEAD *head = (MESSAGEHEAD *)recvdata;
+        DEBUG("head->num:%d\r\n", head->num);
         if(head->num == SERVICE_SEND_FRIEND_INFO){
             //接收好友相关的信息
-            FRIEND_INFO *frined_info =  FRIEND_INFO *(recvdata + sizeof(MESSAGEHEAD));
+            FRIEND_INFO *frined_info =  (FRIEND_INFO *)(recvdata + sizeof(MESSAGEHEAD));
             DEBUG("recv:name-%s\r\n", frined_info->news[0]);
             add_friend_info_node(frined_info);
             DEBUG("add_friend_info_node\r\n");
         }
         if(head->num == SERVICE_SEND_FRIEND_APPLY){
-            for(int i = 0;i < 10;i++) {
-                if(friend_apply[i] == NULL) {
-                    strncpy(friend_apply[i], (recvdata + sizeof(MESSAGEHEAD)), head->len);
-                }
-            }
+            USER_INFO *info = (USER_INFO *)(recvdata + sizeof(MESSAGEHEAD));
+            DEBUG("apply name:%s, id:%s!\r\n", info->name, info->id);
+            //将好友申请信息添加到对应的好友申请页面
+            add_one_to_list(contacts_page.friend_apply_cont.friend_apply[contacts_page.friend_apply_cont.apply_num], \
+            info);
         }
     }
 }

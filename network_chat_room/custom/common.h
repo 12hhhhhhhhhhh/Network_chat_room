@@ -67,6 +67,11 @@
 /*对方好友申请过多，至多10条*/
 #define CONTACTS_SEARCH_ADD_FRIEND_FULL 414
 
+/*同意好友申请*/
+#define CONTACTS_AGREE_FRIEND_APPLY 415
+/*拒绝好友申请*/
+#define CONTACTS_REFUSE_FRIEND_APPLY 416
+
 /*发送好友申请的相关信息：服务器->客户端*/
 #define SERVICE_SEND_FRIEND_APPLY 42
 /*好友申请相关的信息发送成功：客户端->服务器*/

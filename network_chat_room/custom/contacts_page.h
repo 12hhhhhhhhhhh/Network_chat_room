@@ -66,8 +66,41 @@ typedef struct {
     lv_obj_t * btn;         //表示确认按钮
 }SEARCH_RES_CONT;
 
+//表示好友申请信息的详细信息
+typedef struct {
+    lv_obj_t * cont;            //表示显示好友详细申请信息的容器
+    lv_obj_t * head_image;      //表示好友的头像
+    lv_obj_t * name_label;      //表示显示申请人昵称的标签
+    lv_obj_t * id_label;        //表示显示申请人ID的标签
+    lv_obj_t * flag_label;      //表示显示申请人个签的标签
+    lv_obj_t * agree_imagebtn;  //表示同意按钮
+    lv_obj_t * refuse_imagebtn; //表示拒绝按钮
+    lv_obj_t * quit_imagebtn;   //表示退出当前页面的按钮
+}DETAIL_APPLY_INFOR;
+
+//表示一条好友申请信息
+typedef struct {
+    char id[32];                //表示当前这条好友申请信息申请者的ID
+    lv_obj_t * cont;            //表示一条好友信息的容器
+    lv_obj_t * top_line;        //表示容器中顶层的线
+    lv_obj_t * buttom_line;     //表示容器中底层的线
+    lv_obj_t * btn;             //表示显示好友申请信息的按钮
+    lv_obj_t * btn_label;       //表示显示好友申请信息的按钮标签
+    lv_obj_t * agree_imagebtn;  //表示同意按钮
+    lv_obj_t * refuse_imagebtn; //表示拒绝按钮
+}ONE_FEREND_APPLY;
+
+//表示好友申请信息的页面
+typedef struct {
+    lv_obj_t * cont;                    //表示好友申请信息页面的容器
+    int apply_num;                      //表示好友申请的数量
+    ONE_FEREND_APPLY friend_apply[10];  //表示好友申请列表
+    DETAIL_APPLY_INFOR apply_infor;     //表示详细的好友申请信息页面
+}FRIEND_APPLY_CONT;
+
 //表示联系人页面的元素
 typedef struct {
+    FRIEND_APPLY_CONT friend_apply_cont;//好友申请列表页面 
     lv_obj_t *  friend_cont;            //好友信息框的容器
     FRIEND_CONT friend_info;            //好友信息框
     lv_obj_t *  search_cont;            //好友信息框的容器
@@ -82,8 +115,8 @@ typedef struct {
 }CONTACTS_PAGE;
 
 extern CONTACTS_PAGE contacts_page;
-extern char [10][32] friend_apply;
 
 void contacts_page_init(void);
+void add_one_to_list(ONE_FEREND_APPLY *apply, USER_INFO *data);
 
 #endif

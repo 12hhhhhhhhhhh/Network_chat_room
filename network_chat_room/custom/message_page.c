@@ -153,7 +153,7 @@ void message_page_config(void){
             else{
                 sprintf(buf, "%s", temnode->info.name);
             }
-            (message_page_object.list_item)[message_page_object.cell_count].item = lv_list_add_btn(message_page_object.sender_list, &_4_2_alpha_20x20, buf);
+            (message_page_object.list_item)[message_page_object.cell_count].item = lv_list_add_btn(message_page_object.sender_list, &_4_2_alpha_25x25, buf);
 			(message_page_object.list_item)[message_page_object.cell_count].info = (void *)(&(temnode->info));
             //绑定对应的点击事件
             lv_obj_add_event_cb((message_page_object.list_item)[message_page_object.cell_count].item, screen_main_message_item_event_handler, LV_EVENT_CLICKED, &guider_ui);

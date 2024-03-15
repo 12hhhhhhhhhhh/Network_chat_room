@@ -9,8 +9,8 @@ typedef struct{
     char passwd[32];
     char id[32];
     char flag[256];
-}CUSTOM_INFO;
+}USER_INFO;
 
-CUSTOM_INFO owner_info; //表示用户自己的信息
+USER_INFO owner_info; //表示用户自己的信息
 
 #endif

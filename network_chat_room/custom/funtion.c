@@ -14,42 +14,42 @@ int check_num_char(const char *buf, int len){
     return 0;
 }
 
-void *send_data(void *arg){
-    MESSAGE *message = (MESSAGE *)arg;
-    int ret = 0;
-loop:
-    ret = write(message->head.fd, message, sizeof(MESSAGE));
-    if(ret < 0){
-        perror("write");
-        return NULL;
-    }
-    ret = read(message->head.fd, message, sizeof(MESSAGE));
-    if(ret < 0){
-        perror("read");
-        return NULL;
-    }
-    if(message->head.flag != WRITE_SUCCESS){
-        goto loop;
-    }
-    printf("write success!\r\n");
-    return NULL;
-}
+// void *send_data(void *arg){
+// //     MESSAGE *message = (MESSAGE *)arg;
+// //     int ret = 0;
+// // loop:
+// //     ret = write(message->head.fd, message, sizeof(MESSAGE));
+// //     if(ret < 0){
+// //         perror("write");
+// //         return NULL;
+// //     }
+// //     ret = read(message->head.fd, message, sizeof(MESSAGE));
+// //     if(ret < 0){
+// //         perror("read");
+// //         return NULL;
+// //     }
+// //     if(message->head.flag != WRITE_SUCCESS){
+// //         goto loop;
+// //     }
+// //     printf("write success!\r\n");
+// //     return NULL;
+// }
 
-int packet_write(int fd,int num, void *buf, int len){
-    MESSAGE *message = malloc(sizeof(MESSAGE));
-    message->head.fd = fd;
-    message->head.num = num;
-    message->head.len = len;
-    message->head.flag = 0;
-    // message->data = buf;
-    int ret = 0;
-    ret = write(fd, &message, sizeof(MESSAGE));
-    if(ret < 0){
-        perror("write");
-        return -1;
-    }
-    return 0;
-}
+// int packet_write(int fd,int num, void *buf, int len){
+//     MESSAGE *message = malloc(sizeof(MESSAGE));
+//     message->head.fd = fd;
+//     message->head.num = num;
+//     message->head.len = len;
+//     message->head.flag = 0;
+//     // message->data = buf;
+//     int ret = 0;
+//     ret = write(fd, &message, sizeof(MESSAGE));
+//     if(ret < 0){
+//         perror("write");
+//         return -1;
+//     }
+//     return 0;
+// }
 
 int packet_read(int fd, MESSAGE *message, int len){
     int ret = 0;

@@ -72,3 +72,11 @@ void send_add_friend_apply(client_data *data)
     }
     printf("send_add_friend_apply over\r\n");
 }
+
+/*
+    同意好友申请
+*/
+void agree_friend_apply(client_data *data)
+{
+    
+}

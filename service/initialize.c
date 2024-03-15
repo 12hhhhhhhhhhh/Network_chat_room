@@ -3,7 +3,7 @@
 /*
     当用户成功登陆后将用户的好友信息发送给用户
 */
-static void user_info_init(void *arg){
+static void *user_info_init(void *arg){
     char buf[256] = {0};
     char sendData[9600] = {0};
     MESSAGEHEAD head = {0};
@@ -59,21 +59,25 @@ static void user_info_init(void *arg){
     memset(sendData, 0, sizeof(sendData));
     sprintf(buf, "select * from friend_apply where id = %s", data->id);
     mysql_real_query(mysqlfd, buf, strlen(buf));
-    MYSQL_RES *res = mysql_store_result(mysqlfd);
+    res = mysql_store_result(mysqlfd);
     ch = mysql_fetch_row(res);
     i = 1;
-    head.num = SERVICE_SEND_FRIEND_INFO;
+    head.num = SERVICE_SEND_FRIEND_APPLY;
+    DEBUG("3-3\r\n");
+    if(ch == NULL) {
+        return 0;
+    }
     while(ch[i] != NULL) {
-        head.len = strlen(ch[i]);
+        USER_INFO info = database_find_user_info_by_id(ch[i]);
+        head.len = sizeof(USER_INFO);
         memcpy(sendData, &head, sizeof(MESSAGEHEAD));
-        memcpy((sendData+sizeof(MESSAGEHEAD)), ch[i], strlen(ch[i]));
-        ret = write(data->fd, sendData, sizeof(sendData));
+        memcpy((sendData+sizeof(MESSAGEHEAD)), &info, sizeof(USER_INFO));
+        int ret = write(data->fd, sendData, sizeof(sendData));
         if(ret < 0) {
             ERROR("write fail!");
         }
         usleep(30);
     }
-
     return 0;
 }
 
@@ -83,6 +87,6 @@ static void user_info_init(void *arg){
 void user_init(client_data *data)
 {
     pthread_t id1;
-    pthread_create(&id1, NULL, &user_info_init, &(recv_data));
+    pthread_create(&id1, NULL, user_info_init, (void *)data);
     pthread_detach(id1);
 }

@@ -47,91 +47,119 @@ int receive_from_client(int fd)
         client_count--;
         printf("%d下线,当前在线人数%d\r\n",fd,client_count);
     }
-    else if(recv_data.num == INPUT_ACCOUNT)//客户端登陆
+    else 
     {
-        printf("passwd:%s-%s\r\n",recv_data.id, recv_data.passwd);
-        ret = database_check_user_info_by_id_passwd(recv_data.id,recv_data.passwd);
-        if(ret == 1)
+        switch(recv_data.num) 
         {
-            recv_data.fd = fd;
-            link_list_add(&recv_data);
-            printf("input success!\r\n");
-            send_data.num = ACCOUNT_INPUT_SUCCESS;
-            printf("recv_data.id:%s\r\n", recv_data.id);
-            USER_INFO teminfo = database_find_user_info_by_id(recv_data.id);
-            printf("database_find_user_info_by_id\r\n");
-            if(strcmp(teminfo.id, "NULL") != 0) {
-                printf("teminfo.id = NULL\r\n");
-                strcpy(send_data.id, teminfo.id);
-                strcpy(send_data.passwd, teminfo.passwd);
-                strcpy(send_data.name, teminfo.name);
-                strcpy(send_data.flag, teminfo.flag);
+            case INPUT_ACCOUNT://客户端登陆
+            {
+                printf("passwd:%s-%s\r\n",recv_data.id, recv_data.passwd);
+                ret = database_check_user_info_by_id_passwd(recv_data.id,recv_data.passwd);
+                if(ret == 1)
+                {
+                    recv_data.fd = fd;
+                    link_list_add(&recv_data);
+                    printf("input success!\r\n");
+                    send_data.num = ACCOUNT_INPUT_SUCCESS;
+                    printf("recv_data.id:%s\r\n", recv_data.id);
+                    USER_INFO teminfo = database_find_user_info_by_id(recv_data.id);
+                    printf("database_find_user_info_by_id\r\n");
+                    if(strcmp(teminfo.id, "NULL") != 0) {
+                        printf("teminfo.id = NULL\r\n");
+                        strcpy(send_data.id, teminfo.id);
+                        strcpy(send_data.passwd, teminfo.passwd);
+                        strcpy(send_data.name, teminfo.name);
+                        strcpy(send_data.flag, teminfo.flag);
+                    }
+
+                    write(fd,&send_data,sizeof(send_data));
+                    perror("write1");
+                }
+                else
+                {
+                    send_data.num = ACCOUNT_INPUT_FAIL;
+                    write(fd,&send_data,sizeof(send_data));
+                }
+            }
+            break;
+
+            case CLIENT_RECVFD://客户端发送接收套接字,并请求用户信息
+            {
+                link_list_add_recvfd(recv_data.id, fd);
+                //发送客户端相关的如好友信息等信息
+                recv_data.recv_fd = fd;
+                user_init(&recv_data);
+            }
+            break;
+
+            case CREATE_ACCOUNT:
+            {
+                ret = database_find_user_by_id(recv_data.id);
+                if(ret == 1)
+                {
+                    send_data.num = ID_EXIST;
+                    write(fd,&send_data,sizeof(send_data));
+                    return -1;
+                }
+                ret = database_user_info_add(&recv_data);
+                if(ret == 0)
+                {
+                    send_data.num = ACCOUNT_CREAT_SUCCESS;
+                }
+                else
+                {
+                    send_data.num = ACCOUNT_CREAT_FAIL;
+                }
+                ret = write(fd,&send_data,sizeof(send_data));
+                perror("write");
+            }
+            break;
+
+            case MESSAGE_CLI_TO_SER:
+            {
+                MESSAGE_PACKET messagePacket;
+                CLINODE *temnode = NULL;
+                ret = read(fd, &messagePacket, sizeof(MESSAGE_PACKET));
+                if(ret < 0) {
+                    perror("read");
+                }
+                temnode = link_list_find_node_by_id(messagePacket.id);
+                if(temnode != NULL) {
+                    ret = write(temnode->data.recv_fd, &send_data, sizeof(send_data));
+                }
+            }
+            break;
+
+            case DELETE_FRIEND:
+            {
+
+            }
+            break;
+
+            case CONTACTS_SEARCH_BY_ID://搜索联系人
+            {
+                recv_data.fd = fd;
+                find_contacts_by_id(&recv_data);
+            }
+            break;
+
+            case CONTACTS_SEARCH_ADD_FRIEND://添加好友
+            {
+                recv_data.fd = fd;
+                send_add_friend_apply(&recv_data);
+            }
+            break;
+
+            case CONTACTS_AGREE_FRIEND_APPLY://同意好友申请
+            {
+                recv_data.fd = fd;
+                send_add_friend_apply(&recv_data);
             }
 
-            write(fd,&send_data,sizeof(send_data));
-            perror("write1");
+            default:
+                break;
         }
-        else
-        {
-            send_data.num = ACCOUNT_INPUT_FAIL;
-            write(fd,&send_data,sizeof(send_data));
-        }
-    }
-    else if(recv_data.num == CLIENT_RECVFD)//客户端发送接收套接字,并请求用户信息
-    {
-        link_list_add_recvfd(recv_data.id, fd);
-        //发送客户端相关的如好友信息等信息
-        recv_data.recv_fd = fd;
-        user_init(&recv_data);
-    }
-    else if(recv_data.num == CREATE_ACCOUNT)//客户端注册
-    {
-        ret = database_find_user_by_id(recv_data.id);
-        if(ret == 1)
-        {
-            send_data.num = ID_EXIST;
-            write(fd,&send_data,sizeof(send_data));
-            return -1;
-        }
-        ret = database_user_info_add(&recv_data);
-        if(ret == 0)
-        {
-            send_data.num = ACCOUNT_CREAT_SUCCESS;
-        }
-        else
-        {
-            send_data.num = ACCOUNT_CREAT_FAIL;
-        }
-        ret = write(fd,&send_data,sizeof(send_data));
-        perror("write");
-    }
-    else if(recv_data.num == MESSAGE_CLI_TO_SER)
-    {
-        MESSAGE_PACKET messagePacket;
-        CLINODE *temnode = NULL;
-        ret = read(fd, &messagePacket, sizeof(MESSAGE_PACKET));
-        if(ret < 0) {
-            perror("read");
-        }
-        temnode = link_list_find_node_by_id(messagePacket.id);
-        if(temnode != NULL) {
-            ret = write(temnode->data.recv_fd, &send_data, sizeof(send_data));
-        }
-
-    }
-    else if(recv_data.num == DELETE_FRIEND)//删除好友
-    {
-        //删除数据库好友的相关信息
-    }
-    else if(recv_data.num == CONTACTS_SEARCH_BY_ID)//通过ID查找好友
-    {
-        recv_data.fd = fd;
-        find_contacts_by_id(&recv_data);
-    }
-    else if(recv_data.num == CONTACTS_SEARCH_ADD_FRIEND)//发送好友申请
-    {
-        recv_data.fd = fd;
-        send_add_friend_apply(&recv_data);
+        
     }
     return 0;
 }

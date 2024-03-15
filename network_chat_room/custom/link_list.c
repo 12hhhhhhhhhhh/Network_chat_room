@@ -28,13 +28,14 @@ int add_friend_info_node(FRIEND_INFO *info){
     FRIEND_NODE *newnode = (FRIEND_NODE *)malloc(sizeof(FRIEND_NODE));
     if(newnode == NULL){
         perror("malloc");
+        DEBUG("malloc error!\r\n");
         return -1;
     }
     memcpy(&(newnode->info), info, sizeof(FRIEND_INFO));
     while(temnode->next){
         temnode = temnode->next;
     }
-    printf("newnode:%s\r\n", newnode->info.news[0]);
+    DEBUG("newnode:%s\r\n", newnode->info.news[0]);
     newnode->front = temnode;
     newnode->next = NULL;
     temnode->next = newnode;
@@ -70,6 +71,21 @@ FRIEND_INFO * find_friend_info_by_name(char *name) {
     while(temnode->next){
         temnode = temnode->next;
         if((strcmp(temnode->info.name, name) == 0) || (strcmp(temnode->info.remark, name) == 0)){
+            return &(temnode->info);
+        }
+    }
+    return NULL;
+}
+
+/*
+    通过id查找好友信息
+*/
+FRIEND_INFO * find_friend_info_by_id(char *id) {
+    FRIEND_NODE *temnode = NULL;
+    temnode = head_friend_node;
+    while(temnode->next){
+        temnode = temnode->next;
+        if(strcmp(temnode->info.id, id) == 0)){
             return &(temnode->info);
         }
     }
