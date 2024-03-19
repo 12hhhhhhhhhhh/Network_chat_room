@@ -75,3 +75,25 @@ int judge_id_format(char *buf) {
     }
     return 0;
 }
+
+/*
+    设置当前页面的位置
+*/
+int set_current_page_location(PAGE_LOCATION page)
+{
+    pthread_rwlock_wrlock(page_location_rwlock);
+    int ret = page_location = page;
+    pthread_rwlock_unlock(page_location_rwlock);
+    return ret;
+}
+
+/*
+    获取当前页面的位置
+*/
+PAGE_LOCATION get_current_page_location(void)
+{
+    pthread_rwlock_rdlock(page_location_rwlock);
+    PAGE_LOCATION page = page_location;
+    pthread_rwlock_unlock(page_location_rwlock);
+    return page;
+}
