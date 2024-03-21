@@ -85,7 +85,7 @@ FRIEND_INFO * find_friend_info_by_id(char *id) {
     temnode = head_friend_node;
     while(temnode->next){
         temnode = temnode->next;
-        if(strcmp(temnode->info.id, id) == 0)){
+        if(strcmp(temnode->info.id, id) == 0){
             return &(temnode->info);
         }
     }

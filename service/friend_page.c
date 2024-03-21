@@ -64,13 +64,13 @@ void send_add_friend_apply(client_data *data)
 
     res = write(data->fd, &send_data, sizeof(client_data));
     if(res < 0) {
-        printf("send_add_friend_apply:write1 error!\r\n");
+        ERROR("send_add_friend_apply:write1 error!\r\n");
     }
 
     if(link_list_find_node_by_id(data->id) != NULL) {
         printf("被申请添加好友者在线！\r\n");
     }
-    printf("send_add_friend_apply over\r\n");
+    DEBUG("send_add_friend_apply over\r\n");
 }
 
 /*
@@ -78,5 +78,49 @@ void send_add_friend_apply(client_data *data)
 */
 void agree_friend_apply(client_data *data)
 {
-    
+    client_data send_data = {0};
+    int ret = database_add_friend_apply_reply(data->id, data->name, AGREE);
+    if(ret < 0) 
+    {
+        send_data.num = CONTACTS_REFUSE_FRIEND_APPLY_FAIL;
+    }
+    else
+    {
+        send_data.num = CONTACTS_REPLY_FRIEND_APPLY_SUCCESS;
+    }
+    ret = write(data->fd, &send_data, sizeof(client_data));
+    if(ret < 0) {
+        ERROR("send_add_friend_apply:write1 error!\r\n");
+    }
+
+    if(link_list_find_node_by_id(data->name) != NULL) {
+        printf("被申请添加好友者在线！\r\n");
+    }
+    DEBUG("agree_friend_apply over\r\n");
+}
+
+/*
+    拒绝好友申请
+*/
+void refuse_friend_apply(client_data *data)
+{
+    client_data send_data = {0};
+    int ret = database_add_friend_apply_reply(data->id, data->name, REFUSE);
+    if(ret < 0) 
+    {
+        send_data.num = CONTACTS_REFUSE_FRIEND_APPLY_FAIL;
+    }
+    else
+    {
+        send_data.num = CONTACTS_REPLY_FRIEND_APPLY_SUCCESS;
+    }
+    ret = write(data->fd, &send_data, sizeof(client_data));
+    if(ret < 0) {
+        ERROR("send_add_friend_apply:write1 error!\r\n");
+    }
+
+    if(link_list_find_node_by_id(data->name) != NULL) {
+        printf("被申请添加好友者在线！\r\n");
+    }
+    DEBUG("refuse_friend_apply over\r\n");
 }

@@ -153,7 +153,13 @@ int receive_from_client(int fd)
             case CONTACTS_AGREE_FRIEND_APPLY://同意好友申请
             {
                 recv_data.fd = fd;
-                send_add_friend_apply(&recv_data);
+                agree_friend_apply(&recv_data);
+            }
+
+            case CONTACTS_REFUSE_FRIEND_APPLY://拒绝好友申请
+            {
+                recv_data.fd = fd;
+                refuse_friend_apply(&recv_data);
             }
 
             default:

@@ -71,6 +71,10 @@
 #define CONTACTS_AGREE_FRIEND_APPLY 415
 /*拒绝好友申请*/
 #define CONTACTS_REFUSE_FRIEND_APPLY 416
+/*好友申请回复成功*/
+#define CONTACTS_REPLY_FRIEND_APPLY_SUCCESS 417
+/*好友申请回复失败*/
+#define CONTACTS_REFUSE_FRIEND_APPLY_FAIL 418
 
 /*发送好友申请的相关信息：服务器->客户端*/
 #define SERVICE_SEND_FRIEND_APPLY 42

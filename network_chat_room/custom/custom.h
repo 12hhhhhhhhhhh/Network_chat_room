@@ -23,6 +23,14 @@
 #include "sqlite3.h"
 #include "sys/prctl.h"
 
+//表示用户信息的结构体
+typedef struct user1{
+    char name[32];
+    char passwd[32];
+    char id[32];
+    char flag[256];
+}USER_INFO;
+
 #include "common.h"
 #include "gui_guider.h"
 #include "net_talkromm.h"

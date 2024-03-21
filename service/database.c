@@ -209,24 +209,24 @@ error:
 }
 
 /*
-    向好友申请列表中添加消息
+    向好友申请回复列表中添加消息
     reply_id:被申请者的ID
     apply_id:申请者的ID
     flag:是否同意的标志,0--同意，1--拒绝
 */
-FRIEND_APPLY_RESULT database_add_friend_apply_reply(char *reply_id, char *apply_id, APPLY_REPLY_FLAG flag)
+int database_add_friend_apply_reply(char *reply_id, char *apply_id, APPLY_REPLY_FLAG flag)
 {
     char buf[300] = {0};
-    char buf1[255] = {0};
+    char buf1[128] = {0};
     int ret = 0;
-    spritnf(buf1, "<%s>,<%d>,<%s>", reply_id, flag, get_local_time());
+    sprintf(buf1, "<%s>,<%d>,<%s>", reply_id, flag, get_local_time());
     sprintf(buf, "select * from friend_apply_reply where id = %s", apply_id);
     mysql_real_query(mysqlfd, buf, strlen(buf));
     MYSQL_RES *res = mysql_store_result(mysqlfd);
     int num = mysql_num_rows(res);;
     if(num == 0) {
         memset(buf, 0, 300);
-        sprintf(buf, "insert into friend_apply(id,info1) values(%s,%s)", apply_id, buf1);
+        sprintf(buf, "insert into friend_apply_reply(id,info1) values(%s,%s)", apply_id, buf1);
         ret = mysql_real_query(mysqlfd, buf, strlen(buf));
         if(ret < 0) {
             goto error;
@@ -240,36 +240,29 @@ FRIEND_APPLY_RESULT database_add_friend_apply_reply(char *reply_id, char *apply_
         {
             i++;
         }
-        if(i < 27)
+        if(i > 26) //表示好友回复信息表格已满
         {
-            memset(buf, 0, 300);
-            sprintf(buf, "update friend_apply set info%d=%s where id=%s", i, buf1, apply_id);
-        }
-        else {
+            for(i = 1;i < 25;i++)
+            {
+                memset(buf, 0, 300);
+                sprintf(buf, "update friend_apply set info%d=%s where id=%s", i, ch[i+1], apply_id);
+                ret = mysql_real_query(mysqlfd, buf, strlen(buf));
+                if(ret < 0) {
+                    goto error;
+                }
+            }
             
         }
-        
-        // for(i = 0;i < 10;i++) {
-        //     if(strcmp(ch[i+1], id1) == 0) {
-        //         return APPLY_ALREADY;   //表示已经发送过好友申请
-        //     }
-        //     if(ch[i+1] == NULL) {
-        //         memset(buf, 0, 300);
-        //         sprintf(buf, "update friend_apply set apply%d=%s where id=%s", (i+1), id1, id2);
-        //         ret = mysql_real_query(mysqlfd, buf, strlen(buf));
-        //         if(ret < 0) {
-        //             goto error;
-        //         }
-        //         break;  
-        //     }
-        // }
-        if(i == 10) {
-            return APPLY_FULL;   //表示对方好友申请已满
+        memset(buf, 0, 300);
+        sprintf(buf, "update friend_apply set info%d=%s where id=%s", i, buf1, apply_id);
+        ret = mysql_real_query(mysqlfd, buf, strlen(buf));
+        if(ret < 0) {
+            goto error;
         }
+        
     }
-    printf("8\r\n");
-    return APPLY_SUCCESS;
+    return 0;
 
 error:
-    return APPLY_FAIL;
+    return -1;
 }

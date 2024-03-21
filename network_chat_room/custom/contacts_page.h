@@ -90,12 +90,20 @@ typedef struct {
     lv_obj_t * refuse_imagebtn; //表示拒绝按钮
 }ONE_FEREND_APPLY;
 
+//表示回复好友申请失败或成功的弹窗
+typedef struct {
+lv_obj_t * cont;            //表示弹窗的容器
+    lv_obj_t * btn;         //表示弹窗中的按钮
+    lv_obj_t * label;       //表示弹窗中的标签
+}REPLY_FEREND_APPLY_RESULT;
+
 //表示好友申请信息的页面
 typedef struct {
     lv_obj_t * cont;                    //表示好友申请信息页面的容器
     int apply_num;                      //表示好友申请的数量
     ONE_FEREND_APPLY friend_apply[10];  //表示好友申请列表
     DETAIL_APPLY_INFOR apply_infor;     //表示详细的好友申请信息页面
+    REPLY_FEREND_APPLY_RESULT reply_res;//表示回复好友申请 失败或成功 的弹窗
 }FRIEND_APPLY_CONT;
 
 //表示联系人页面的元素
@@ -117,6 +125,6 @@ typedef struct {
 extern CONTACTS_PAGE contacts_page;
 
 void contacts_page_init(void);
-void add_one_to_list(ONE_FEREND_APPLY *apply, USER_INFO *data);
+void add_one_to_list(ONE_FEREND_APPLY apply, USER_INFO * data);
 
 #endif
