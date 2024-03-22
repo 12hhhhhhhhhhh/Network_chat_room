@@ -78,6 +78,29 @@ static void *user_info_init(void *arg){
         }
         usleep(30);
     }
+
+    //查找并发送好友申请回复消息
+    memset(buf, 0, sizeof(buf));
+    memset(sendData, 0, sizeof(sendData));
+    sprintf(buf, "select * from friend_apply_reply where id = %s", data->id);
+    mysql_real_query(mysqlfd, buf, strlen(buf));
+    res = mysql_store_result(mysqlfd);
+    ch = mysql_fetch_row(res);
+    i = 1;
+    head.num = SERVICE_SEND_FRIEND_APPLY_REPLY;
+    if(ch == NULL) {
+        return 0;
+    }
+    while(ch[i] != NULL) {
+        head.len = strlen(ch[i]);
+        memcpy(sendData, &head, sizeof(MESSAGEHEAD));
+        memcpy((sendData+sizeof(MESSAGEHEAD)), ch[i], head.len);
+        int ret = write(data->fd, sendData, sizeof(sendData));
+        if(ret < 0) {
+            ERROR("write fail!");
+        }
+        usleep(30);
+    }
     return 0;
 }
 

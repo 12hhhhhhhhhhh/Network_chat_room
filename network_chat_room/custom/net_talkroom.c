@@ -70,6 +70,13 @@ void *net_talkroom_recv(void *arg)
             add_one_to_list(contacts_page.friend_apply_cont.friend_apply[contacts_page.friend_apply_cont.apply_num], \
             info);
         }
+        if(head->num == SERVICE_SEND_FRIEND_APPLY_REPLY){
+            char *info_reply = (char *)(recvdata + sizeof(MESSAGEHEAD));
+            DEBUG("info_reply:%s!\r\n", info_reply);
+            //将好友申请信息添加到对应的好友申请页面
+            add_one_to_list(contacts_page.friend_apply_cont.friend_apply[contacts_page.friend_apply_cont.apply_num], \
+            info);
+        }
     }
 }
 

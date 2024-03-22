@@ -82,6 +82,8 @@
 #define SERVICE_SEND_FRIEND_INFO_SUCCESS 421
 /*好友申请相关的信息发送失败：客户端->服务器*/
 #define SERVICE_SEND_FRIEND_INFO_FAIL 422
+/*发送好友申请回复的相关信息：服务器->客户端*/
+#define SERVICE_SEND_FRIEND_APPLY_REPLY 43
 
 typedef struct{
     char name[32];      //昵称

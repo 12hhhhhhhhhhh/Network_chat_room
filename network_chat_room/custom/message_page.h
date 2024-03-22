@@ -31,6 +31,24 @@ typedef struct message_cont_cell{
     lv_obj_t *cell_head_image;      //表示头像的图片
 }MESSAGE_CONT_CELL;
 
+typedef struct message_info_cont{
+    lv_obj_t * cont;
+    int message_num;
+    MESSAGE_CONT_CELL message_cell[100];
+}MESSAGE_INFO_CONT;
+
+typedef struct message_send_cont{
+    lv_obj_t * textarea;
+    lv_obj_t * imgbtn_text;
+    lv_obj_t * imgbtn_emoji;
+    lv_obj_t * imgbtn_file;
+    lv_obj_t * imgbtn_tel;
+}MESSAGE_SEND_CONT;
+
+typedef struct message_emoji_cont{
+    (lv_obj_t *) emoji1;
+} 
+
 //表示消息页面列表中元素及其相关信息
 typedef struct message_list_item{
     lv_obj_t    *item;                 //表示列表中元素
@@ -41,13 +59,11 @@ typedef struct message_list_item{
 //表示消息页面相关的信息
 typedef struct message_page{
     lv_obj_t *sender_list;              //表示发送人的列表
-    lv_obj_t *message_cont;             //表示消息对话的容器
     lv_obj_t *send_message_ta;          //表示输入消息的输入框
     lv_obj_t *send_message_btn;         //表示发送消息的按钮
     MESSAGE_LIST_ITEM list_item[255];   //表示列表中元素
     int cell_count;                     //表示消息页面发送者的数量
-    MESSAGE_CONT_CELL message_cell[100];//表示消息对话框中的消息
-    int message_count;                  //表示消息的数量
+
     MESSAGE_LIST_ITEM * now_select_item;//表示当前选中的item
     lv_obj_t *  message_imagebtn;       //“消息”按钮
     lv_obj_t *  friend_imagebtn;        //“朋友”按钮
