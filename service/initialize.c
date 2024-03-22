@@ -92,9 +92,23 @@ static void *user_info_init(void *arg){
         return 0;
     }
     while(ch[i] != NULL) {
-        head.len = strlen(ch[i]);
+        //寻找昵称
+        int j = 0;
+        while(ch[i][j] != 0) {
+            if(ch[i][j] == '<') {
+                char id[32] = {0};
+                strncpy(id, (ch[i]+j+1), 6);
+                USER_INFO info = database_find_user_info_by_id(ch[i]);
+                memset(buf, 0, sizeof(buf));
+                sprintf(buf, "<%s>,%s", info.name, ch[i]);
+                break;
+            }
+            j++
+        }
+        //发送数据
+        head.len = strlen(buf);
         memcpy(sendData, &head, sizeof(MESSAGEHEAD));
-        memcpy((sendData+sizeof(MESSAGEHEAD)), ch[i], head.len);
+        memcpy((sendData+sizeof(MESSAGEHEAD)), buf, head.len);
         int ret = write(data->fd, sendData, sizeof(sendData));
         if(ret < 0) {
             ERROR("write fail!");

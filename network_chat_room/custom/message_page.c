@@ -9,17 +9,30 @@ static void screen_main_send_message_event_handler(lv_event_t *e);
 */ 
 void message_page_init(void)
 {
-    message_page_object.cell_count = 0;
-    message_page_object.message_count = 0;
-    message_page_object.sender_list      = guider_ui.screen_message_friend_list_1;
-    message_page_object.message_cont     = guider_ui.screen_message_show_message_cont_2;
-    message_page_object.send_message_ta  = guider_ui.screen_message_ta_1;
-    message_page_object.send_message_btn = guider_ui.screen_message_imgbtn_5;
-
 	message_page_object.message_imagebtn = guider_ui.screen_message_imgbtn_1;
 	message_page_object.friend_imagebtn  = guider_ui.screen_message_imgbtn_2;
 	message_page_object.circle_imagebtn  = guider_ui.screen_message_imgbtn_3;
 	message_page_object.owner_imagebtn   = guider_ui.screen_message_imgbtn_4;
+
+	//初始化列表
+	message_page_object.list.list = guider_ui.screen_message_friend_list_1;
+	message_page_object.list.list_item[0].item = guider_ui.screen_message_friend_list_1_item0;
+	message_page_object.list.cell_count = 1;
+	message_page_object.list.now_select_item->item = guider_ui.screen_message_friend_list_1_item0;
+	//初始化好友申请回复页面
+	message_page_object.reply_page.cont = guider_ui.screen_message_friend_apply_reply_cont;
+	message_page_object.reply_page.num = 0;
+	//初始化消息页面
+	message_page_object.message_page.cont = guider_ui.screen_message_message_info_cont;
+	message_page_object.message_page.info.cont = guider_ui.screen_message_show_message_cont_2;
+	message_page_object.message_page.info.message_num = 0;
+	message_page_object.message_page.send.cont = guider_ui.screen_message_send_message_cont;
+	message_page_object.message_page.send.textarea = guider_ui.screen_message_ta_1;
+	message_page_object.message_page.send.imgbtn_text = guider_ui.screen_message_imgbtn_5;
+	message_page_object.message_page.send.imgbtn_emoji = guider_ui.screen_message_imgbtn_24;
+	message_page_object.message_page.send.imgbtn_file = guider_ui.screen_message_imgbtn_26;
+	message_page_object.message_page.send.imgbtn_tel = guider_ui.screen_message_imgbtn_25;
+
 
 	lv_obj_add_event_cb(message_page_object.send_message_btn, screen_main_send_message_event_handler\
 	, LV_EVENT_ALL, &guider_ui);
@@ -38,29 +51,37 @@ static void screen_main_message_item_event_handler(lv_event_t *e)
 
 	switch (code)
 	{
-	case LV_EVENT_CLICKED:
-	{
-        strcpy(buf1, lv_list_get_btn_text(message_page_object.sender_list, obj));
-        //切换被点击按钮的颜色，以代表其被选中
-        for(int i=0; i<message_page_object.cell_count; i++){
-            lv_obj_clear_state((message_page_object.list_item)[i].item, LV_STATE_FOCUSED);
-            strcpy(buf2, lv_list_get_btn_text(message_page_object.sender_list, (message_page_object.list_item)[i].item));
-            if(strcmp(buf1, buf2) == 0){
-				message_page_object.now_select_item = &((message_page_object.list_item)[i]);
-            }
-        }
-        lv_obj_add_state(obj, LV_STATE_FOCUSED);
-        message_page_object.message_count = 0;
-		//清理原本消息对话框及消息输入框中的内容
-		lv_obj_clean(message_page_object.message_cont);
-		lv_textarea_set_text(message_page_object.send_message_ta, "");
-        //获取被选中按钮的相关信息
-        message_cont_fill_friend(buf1);
-        
-	}
-		break;
-	default:
-		break;
+		case LV_EVENT_CLICKED:
+		{
+			strcpy(buf1, lv_list_get_btn_text(message_page_object.list.list, obj));
+			if(strcmp(buf1, "notice") == 0)
+			{
+				//显示好友申请回复页面
+				lv_obj_clear_flag(message_page_object.reply_page.cont, LV_OBJ_FLAG_HIDDEN);
+				lv_obj_add_flag(message_page_object.message_page.cont, LV_OBJ_FLAG_HIDDEN);
+			}
+			else
+			{
+				//切换被点击按钮的颜色，以代表其被选中
+				for(int i=0; i<message_page_object.cell_count; i++){
+					lv_obj_clear_state((message_page_object.list_item)[i].item, LV_STATE_FOCUSED);
+					strcpy(buf2, lv_list_get_btn_text(message_page_object.sender_list, (message_page_object.list_item)[i].item));
+					if(strcmp(buf1, buf2) == 0){
+						message_page_object.now_select_item = &((message_page_object.list_item)[i]);
+					}
+				}
+				lv_obj_add_state(obj, LV_STATE_FOCUSED);
+				message_page_object.message_count = 0;
+				//清理原本消息对话框及消息输入框中的内容
+				lv_obj_clean(message_page_object.message_cont);
+				lv_textarea_set_text(message_page_object.send_message_ta, "");
+				//获取被选中按钮的相关信息
+				message_cont_fill_friend(buf1);
+			}
+		}
+			break;
+		default:
+			break;
 	}
 }
 
@@ -293,86 +314,91 @@ int add_friend_message_into_cont(char *news, MESSAGE_CONT_CELL *obj, MESSAGE_TYP
 	return 0;
 }
 
-void add_one_to_apply_reply_page()
+
+/*
+	向好友申请恢复列表中添加一条消息
+*/
+void add_one_to_apply_reply_page(FRIEND_REPLY_CELL *cell, char * info)
 {
 	//Write codes screen_message_cont_13
-	ui->screen_message_cont_13 = lv_obj_create(ui->screen_message_friend_apply_reply_cont);
-	lv_obj_set_pos(ui->screen_message_cont_13, 0, 5);
-	lv_obj_set_size(ui->screen_message_cont_13, 590, 50);
-	lv_obj_set_scrollbar_mode(ui->screen_message_cont_13, LV_SCROLLBAR_MODE_OFF);
+	cell->cont = lv_obj_create(guider.screen_message_friend_apply_reply_cont);
+	lv_obj_set_pos(cell->cont, 0, 5);
+	lv_obj_set_size(cell->cont, 590, 50);
+	lv_obj_set_scrollbar_mode(cell->cont, LV_SCROLLBAR_MODE_OFF);
 
 	//Set style for screen_message_cont_13. Part: LV_PART_MAIN, State: LV_STATE_DEFAULT
-	lv_obj_set_style_radius(ui->screen_message_cont_13, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_color(ui->screen_message_cont_13, lv_color_make(0xff, 0xff, 0xff), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_grad_color(ui->screen_message_cont_13, lv_color_make(0xff, 0xff, 0xff), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_grad_dir(ui->screen_message_cont_13, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_opa(ui->screen_message_cont_13, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_shadow_width(ui->screen_message_cont_13, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_shadow_color(ui->screen_message_cont_13, lv_color_make(0x21, 0x95, 0xf6), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_shadow_opa(ui->screen_message_cont_13, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_shadow_spread(ui->screen_message_cont_13, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_shadow_ofs_x(ui->screen_message_cont_13, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_shadow_ofs_y(ui->screen_message_cont_13, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_border_color(ui->screen_message_cont_13, lv_color_make(0x21, 0x95, 0xf6), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_border_width(ui->screen_message_cont_13, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_border_opa(ui->screen_message_cont_13, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_pad_left(ui->screen_message_cont_13, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_pad_right(ui->screen_message_cont_13, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_pad_top(ui->screen_message_cont_13, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_pad_bottom(ui->screen_message_cont_13, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_radius(cell->cont, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_color(cell->cont, lv_color_make(0xff, 0xff, 0xff), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_grad_color(cell->cont, lv_color_make(0xff, 0xff, 0xff), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_grad_dir(cell->cont, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_opa(cell->cont, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_width(cell->cont, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_color(cell->cont, lv_color_make(0x21, 0x95, 0xf6), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_opa(cell->cont, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_spread(cell->cont, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_ofs_x(cell->cont, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_ofs_y(cell->cont, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_border_color(cell->cont, lv_color_make(0x21, 0x95, 0xf6), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_border_width(cell->cont, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_border_opa(cell->cont, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_pad_left(cell->cont, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_pad_right(cell->cont, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_pad_top(cell->cont, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_pad_bottom(cell->cont, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-	//Write codes screen_message_line_4
-	ui->screen_message_line_4 = lv_line_create(ui->screen_message_cont_13);
-	lv_obj_set_pos(ui->screen_message_line_4, 5, 1);
-	lv_obj_set_size(ui->screen_message_line_4, 580, 10);
-	lv_obj_set_scrollbar_mode(ui->screen_message_line_4, LV_SCROLLBAR_MODE_OFF);
+	// //Write codes screen_message_line_4
+	// ui->screen_message_line_4 = lv_line_create(cell->cont);
+	// lv_obj_set_pos(ui->screen_message_line_4, 5, 1);
+	// lv_obj_set_size(ui->screen_message_line_4, 580, 10);
+	// lv_obj_set_scrollbar_mode(ui->screen_message_line_4, LV_SCROLLBAR_MODE_OFF);
 
-	//Set style for screen_message_line_4. Part: LV_PART_MAIN, State: LV_STATE_DEFAULT
-	lv_obj_set_style_line_color(ui->screen_message_line_4, lv_color_make(0x75, 0x75, 0x75), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_line_width(ui->screen_message_line_4, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_line_rounded(ui->screen_message_line_4, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-	static lv_point_t screen_message_line_4[] ={{0, 0},{590, 0},};
-	lv_line_set_points(ui->screen_message_line_4,screen_message_line_4,2);
+	// //Set style for screen_message_line_4. Part: LV_PART_MAIN, State: LV_STATE_DEFAULT
+	// lv_obj_set_style_line_color(ui->screen_message_line_4, lv_color_make(0x75, 0x75, 0x75), LV_PART_MAIN|LV_STATE_DEFAULT);
+	// lv_obj_set_style_line_width(ui->screen_message_line_4, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
+	// lv_obj_set_style_line_rounded(ui->screen_message_line_4, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+	// static lv_point_t screen_message_line_4[] ={{0, 0},{590, 0},};
+	// lv_line_set_points(ui->screen_message_line_4,screen_message_line_4,2);
 
 	//Write codes screen_message_line_3
-	ui->screen_message_line_3 = lv_line_create(ui->screen_message_cont_13);
-	lv_obj_set_pos(ui->screen_message_line_3, 5, 49);
-	lv_obj_set_size(ui->screen_message_line_3, 580, 1);
-	lv_obj_set_scrollbar_mode(ui->screen_message_line_3, LV_SCROLLBAR_MODE_OFF);
+	cell->buttom_line = lv_line_create(cell->cont);
+	lv_obj_set_pos(cell->buttom_line, 5, 49);
+	lv_obj_set_size(cell->buttom_line, 580, 1);
+	lv_obj_set_scrollbar_mode(cell->buttom_line, LV_SCROLLBAR_MODE_OFF);
 
 	//Set style for screen_message_line_3. Part: LV_PART_MAIN, State: LV_STATE_DEFAULT
-	lv_obj_set_style_line_color(ui->screen_message_line_3, lv_color_make(0x75, 0x75, 0x75), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_line_width(ui->screen_message_line_3, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_line_rounded(ui->screen_message_line_3, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_line_color(cell->buttom_line, lv_color_make(0x75, 0x75, 0x75), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_line_width(cell->buttom_line, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_line_rounded(cell->buttom_line, true, LV_PART_MAIN|LV_STATE_DEFAULT);
 	static lv_point_t screen_message_line_3[] ={{0, 0},{590, 0},};
-	lv_line_set_points(ui->screen_message_line_3,screen_message_line_3,2);
+	lv_line_set_points(cell->buttom_line,screen_message_line_3,2);
 
 	//Write codes screen_message_btn_18
-	ui->screen_message_btn_18 = lv_btn_create(ui->screen_message_cont_13);
-	lv_obj_set_pos(ui->screen_message_btn_18, 1, 1);
-	lv_obj_set_size(ui->screen_message_btn_18, 450, 45);
-	lv_obj_set_scrollbar_mode(ui->screen_message_btn_18, LV_SCROLLBAR_MODE_OFF);
+	cell->btn
+	cell->btn = lv_btn_create(cell->cont);
+	lv_obj_set_pos(cell->btn, 1, 1);
+	lv_obj_set_size(cell->btn, 450, 45);
+	lv_obj_set_scrollbar_mode(cell->btn, LV_SCROLLBAR_MODE_OFF);
 
 	//Set style for screen_message_btn_18. Part: LV_PART_MAIN, State: LV_STATE_DEFAULT
-	lv_obj_set_style_radius(ui->screen_message_btn_18, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_color(ui->screen_message_btn_18, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_grad_color(ui->screen_message_btn_18, lv_color_make(0x21, 0x95, 0xf6), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_grad_dir(ui->screen_message_btn_18, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_bg_opa(ui->screen_message_btn_18, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_shadow_width(ui->screen_message_btn_18, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_shadow_color(ui->screen_message_btn_18, lv_color_make(0x21, 0x95, 0xf6), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_shadow_opa(ui->screen_message_btn_18, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_shadow_spread(ui->screen_message_btn_18, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_shadow_ofs_x(ui->screen_message_btn_18, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_shadow_ofs_y(ui->screen_message_btn_18, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_border_color(ui->screen_message_btn_18, lv_color_make(0x21, 0x95, 0xf6), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_border_width(ui->screen_message_btn_18, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_border_opa(ui->screen_message_btn_18, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_color(ui->screen_message_btn_18, lv_color_make(0x1c, 0x19, 0x19), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_font(ui->screen_message_btn_18, &lv_font_arial_19, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_align(ui->screen_message_btn_18, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
-	ui->screen_message_btn_18_label = lv_label_create(ui->screen_message_btn_18);
-	lv_label_set_text(ui->screen_message_btn_18_label, "    boy1(123456) agreed to your friend request!");
-	lv_obj_set_style_pad_all(ui->screen_message_btn_18, 0, LV_STATE_DEFAULT);
-	lv_obj_align(ui->screen_message_btn_18_label, LV_ALIGN_LEFT_MID, 0, 0);
+	lv_obj_set_style_radius(cell->btn, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_color(cell->btn, lv_color_make(0x00, 0x00, 0x00), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_grad_color(cell->btn, lv_color_make(0x21, 0x95, 0xf6), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_grad_dir(cell->btn, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_bg_opa(cell->btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_width(cell->btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_color(cell->btn, lv_color_make(0x21, 0x95, 0xf6), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_opa(cell->btn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_spread(cell->btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_ofs_x(cell->btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_shadow_ofs_y(cell->btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_border_color(cell->btn, lv_color_make(0x21, 0x95, 0xf6), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_border_width(cell->btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_border_opa(cell->btn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(cell->btn, lv_color_make(0x1c, 0x19, 0x19), LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_font(cell->btn, &lv_font_arial_19, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_align(cell->btn, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
+	cell->btn_label = lv_label_create(cell->btn);
+	lv_label_set_text(cell->btn_label, "    boy1(123456) agreed to your friend request!");
+	lv_obj_set_style_pad_all(cell->btn, 0, LV_STATE_DEFAULT);
+	lv_obj_align(cell->btn_label, LV_ALIGN_LEFT_MID, 0, 0);
 }

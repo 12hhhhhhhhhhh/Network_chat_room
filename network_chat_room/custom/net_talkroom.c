@@ -74,8 +74,8 @@ void *net_talkroom_recv(void *arg)
             char *info_reply = (char *)(recvdata + sizeof(MESSAGEHEAD));
             DEBUG("info_reply:%s!\r\n", info_reply);
             //将好友申请信息添加到对应的好友申请页面
-            add_one_to_list(contacts_page.friend_apply_cont.friend_apply[contacts_page.friend_apply_cont.apply_num], \
-            info);
+            add_one_to_apply_reply_page(&message_page_object.reply_page.cell[message_page_object.reply_page.num], \
+            info_reply);
         }
     }
 }
