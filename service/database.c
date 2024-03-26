@@ -28,7 +28,7 @@ int database_user_info_add(client_data *data)
 {
     static int all_user_num = 0;
     all_user_num++;
-    char buf[1024] = {0};
+    char buf[2048] = {0};
     // 将创建的信息加入user_infor表格中
     memset(buf, 0, 256);
     sprintf(buf,"insert into user_info values('%d','%s','%s','%s')",all_user_num,data->name, data->id, data->passwd);
@@ -46,12 +46,23 @@ int database_user_info_add(client_data *data)
     if (a != 0){
         return -1;
     }
-    //创建该用户的群聊数据表格
-    sprintf(buf, "create table %s_group(id char(32),name char(32),remark char(32),news1 char(255),\
+    //创建该用户的好友聊天记录表格
+    sprintf(buf, "create table %s_chat_record(id char(32),news1 char(255),\
     news2 char(255),news3 char(255),news4 char(255),news5 char(255),news6 char(255),news7 char(255),news8 char(255),\
     news9 char(255),news10 char(255),news11 char(255),news12 char(255),news13 char(255),news14 char(255),news15 char(255),\
     news16 char(255),news17 char(255),news18 char(255),news19 char(255),news20 char(255),news21 char(255),news22 char(255),\
-    news23 char(255),news24 char(255),news25 char(255))", data->id);
+    news23 char(255),news24 char(255),news25 char(255),news26 char(255),news27 char(255),news28 char(255),news29 char(255),\
+    news30 char(255),news31 char(255),news32 char(255),news33 char(255),news34 char(255),news35 char(255),news36 char(255),\
+    news37 char(255),news38 char(255),news39 char(255),news40 char(255),news41 char(255),news42 char(255),news43 char(255),\
+    news44 char(255),news45 char(255),news46 char(255),news47 char(255),news48 char(255),news49 char(255),news50 char(255),\
+    news51 char(255),news52 char(255),news53 char(255),news54 char(255),news55 char(255),news56 char(255),news57 char(255),\
+    news58 char(255),news59 char(255),news60 char(255),news61 char(255),news62 char(255),news63 char(255),news64 char(255),\
+    news65 char(255),news66 char(255),news67 char(255),news68 char(255),news69 char(255),news70 char(255),news71 char(255),\
+    news72 char(255),news73 char(255),news74 char(255),news75 char(255),news76 char(255),news77 char(255),news78 char(255),\
+    news79 char(255),news80 char(255),news81 char(255),news82 char(255),news83 char(255),news84 char(255),news85 char(255),\
+    news86 char(255),news87 char(255),news88 char(255),news89 char(255),news90 char(255),news91 char(255),news92 char(255),\
+    news93 char(255),news94 char(255),news95 char(255),news96 char(255),news97 char(255),news98 char(255),news99 char(255),\
+    news100 char(255))", data->id);
     a = mysql_real_query(mysqlfd, buf, strlen(buf));
     if (a != 0){
         return -1;
@@ -223,7 +234,7 @@ int database_add_friend_apply_reply(char *reply_id, char *apply_id, APPLY_REPLY_
     sprintf(buf, "select * from friend_apply_reply where id = %s", apply_id);
     mysql_real_query(mysqlfd, buf, strlen(buf));
     MYSQL_RES *res = mysql_store_result(mysqlfd);
-    int num = mysql_num_rows(res);;
+    int num = mysql_num_rows(res);
     if(num == 0) {
         memset(buf, 0, 300);
         sprintf(buf, "insert into friend_apply_reply(id,info1) values(%s,%s)", apply_id, buf1);
@@ -265,4 +276,109 @@ int database_add_friend_apply_reply(char *reply_id, char *apply_id, APPLY_REPLY_
 
 error:
     return -1;
+}
+
+/*
+    向指定用户的好友信息表格中添加一个新的好友
+    info:要添加好友的信息
+    id:指定用户
+*/
+int database_add_friend(USER_INFO *info, char *id)
+{
+    char buf[300] = {0};
+
+    int ret = 0;
+    memset(buf, 0, 300);
+    sprintf(buf, "insert into %s_friend(id,name) values(%s,%s)", id, info->id, info->name, );
+    ret = mysql_real_query(mysqlfd, buf, strlen(buf));
+    if(ret < 0) {
+        ERROR("mysql_real_query error!\r\n");
+        return -1;
+    }
+
+    return 0;
+}
+
+/*
+    向指定用户的好友信息表格中添加一条新消息
+    send_id:发送者的ID
+    recv_id:接收者的ID
+    news:发送的消息
+*/
+int database_add_friend_news(char *send_id, char *recv_id, char *news)
+{
+    char buf[300] = {0};
+    char **ch;
+    int ret = 0, i = 0;
+    memset(buf, 0, 300);
+    sprintf(buf, "select * from %s_friend where id = %s", recv_id, send_id);
+    mysql_real_query(mysqlfd, buf, strlen(buf));
+    MYSQL_RES *res = mysql_store_result(mysqlfd);
+    ch = mysql_fetch_row(res);
+    i = 3;
+    while(ch[i] != NULL)
+    {
+        i++;
+    }
+    memset(buf, 0, 300);
+    sprintf(buf, "update %s_friend set news%d=%s where id=%s", recv_id, (i-2), news, send_id);
+    ret = mysql_real_query(mysqlfd, buf, strlen(buf));
+    if(ret < 0) {
+        ERROR("mysql_real_query error!\r\n");
+        return -1;
+    }
+    return 0;
+}
+
+/*
+    向指定用户的好友聊天记录表格中添加一条新消息
+    send_id:发送者的ID
+    recv_id:接收者的ID
+    news:发送的消息
+*/
+int database_add_friend_record_news(char *send_id, char *recv_id, char *news)
+{
+    char buf[300] = {0};
+    char buf1[128] = {0};
+    char **ch;
+    int ret = 0, i = 0;
+    //向接收者的聊天记录中添加
+    memset(buf, 0, 300);
+    memset(buf1, 0, 300);
+    sprintf(buf1, "<%s>:<%s>", send_id, news);
+    sprintf(buf, "select * from %s_chat_record where id = %s", recv_id, send_id);
+    mysql_real_query(mysqlfd, buf, strlen(buf));
+    MYSQL_RES *res = mysql_store_result(mysqlfd);
+    ch = mysql_fetch_row(res);
+    i = 1;
+    while(ch[i] != NULL)
+    {
+        i++;
+    }
+    memset(buf, 0, 300);
+    sprintf(buf, "update %s_chat_record set news%d=%s where id=%s", recv_id, i, news, send_id);
+    ret = mysql_real_query(mysqlfd, buf, strlen(buf));
+    if(ret < 0) {
+        ERROR("mysql_real_query error!\r\n");
+        return -1;
+    }
+    //向发送者的聊天记录中添加一条消息
+    memset(buf, 0, 300);
+    sprintf(buf, "select * from %s_chat_record where id = %s", send_id, recv_id);
+    mysql_real_query(mysqlfd, buf, strlen(buf));
+    MYSQL_RES *res = mysql_store_result(mysqlfd);
+    ch = mysql_fetch_row(res);
+    i = 1;
+    while(ch[i] != NULL)
+    {
+        i++;
+    }
+    memset(buf, 0, 300);
+    sprintf(buf, "update %s_chat_record set news%d=%s where id=%s", send_id, i, news, recv_id);
+    ret = mysql_real_query(mysqlfd, buf, strlen(buf));
+    if(ret < 0) {
+        ERROR("mysql_real_query error!\r\n");
+        return -1;
+    }
+    return 0;
 }

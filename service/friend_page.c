@@ -93,6 +93,17 @@ void agree_friend_apply(client_data *data)
         ERROR("send_add_friend_apply:write1 error!\r\n");
     }
 
+    //将好友信息添加到申请者的好友数据库中
+    USER_INFO tem_info = database_find_user_info_by_id(data->id);//查询被申请者的信息
+    database_add_friend(&tem_info, data->name);
+    //将好友信息添加到被申请者的好友数据库中
+    tem_info = database_find_user_info_by_id(data->name);//查询申请者的信息
+    database_add_friend(&tem_info, data->id);
+    //被申请者通过好友申请后回向申请者的发送一条信息
+    database_add_friend_news(data->id, data->name, "Verified by your friends, start chatting!");
+
+    database_add_friend_record_news(data->id, data->name, "Verified by your friends, start chatting!");
+
     if(link_list_find_node_by_id(data->name) != NULL) {
         printf("被申请添加好友者在线！\r\n");
     }

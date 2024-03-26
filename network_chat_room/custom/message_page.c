@@ -314,13 +314,11 @@ int add_friend_message_into_cont(char *news, MESSAGE_CONT_CELL *obj, MESSAGE_TYP
 	return 0;
 }
 
-
 /*
-	向好友申请恢复列表中添加一条消息
+	向好友申请列表添加一个元素
 */
-void add_one_to_apply_reply_page(FRIEND_REPLY_CELL *cell, char * info)
+static void add_one_cell_to_apply_reply_page(FRIEND_REPLY_CELL *cell, char * buf)
 {
-	//Write codes screen_message_cont_13
 	cell->cont = lv_obj_create(guider.screen_message_friend_apply_reply_cont);
 	lv_obj_set_pos(cell->cont, 0, 5);
 	lv_obj_set_size(cell->cont, 590, 50);
@@ -373,7 +371,6 @@ void add_one_to_apply_reply_page(FRIEND_REPLY_CELL *cell, char * info)
 	lv_line_set_points(cell->buttom_line,screen_message_line_3,2);
 
 	//Write codes screen_message_btn_18
-	cell->btn
 	cell->btn = lv_btn_create(cell->cont);
 	lv_obj_set_pos(cell->btn, 1, 1);
 	lv_obj_set_size(cell->btn, 450, 45);
@@ -398,7 +395,70 @@ void add_one_to_apply_reply_page(FRIEND_REPLY_CELL *cell, char * info)
 	lv_obj_set_style_text_font(cell->btn, &lv_font_arial_19, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_align(cell->btn, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
 	cell->btn_label = lv_label_create(cell->btn);
-	lv_label_set_text(cell->btn_label, "    boy1(123456) agreed to your friend request!");
+	lv_label_set_text(cell->btn_label, buf);
 	lv_obj_set_style_pad_all(cell->btn, 0, LV_STATE_DEFAULT);
 	lv_obj_align(cell->btn_label, LV_ALIGN_LEFT_MID, 0, 0);
+
+	lv_obj_add_flag(cell->cont, LV_OBJ_FLAG_HIDDEN);
+	message_page_object.reply_page.num++;
+}
+
+/*
+	向好友申请回复列表中添加一条消息，并按照时间先后顺序进行排序
+*/
+void add_one_to_apply_reply_page(FRIEND_REPLY_CELL *cell, char * info)
+{
+	//解析字符串中的数据
+	char name[32] = {0};
+	char id[32] = {0};
+	char time[32] = {0};
+	char buf[256] = {0};
+	int i, flag, flag1;
+	while(info[i] != 0)
+	{
+		int j = 0;
+		if(info[i-1] == '<')
+		{
+			j = 0;
+			while(info[i+j] != '>')
+			{
+				if(flag == 0)
+				{
+					name[j] = info[i+j];
+				}
+				else if(flag == 1)
+				{
+					id[j] = info[i+j];
+				}
+				else if(flag == 2)
+				{
+					flag1 = info[i+j];
+				}
+				else
+				{
+					time[j] = info[i+j];
+				}
+				j++;
+			}
+			flag++;
+		}
+		i++;
+	}
+	if(flag1 == '0')
+	{
+		sprintf(buf, "    %s(%s) agreed to your friend request!		%s", name, id, time);
+	}
+	else
+	{
+		sprintf(buf, "    %s(%s) refuse to your friend request!		%s", name, id, time);
+	}
+	//向好友回复列表中添加元素
+	add_one_cell_to_apply_reply_page(message_page_object.reply_page.cell[message_page_object.reply_page.num], buf);
+	//计算并设置每个元素的位置
+	for(i = 0; i < message_page_object.reply_page.num; i++)
+	{
+		int location = ((message_page_object.reply_page.num -1) - i) * 50 + 5;
+		lv_obj_set_pos(message_page_object.reply_page.cell[i].cont, location);
+		lv_obj_clear_flag(message_page_object.reply_page.cell[i].cont, LV_OBJ_FLAG_HIDDEN);
+	}
 }
